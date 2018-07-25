@@ -4,20 +4,67 @@
 
 const express = require('express');
 
-var graphqlHTTP = require('express-graphql');
-var { buildSchema } = require('graphql');
+const graphqlHTTP = require('express-graphql');
+const { buildSchema } = require('graphql');
 
 const app = express();
 
-app.get('/', (req, res) => res.sendFile(__dirname + '/index.html'));
-
-var schema = buildSchema(`
+const schema = buildSchema(`
   type Query {
-    hello: String
+    astronaut(id: Int!): Astronaut
+    astronauts: [Astronaut]
+  },
+  type Mutation {
+    updateAstronaut(id: Int!, firstName: String!, lastName: String!, birth: String!, superPower: String!): Astronaut
+  },
+  type Astronaut {
+    id: String
+    firstName: String
+    lastName: String
+    birth: String
+    superPower: String
   }
 `);
 
-var root = { hello: () => 'Hello world!' };
+const data = [
+  { id: 0, firstName: 'Neil', lastName: 'Armstrong', birth: '5.8.1930', superPower: 'healing' },
+  { id: 1, firstName: 'Jurij', lastName: 'Gagarin', birth: '9.3.1934', superPower: 'invisibility' }
+];
+
+const updateAstronaut = function({id, firstName, lastName, birth, superPower}) {
+  data.map(astronaut => {
+    if (astronaut.id === id) {
+      astronaut.firstName = firstName;
+      astronaut.lastName = lastName;
+      astronaut.birth = birth;
+      astronaut.superPower = superPower;
+      return astronaut;
+    }
+  });
+  return data.filter(astronaut => {
+    return astronaut.id === id;
+  })[0];
+};
+
+const getAstronaut = function(args) {
+  let id = args.id;
+  return data.filter(astronaut => {
+    return astronaut.id === id;
+  })[0];
+};
+
+const getAstronauts = function() {
+  return data;
+};
+
+const root = {
+  astronaut: getAstronaut,
+  astronauts: getAstronauts,
+  updateAstronaut: updateAstronaut
+};
+
+
+app.get('/', (req, res) => res.sendFile(__dirname + '/index.html'));
 
 app.use('/graphql', graphqlHTTP({
   schema: schema,
