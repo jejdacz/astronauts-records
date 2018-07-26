@@ -6,8 +6,8 @@
   "scripts": {
     "start": "nodemon src/server.js --exec babel-node",
     "build": "babel src -d dist",
-    "mocha": "mocha --compilers js:babel-register",
-    "test": "mocha --compilers js:babel-register --recursive ./test/",
+    "mocha": "mocha --require babel-core/register --require babel-polyfill",
+    "test": "mocha --require babel-core/register --require babel-polyfill --recursive ./test/",
     "dist": "node dist/server.js"
   },
   "repository": {
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/jejdacz/evidence#readme",
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
     "express-graphql": "^0.6.12",

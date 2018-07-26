@@ -2,7 +2,6 @@
  * ExpressServer
  ***********************************/
 
-//const express = require('express');
 import express from 'express';
 
 const graphqlHTTP = require('express-graphql');
@@ -14,11 +13,11 @@ app.use(express.static(__dirname + '/public'));
 
 const schema = buildSchema(`
   type Query {
-    astronaut(id: Int!): Astronaut
+    astronaut(id: String!): Astronaut
     astronauts: [Astronaut]
   },
   type Mutation {
-    updateAstronaut(id: Int!, firstName: String!, lastName: String!, birth: String!, superPower: String!): Astronaut
+    updateAstronaut(id: String!, firstName: String!, lastName: String!, birth: String!, superPower: String!): Astronaut
   },
   type Astronaut {
     id: String
@@ -56,8 +55,12 @@ const getAstronaut = function(args) {
   })[0];
 };
 
-const getAstronauts = function() {
-  return data;
+const getAstronauts = async function() {
+  let result;
+  await Astronaut.find(function (err, res){
+    result = res;
+  });
+  return result;
 };
 
 const root = {
@@ -105,28 +108,29 @@ var astronautSchema = new mongoose.Schema({
   lastName: String,
   birth: {
     type: Date,
-    validate: {
+    /*validate: {
       validator: function(v) {
         return !isNaN(Date.parse(v));
       },
       message: '{VALUE} is not a valid date!'
-    }
+    }*/
   },
   superPower: String
 });
 
 var Astronaut = mongoose.model('Astronaut', astronautSchema);
 
-var armstrong = new Astronaut({ firstName: 'Neil', lastName: 'Armstrong', birth: '5.8.1930', superPower: 'healing' });
+var armstrong = new Astronaut({ firstName: 'Neil', lastName: 'Armstrong', birth: '55.8.1930', superPower: 'healing' });
 
 var gagarin = new Astronaut({ firstName: 'Jurij', lastName: 'Gagarin', birth: '9.3.1934', superPower: 'invisibility' });
 
-/*
-fluffy.save(function (err) {
-    if (err) return console.error(err);
-});
 
-silence.save(function (err) {
+/*
+armstrong.save(function (err) {
+    if (err) return console.error(err);
+});*/
+/*
+gagarin.save(function (err) {
     if (err) return console.error(err);
 });*/
 
