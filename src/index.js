@@ -2,7 +2,8 @@
  * ExpressServer
  ***********************************/
 
-const express = require('express');
+//const express = require('express');
+import express from 'express';
 
 const graphqlHTTP = require('express-graphql');
 const { buildSchema } = require('graphql');
@@ -63,8 +64,7 @@ const root = {
   updateAstronaut: updateAstronaut
 };
 
-
-app.get('/', (req, res) => res.sendFile(__dirname + '/index.html'));
+/*** routes ***/
 
 app.use('/graphql', graphqlHTTP({
   schema: schema,
@@ -72,7 +72,9 @@ app.use('/graphql', graphqlHTTP({
   graphiql: true,
 }));
 
-app.listen(4000, () => console.log('Now browse to localhost:4000/graphql'));
+app.get('/', (req, res) => res.sendFile(__dirname + '/public/index.html'));
+
+app.listen(process.env.PORT || 4000, () => console.log('Now browse to localhost:4000/graphql'));
 
 
 /***********************************
