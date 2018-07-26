@@ -74,7 +74,7 @@ app.use('/graphql', graphqlHTTP({
   graphiql: true,
 }));
 
-app.get('/', (req, res) => res.sendFile(__dirname + '/public/index.html'));
+app.get('/', (req, res) => res.sendFile(__dirname + '/index.html'));
 
 app.listen(process.env.PORT || 4000, () => console.log('Now browse to localhost:4000/graphql'));
 
