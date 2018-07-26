@@ -10,6 +10,8 @@ const { buildSchema } = require('graphql');
 
 const app = express();
 
+app.use(express.static(__dirname + '/public'));
+
 const schema = buildSchema(`
   type Query {
     astronaut(id: Int!): Astronaut
