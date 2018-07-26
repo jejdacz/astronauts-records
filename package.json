@@ -2,9 +2,13 @@
   "name": "evidence",
   "version": "1.0.0",
   "description": "simple app",
-  "main": "index.js",
+  "main": "./src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon src/index.js --exec babel-node",
+    "build": "babel src -d dist",
+    "mocha": "mocha --compilers js:babel-register",
+    "test": "mocha --compilers js:babel-register --recursive ./test/",
+    "serve": "node dist/index.js"
   },
   "repository": {
     "type": "git",
@@ -17,12 +21,17 @@
   },
   "homepage": "https://github.com/jejdacz/evidence#readme",
   "dependencies": {
-    "apollo-server-express": "^2.0.0",
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
     "express-graphql": "^0.6.12",
     "graphql": "^0.13.2",
     "graphql-tools": "^3.0.5",
     "mongoose": "^5.2.5"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0",
+    "nodemon": "^1.18.3"
   }
 }
