@@ -1,5 +1,5 @@
 /***********************************
- * Database by Mongoose
+ * Object model by Mongoose
  ***********************************/
 
 //Import the mongoose module

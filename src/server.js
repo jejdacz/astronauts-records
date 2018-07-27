@@ -64,15 +64,6 @@ const root = {
   updateAstronaut: updateAstronaut
 };
 
-/*
-function resolveAfter10Seconds() {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve('resolved');
-    }, 10000);
-  });
-}*/
-
 /*** routes ***/
 
 app.use('/graphql', graphqlHTTP({
