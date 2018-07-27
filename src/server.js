@@ -35,21 +35,29 @@ const data = [
 
 const updateAstronaut = async function(args) {
   const { id, ...update } = args;
-  let result;
-  await Astronaut.findByIdAndUpdate(id, update, function (err, res){
-    if (err) console.warn(`error ${err}`);
-    result = res;
-  });
-  return result;
+  return new Promise((resolve, reject) => {
+                  Astronaut.findByIdAndUpdate(id, update, { new: true }, (err, res) => {
+                      err ? reject(err) : resolve(res)
+                  });
+              });
 };
+
 
 const getAstronaut = async function(args) {
   let result;
-  await Astronaut.findById(args.id, function (err, res){
-    if (err) console.warn(`error ${err}`);
-    result = res;
-  });
-  return result;
+  return new Promise((resolve, reject) => {
+                Astronaut.findById(args.id, (err, res) => {
+                    err ? reject(err) : resolve(res)
+                });
+            });
+};
+
+const getAstronauts = async function() {
+  return new Promise((resolve, reject) => {
+                Astronaut.find((err, res) => {
+                    err ? reject(err) : resolve(res)
+                });
+            });
 };
 /*
 function resolveAfter10Seconds() {
@@ -59,7 +67,7 @@ function resolveAfter10Seconds() {
     }, 10000);
   });
 }*/
-
+/*
 const getAstronauts = async function() {
   let result;
   await Astronaut.find(function (err, res){
@@ -67,7 +75,7 @@ const getAstronauts = async function() {
     result = res;
   });
   return result;
-};
+};*/
 
 const root = {
   astronaut: getAstronaut,

@@ -14,7 +14,7 @@ const query = `mutation updateAstronaut($id: String!, $firstName: String!, $last
 const variables = {
   id : '5b5a236352009d43ce72608a',
   firstName : 'Neil',
-  lastName : 'Armstrong2',
+  lastName : 'Armstrong',
   birth : '5.8.1930',
   superPower : 'healing'
 };
