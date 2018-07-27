@@ -33,31 +33,37 @@ const data = [
   { id: 1, firstName: 'Jurij', lastName: 'Gagarin', birth: '9.3.1934', superPower: 'invisibility' }
 ];
 
-const updateAstronaut = function({id, firstName, lastName, birth, superPower}) {
-  data.map(astronaut => {
-    if (astronaut.id === id) {
-      astronaut.firstName = firstName;
-      astronaut.lastName = lastName;
-      astronaut.birth = birth;
-      astronaut.superPower = superPower;
-      return astronaut;
-    }
+const updateAstronaut = function(args) {
+  const { id, ...update } = args;
+  let result;
+  await Astronaut.findByIdAndUpdate(id, update, function (err, res){
+    if (err) console.warn(`error ${err}`);
+    result = res;
   });
-  return data.filter(astronaut => {
-    return astronaut.id === id;
-  })[0];
+  return result;
 };
 
-const getAstronaut = function(args) {
-  let id = args.id;
-  return data.filter(astronaut => {
-    return astronaut.id === id;
-  })[0];
+const getAstronaut = async function(args) {
+  let result;
+  await Astronaut.findById(args.id, function (err, res){
+    if (err) console.warn(`error ${err}`);
+    result = res;
+  });
+  return result;
 };
+/*
+function resolveAfter10Seconds() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve('resolved');
+    }, 10000);
+  });
+}*/
 
 const getAstronauts = async function() {
   let result;
   await Astronaut.find(function (err, res){
+    if (err) console.warn(`error ${err}`);
     result = res;
   });
   return result;
@@ -104,18 +110,22 @@ db.once('open', function() {
 });
 
 var astronautSchema = new mongoose.Schema({
-  firstName: String,
-  lastName: String,
+  firstName: {
+    type: String,
+    required: true
+  },
+  lastName: {
+    type: String,
+    required: true
+  },
   birth: {
     type: Date,
-    /*validate: {
-      validator: function(v) {
-        return !isNaN(Date.parse(v));
-      },
-      message: '{VALUE} is not a valid date!'
-    }*/
+    required: true
   },
-  superPower: String
+  superPower: {
+    type: String,
+    required: true
+  },
 });
 
 var Astronaut = mongoose.model('Astronaut', astronautSchema);

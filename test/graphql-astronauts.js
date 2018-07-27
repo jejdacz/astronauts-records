@@ -16,7 +16,7 @@ var options = {
     body: JSON.stringify({query: "{ astronauts {id firstName lastName} }"})
 };
 
-describe('Example graphQL Server', () => {
+describe('GraphQL Server find all', () => {
   it('should return data', done => {
     // Start the request
     request.post(options, function (error, response, body) {
