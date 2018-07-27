@@ -1,4 +1,3 @@
-//import http from 'http';
 import { expect, should, assert } from 'chai';
 import request from 'request';
 
