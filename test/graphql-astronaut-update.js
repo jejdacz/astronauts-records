@@ -3,7 +3,7 @@ import { expect, should, assert } from 'chai';
 import request from 'request';
 
 const query = `mutation updateAstronaut($id: String!, $firstName: String!, $lastName: String!, $birth: String!, $superPower: String!) {
-  updateAstronaut(id: $id, firstName: $firstName, lasatname: $lastName, birth: $birth, superPower: $superPower) {
+  updateAstronaut(id: $id, firstName: $firstName, lastName: $lastName, birth: $birth, superPower: $superPower) {
     id
     firstName
     lastName
@@ -14,7 +14,7 @@ const query = `mutation updateAstronaut($id: String!, $firstName: String!, $last
 const variables = {
   id : '5b5a236352009d43ce72608a',
   firstName : 'Neil',
-  lastName : 'Armstrong',
+  lastName : 'Armstrong2',
   birth : '5.8.1930',
   superPower : 'healing'
 };
@@ -42,7 +42,7 @@ describe('GraphQL update', () => {
     request.post(options, function (error, response, body) {
         console.log(body);
         expect(response.statusCode).to.equal(200);
-        expect(JSON.parse(body).data.astronaut.id).to.equal(variables.id);
+        expect(JSON.parse(body).data.updateAstronaut.id).to.equal(variables.id);
         done();
     });
   });

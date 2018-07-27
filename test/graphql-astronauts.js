@@ -22,7 +22,7 @@ describe('GraphQL Server find all', () => {
     request.post(options, function (error, response, body) {
         console.log(body);
         expect(response.statusCode).to.equal(200);
-        expect(JSON.parse(body).data).to.have.property("astronauts");
+        expect(JSON.parse(body).data.astronauts).to.not.equal("null");
         done();
     });
   });

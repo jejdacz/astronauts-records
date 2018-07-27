@@ -33,7 +33,7 @@ const data = [
   { id: 1, firstName: 'Jurij', lastName: 'Gagarin', birth: '9.3.1934', superPower: 'invisibility' }
 ];
 
-const updateAstronaut = function(args) {
+const updateAstronaut = async function(args) {
   const { id, ...update } = args;
   let result;
   await Astronaut.findByIdAndUpdate(id, update, function (err, res){

@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/jejdacz/evidence#readme",
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
     "express-graphql": "^0.6.12",
@@ -29,7 +30,6 @@
     "mongoose": "^5.2.5"
   },
   "devDependencies": {
-    "babel-polyfill": "^6.26.0",
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
