@@ -37,6 +37,7 @@
     "babel-register": "^6.26.0",
     "nodemon": "^1.18.3",
     "request": "^2.87.0",
+    "request-promise-native": "^1.0.5",
     "start-server-and-test": "^1.7.0"
   }
 }

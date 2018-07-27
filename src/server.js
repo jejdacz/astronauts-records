@@ -17,6 +17,8 @@ const schema = buildSchema(`
   },
   type Mutation {
     updateAstronaut(id: String!, firstName: String!, lastName: String!, birth: String!, superPower: String!): Astronaut
+    deleteAstronaut(id: String!): Astronaut
+    addAstronaut(firstName: String!, lastName: String!, birth: String!, superPower: String!): Astronaut
   },
   type Astronaut {
     id: String
@@ -36,6 +38,24 @@ const updateAstronaut = (args) => {
   const { id, ...update } = args;
   return new Promise((resolve, reject) => {
                   Astronaut.findByIdAndUpdate(id, update, { new: true }, (err, res) => {
+                      err ? reject(err) : resolve(res)
+                  });
+              });
+};
+
+const deleteAstronaut = (args) => {
+  return new Promise((resolve, reject) => {
+                  Astronaut.findByIdAndDelete(args.id, (err, res) => {
+                      err ? reject(err) : resolve(res)
+                  });
+              });
+};
+
+const addAstronaut = (args) => {
+  const astronaut = new Astronaut(args);
+
+  return new Promise((resolve, reject) => {
+                  astronaut.save((err, res) => {
                       err ? reject(err) : resolve(res)
                   });
               });
@@ -61,7 +81,9 @@ const getAstronauts = () => {
 const root = {
   astronaut: getAstronaut,
   astronauts: getAstronauts,
-  updateAstronaut: updateAstronaut
+  updateAstronaut: updateAstronaut,
+  deleteAstronaut: deleteAstronaut,
+  addAstronaut: addAstronaut
 };
 
 /*** routes ***/
