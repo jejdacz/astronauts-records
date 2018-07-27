@@ -36,7 +36,7 @@ const options = {
     })
 };
 
-describe('GraphQL update', () => {
+describe('update', () => {
   it('should update and return record by id', done => {
     // Start the request
     request.post(options, function (error, response, body) {

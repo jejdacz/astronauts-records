@@ -30,7 +30,7 @@ const options = {
     })
 };
 
-describe('GraphQL find by id', () => {
+describe('find by id', () => {
   it('should return record by id', done => {
     // Start the request
     request.post(options, function (error, response, body) {

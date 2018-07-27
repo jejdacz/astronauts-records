@@ -8,6 +8,7 @@
     "build": "babel src -d dist",
     "mocha": "mocha --require babel-core/register --require babel-polyfill",
     "test": "mocha --require babel-core/register --require babel-polyfill --recursive ./test/",
+    "ci": "start-server-and-test http://localhost:4000",
     "dist": "node dist/server.js"
   },
   "repository": {
@@ -35,6 +36,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-register": "^6.26.0",
     "nodemon": "^1.18.3",
-    "request": "^2.87.0"
+    "request": "^2.87.0",
+    "start-server-and-test": "^1.7.0"
   }
 }
