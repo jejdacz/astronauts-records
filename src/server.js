@@ -18,7 +18,7 @@ const db = mongoose.connection;
 //Bind connection to error event (to get notification of connection errors)
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', function() {
-  console.log("We're connected!");
+  console.log("MongoDB connected!");
 });
 
 const astronautSchema = new mongoose.Schema({
@@ -114,13 +114,15 @@ const root = {
 };
 
 const app = express();
+
 app.use(express.static(__dirname + '/public'));
+
 app.use('/graphql', graphqlHTTP({
   schema: schema,
   rootValue: root,
   graphiql: true,
 }));
 
-app.get('/', (req, res) => res.sendFile(__dirname + '/index.html'));
+app.get('/', (req, res) => res.sendFile(__dirname + '/public/index.html'));
 
-app.listen(process.env.PORT || 4000, () => console.log('Now browse to localhost:4000/graphql'));
+app.listen(process.env.PORT || 8080, () => console.log('Http server ready!'));
