@@ -1,6 +1,5 @@
 const path = require('path');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const paths = {
   DIST: path.resolve(__dirname, 'build/public'),
@@ -25,7 +24,6 @@ const paths = {
     new HtmlWebpackPlugin({
       template: path.join(paths.PUBLIC, 'index.html'),
     }),
-    new ExtractTextPlugin('style.bundle.css'),
   ],
   module: {
     rules: [
@@ -37,10 +35,8 @@ const paths = {
         ],
       },
       {
-        test: /\.css$/,
-        loader: ExtractTextPlugin.extract({
-          use: 'css-loader',
-        }),
+        test: /\.(s*)css$/,
+        use: ['style-loader','css-loader','sass-loader']        
       },
     ],
   },
