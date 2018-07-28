@@ -5,10 +5,42 @@
 import express from 'express';
 import graphqlHTTP from 'express-graphql';
 import { buildSchema } from 'graphql';
-import { Astronaut } from './db.js';
+import mongoose from 'mongoose';
 
-const app = express();
-app.use(express.static(__dirname + '/public'));
+//Set up default mongoose connection
+const mongoDB = 'mongodb://localhost:27017/evidence';
+mongoose.connect(mongoDB, {useNewUrlParser: true});
+// Get Mongoose to use the global promise library
+mongoose.Promise = global.Promise;
+//Get the default connection
+const db = mongoose.connection;
+
+//Bind connection to error event (to get notification of connection errors)
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once('open', function() {
+  console.log("We're connected!");
+});
+
+const astronautSchema = new mongoose.Schema({
+  firstName: {
+    type: String,
+    required: true
+  },
+  lastName: {
+    type: String,
+    required: true
+  },
+  birth: {
+    type: Date,
+    required: true
+  },
+  superPower: {
+    type: String,
+    required: true
+  },
+});
+
+const Astronaut = mongoose.model('Astronaut', astronautSchema);
 
 const schema = buildSchema(`
   type Query {
@@ -28,11 +60,6 @@ const schema = buildSchema(`
     superPower: String
   }
 `);
-
-const data = [
-  { id: 0, firstName: 'Neil', lastName: 'Armstrong', birth: '5.8.1930', superPower: 'healing' },
-  { id: 1, firstName: 'Jurij', lastName: 'Gagarin', birth: '9.3.1934', superPower: 'invisibility' }
-];
 
 const updateAstronaut = (args) => {
   const { id, ...update } = args;
@@ -86,8 +113,8 @@ const root = {
   addAstronaut: addAstronaut
 };
 
-/*** routes ***/
-
+const app = express();
+app.use(express.static(__dirname + '/public'));
 app.use('/graphql', graphqlHTTP({
   schema: schema,
   rootValue: root,
