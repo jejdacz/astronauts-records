@@ -14,6 +14,11 @@ const paths = {
     filename: 'app.bundle.js'
   },
   devServer: {
+    port: 4000,
+    open: true,
+    proxy: {
+      "/graphql": "http://localhost:8080"
+    },
     contentBase: paths.PUBLIC,
   },
   plugins: [
