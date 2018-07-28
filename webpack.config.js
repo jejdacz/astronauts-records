@@ -1,16 +1,16 @@
-const path = require('path');
+const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const paths = {
-  DIST: path.resolve(__dirname, 'build/public'),
-  PUBLIC: path.resolve(__dirname, 'src/public'),
+  DIST: path.resolve(__dirname, "build/public"),
+  PUBLIC: path.resolve(__dirname, "src/public")
 };
 // Webpack configuration
- module.exports = {
-  entry: path.join(paths.PUBLIC, 'app.js'),
+module.exports = {
+  entry: path.join(paths.PUBLIC, "app.js"),
   output: {
     path: paths.DIST,
-    filename: 'app.bundle.js'
+    filename: "app.bundle.js"
   },
   devServer: {
     port: 4000,
@@ -18,29 +18,27 @@ const paths = {
     proxy: {
       "/graphql": "http://localhost:8080"
     },
-    contentBase: paths.PUBLIC,
+    contentBase: paths.PUBLIC
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.join(paths.PUBLIC, 'index.html'),
-    }),
+      template: path.join(paths.PUBLIC, "index.html")
+    })
   ],
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: [
-          'babel-loader',
-        ],
+        use: ["babel-loader"]
       },
       {
         test: /\.(s*)css$/,
-        use: ['style-loader','css-loader','sass-loader']        
-      },
-    ],
+        use: ["style-loader", "css-loader", "sass-loader"]
+      }
+    ]
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
-  },
+    extensions: [".js", ".jsx"]
+  }
 };

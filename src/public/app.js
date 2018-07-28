@@ -1,6 +1,9 @@
-import React, { Component } from 'react';
-import { render } from 'react-dom';
+import React, { Component } from "react";
+import { render } from "react-dom";
 
-import './style.scss';
+import "./style.scss";
 
-render(<div className="title">Hello Evidence</div>, document.getElementById('root'));
+render(
+  <div className="title">Hello Evidence</div>,
+  document.getElementById("root")
+);

@@ -2,22 +2,25 @@
  * ExpressServer
  ***********************************/
 
-import express from 'express';
-import graphqlHTTP from 'express-graphql';
-import { buildSchema } from 'graphql';
-import mongoose from 'mongoose';
+import express from "express";
+import graphqlHTTP from "express-graphql";
+import { buildSchema } from "graphql";
+import mongoose from "mongoose";
 
 //Set up default mongoose connection
-const mongoDB = 'mongodb://localhost:27017/evidence';
-mongoose.connect(mongoDB, {useNewUrlParser: true});
+const mongoDB = "mongodb://localhost:27017/evidence";
+mongoose.connect(
+  mongoDB,
+  { useNewUrlParser: true }
+);
 // Get Mongoose to use the global promise library
 mongoose.Promise = global.Promise;
 //Get the default connection
 const db = mongoose.connection;
 
 //Bind connection to error event (to get notification of connection errors)
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-db.once('open', function() {
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
+db.once("open", function() {
   console.log("MongoDB connected!");
 });
 
@@ -37,10 +40,10 @@ const astronautSchema = new mongoose.Schema({
   superPower: {
     type: String,
     required: true
-  },
+  }
 });
 
-const Astronaut = mongoose.model('Astronaut', astronautSchema);
+const Astronaut = mongoose.model("Astronaut", astronautSchema);
 
 const schema = buildSchema(`
   type Query {
@@ -61,48 +64,47 @@ const schema = buildSchema(`
   }
 `);
 
-const updateAstronaut = (args) => {
+const updateAstronaut = args => {
   const { id, ...update } = args;
   return new Promise((resolve, reject) => {
-                  Astronaut.findByIdAndUpdate(id, update, { new: true }, (err, res) => {
-                      err ? reject(err) : resolve(res)
-                  });
-              });
+    Astronaut.findByIdAndUpdate(id, update, { new: true }, (err, res) => {
+      err ? reject(err) : resolve(res);
+    });
+  });
 };
 
-const deleteAstronaut = (args) => {
+const deleteAstronaut = args => {
   return new Promise((resolve, reject) => {
-                  Astronaut.findByIdAndDelete(args.id, (err, res) => {
-                      err ? reject(err) : resolve(res)
-                  });
-              });
+    Astronaut.findByIdAndDelete(args.id, (err, res) => {
+      err ? reject(err) : resolve(res);
+    });
+  });
 };
 
-const addAstronaut = (args) => {
+const addAstronaut = args => {
   const astronaut = new Astronaut(args);
 
   return new Promise((resolve, reject) => {
-                  astronaut.save((err, res) => {
-                      err ? reject(err) : resolve(res)
-                  });
-              });
+    astronaut.save((err, res) => {
+      err ? reject(err) : resolve(res);
+    });
+  });
 };
 
-
-const getAstronaut = (args) => {
+const getAstronaut = args => {
   return new Promise((resolve, reject) => {
-                Astronaut.findById(args.id, (err, res) => {
-                    err ? reject(err) : resolve(res)
-                });
-            });
+    Astronaut.findById(args.id, (err, res) => {
+      err ? reject(err) : resolve(res);
+    });
+  });
 };
 
 const getAstronauts = () => {
   return new Promise((resolve, reject) => {
-                Astronaut.find((err, res) => {
-                    err ? reject(err) : resolve(res)
-                });
-            });
+    Astronaut.find((err, res) => {
+      err ? reject(err) : resolve(res);
+    });
+  });
 };
 
 const root = {
@@ -115,14 +117,17 @@ const root = {
 
 const app = express();
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + "/public"));
 
-app.use('/graphql', graphqlHTTP({
-  schema: schema,
-  rootValue: root,
-  graphiql: true,
-}));
+app.use(
+  "/graphql",
+  graphqlHTTP({
+    schema: schema,
+    rootValue: root,
+    graphiql: true
+  })
+);
 
-app.get('/', (req, res) => res.sendFile(__dirname + '/public/index.html'));
+app.get("/", (req, res) => res.sendFile(__dirname + "/public/index.html"));
 
-app.listen(process.env.PORT || 8080, () => console.log('Http server ready!'));
+app.listen(process.env.PORT || 8080, () => console.log("Http server ready!"));
