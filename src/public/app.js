@@ -1,45 +1,76 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React, { Component } from "react";
+import { render } from "react-dom";
 
 import "./style.scss";
 
+const graphqlRequest = (query, variables) =>
+  fetch("/graphql", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    },
+    body: JSON.stringify({
+      query,
+      variables
+    })
+  }).then(r => r.json());
+
 function Astronaut(props) {
-  const astronaut = props.record;
-  const birth = new Date(astronaut.birth);
+  const birth = new Date(props.birth);
   return (
     <div>
       <div>
-        Name: {astronaut.firstName} {astronaut.lastName}
+        Name: {props.firstName} {props.lastName}
       </div>
       <div>
         Birth: {birth.getDate()}.{birth.getMonth()}.{birth.getFullYear()}
       </div>
-      <div>Superpower: {astronaut.superPower}</div>
+      <div>Superpower: {props.superPower}</div>
     </div>
   );
 }
 
-function RecordList(props) {
-  const records = props.records.map(record => (
-    <li key={record.id}>
-      <Astronaut record={record} />
-    </li>
-  ));
-  return <ul>{records}</ul>;
+function AstronautList(props) {
+  return (
+    <ul>
+      {props.astronauts.map(astronaut => (
+        <li key={astronaut.id}>
+          <Astronaut {...astronaut} />
+        </li>
+      ))}
+    </ul>
+  );
 }
 
-class RecordTable extends React.Component {
+class RecordTable extends Component {
   render() {
     return (
       <div>
-        <RecordList records={this.props.records} />
-        <button>add</button>
+        {this.props.records && (
+          <AstronautList astronauts={this.props.records} />
+        )}
+        <button>sort</button>
       </div>
     );
   }
 }
 
-class EvidenceKosmonautu extends React.Component {
+class EvidenceKosmonautu extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      records: null
+    };
+    this.loadRecords();
+  }
+
+  loadRecords() {
+    graphqlRequest("{astronauts {id firstName lastName birth superPower}}")
+      .then(({ data }) => this.setState({ records: data.astronauts }))
+      .catch(err => console.warn("can't load records"));
+  }
+
   render() {
     return (
       <section>
@@ -52,7 +83,8 @@ class EvidenceKosmonautu extends React.Component {
             reprehenderit aliqua qui commodo.
           </p>
         </header>
-        <RecordTable records={this.props.records} />
+        <RecordTable records={this.state.records} />
+        <button>add</button>
       </section>
     );
   }
@@ -89,7 +121,4 @@ const RECORDS = [
   }
 ];
 
-ReactDOM.render(
-  <EvidenceKosmonautu records={RECORDS} />,
-  document.getElementById("root")
-);
+render(<EvidenceKosmonautu />, document.getElementById("root"));
