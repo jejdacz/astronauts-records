@@ -83,7 +83,6 @@ const deleteAstronaut = args => {
 
 const addAstronaut = args => {
   const astronaut = new Astronaut(args);
-
   return new Promise((resolve, reject) => {
     astronaut.save((err, res) => {
       err ? reject(err) : resolve(res);
