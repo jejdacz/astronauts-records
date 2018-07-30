@@ -1,2 +1,2 @@
-import './server.js';
-import './graphql-crud.js';
+import "./server.js";
+import "./graphql-crud.js";
