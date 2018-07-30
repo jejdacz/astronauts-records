@@ -8,7 +8,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      astronauts: null,
+      astronauts: [],
       editMode: false
     };
   }
@@ -24,27 +24,25 @@ class App extends Component {
   }
 
   render() {
-    let list = this.state.astronauts ? (
-      <AstronautList astronauts={this.state.astronauts} />
-    ) : (
-      "no records"
-    );
-
-    const content = this.state.editMode ? <div>editing</div> : list;
-
     return (
-      <section className="astronaut-records">
-        <header>
-          <h1 className="title">Evidence kosmonautu</h1>
-          <p>
-            Culpa labore Lorem mollit aliqua in labore dolore smod veniam
-            nostrud aliqua labore incididunt consectetur nostrud minim.
-            Adipisicing et esse reprehenderit fugiat commodo cillum duis
-            reprehenderit aliqua qui commodo.
-          </p>
-        </header>
-        {content}
-      </section>
+      <div>
+        {this.state.editMode ? (
+          <section className="astronaut-editor">editing</section>
+        ) : (
+          <section className="astronaut-records">
+            <header>
+              <h1 className="title">Evidence kosmonautu</h1>
+              <p>
+                Culpa labore Lorem mollit aliqua in labore dolore smod veniam
+                nostrud aliqua labore incididunt consectetur nostrud minim.
+                Adipisicing et esse reprehenderit fugiat commodo cillum duis
+                reprehenderit aliqua qui commodo.
+              </p>
+            </header>
+            <AstronautList astronauts={this.state.astronauts} />
+          </section>
+        )}
+      </div>
     );
   }
 }
