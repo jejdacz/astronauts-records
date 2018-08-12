@@ -11,4 +11,4 @@ const graphqlRequest = (query, variables) =>
     })
   }).then(r => r.json());
 
-  export default graphqlRequest;
+export default graphqlRequest;

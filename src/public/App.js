@@ -1,48 +1,41 @@
 import React, { Component } from "react";
-import R from "ramda";
+import Viewer from "./Viewer.js";
+import Editor from "./Editor.js";
 
-import AstronautList from "./AstronautList.js";
-import graphqlRequest from "./graphql-request.js";
+function AppHeader() {
+  return (
+    <header>
+      <h1 className="title">Evidence kosmonautu</h1>
+      <p>
+        Culpa labore Lorem mollit aliqua in labore dolore smod veniam nostrud
+        aliqua labore incididunt consectetur nostrud minim. Adipisicing et esse
+        reprehenderit fugiat commodo cillum duis reprehenderit aliqua qui
+        commodo.
+      </p>
+    </header>
+  );
+}
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      astronauts: [],
       editMode: false
     };
   }
 
-  componentDidMount() {
-    this.loadRecords();
-  }
-
-  loadRecords() {
-    graphqlRequest("{astronauts {id firstName lastName birth superPower}}")
-      .then(({ data }) => this.setState({ astronauts: data.astronauts }))
-      .catch(err => console.warn("can't load records"));
-  }
-
   render() {
     return (
-      <div>
+      <section className="app">
         {this.state.editMode ? (
-          <section className="astronaut-editor">editing</section>
+          <Editor />
         ) : (
-          <section className="astronaut-records">
-            <header>
-              <h1 className="title">Evidence kosmonautu</h1>
-              <p>
-                Culpa labore Lorem mollit aliqua in labore dolore smod veniam
-                nostrud aliqua labore incididunt consectetur nostrud minim.
-                Adipisicing et esse reprehenderit fugiat commodo cillum duis
-                reprehenderit aliqua qui commodo.
-              </p>
-            </header>
-            <AstronautList astronauts={this.state.astronauts} />
-          </section>
+          <React.fragment>
+            <AppHeader />
+            <Viewer />
+          </React.fragment>
         )}
-      </div>
+      </section>
     );
   }
 }

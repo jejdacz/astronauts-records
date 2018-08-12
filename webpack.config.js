@@ -9,7 +9,7 @@ const paths = {
 module.exports = {
   devtool: 'source-map',
   entry: path.join(paths.PUBLIC, "index.js"),
-  mode: "production",
+  mode: "development",
   output: {
     path: paths.DIST,
     filename: "app.bundle.js"
