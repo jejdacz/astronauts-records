@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import Viewer from "./Viewer.js";
-import Editor from "./Editor.js";
+import { connect } from "react-redux";
+import { fetchRecords } from "../actions.js";
+import AstronautList from "../components/AstronautList.js";
+//import Editor from "./Editor.js";
 
 function AppHeader() {
   return (
@@ -19,25 +21,31 @@ function AppHeader() {
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      editMode: false
-    };
+  }
+
+  componentDidMount() {
+    this.props.dispatch(fetchRecords);
   }
 
   render() {
     return (
       <section className="app">
-        {this.state.editMode ? (
-          <Editor />
+        <AppHeader />
+        {!this.props.records.isFetching ? (
+          <AstronautList
+            editRecord={console.log}
+            records={this.props.records.items}
+          />
         ) : (
-          <React.fragment>
-            <AppHeader />
-            <Viewer />
-          </React.fragment>
+          "loading..."
         )}
       </section>
     );
   }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  records: state.records
+});
+
+export default connect(mapStateToProps)(App);

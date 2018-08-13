@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 function Astronaut(props) {
   const birth = new Date(props.birth);
   return (
-    <div className="astronaut">
+    <div className="astronaut" onClick={props.onClick} >
       <span className="cell name">{`Name: ${props.firstName} ${
         props.lastName
       }`}</span>
