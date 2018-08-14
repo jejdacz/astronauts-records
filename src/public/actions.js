@@ -1,21 +1,24 @@
-import api from "./api.js";
+import api from "./astronauts-api.js";
 
-export const REQUEST_RECORDS = "REQUEST_RECORDS";
-export const RECEIVE_RECORDS = "RECEIVE_RECORDS";
+export const EDITOR_OPENED = "EDITOR_OPENED";
+export const EDITOR_CLOSED = "EDITOR_CLOSED";
 
-const receiveRecords = records => ({
-  type: RECEIVE_RECORDS,
-  records
+export const REQUEST_ASTRONAUTS = "REQUEST_ASTRONAUTS";
+export const RECEIVE_ASTRONAUTS = "RECEIVE_ASTRONAUTS";
+
+const receiveAstronauts = astronauts => ({
+  type: RECEIVE_ASTRONAUTS,
+  astronauts
 });
 
-const requestRecords = () => ({
-  type: REQUEST_RECORDS
+const requestAstronauts = () => ({
+  type: REQUEST_ASTRONAUTS
 });
 
-export const fetchRecords = (dispatch, getState) => {
-  dispatch(requestRecords());
-  return api
+export const fetchAstronauts = (dispatch, getState) => {
+  dispatch(requestAstronauts());
+  return api.astronauts
     .fetchAll()
-    .then(data => dispatch(receiveRecords(data)))
+    .then(data => dispatch(receiveAstronauts(data)))
     .catch(err => console.warn(err.message));
 };

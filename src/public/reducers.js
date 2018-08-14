@@ -1,8 +1,12 @@
 import { combineReducers } from "redux";
-import { RECEIVE_RECORDS, REQUEST_RECORDS } from "./actions.js";
+import {
+  RECEIVE_ASTRONAUTS,
+  REQUEST_ASTRONAUTS,
+  EDITOR_OPENED
+} from "./actions.js";
 
 const initialState = {
-  records: {
+  astronauts: {
     isFetching: false,
     items: [
       {
@@ -23,16 +27,30 @@ const initialState = {
   }
 };
 
-const records = (state = initialState.records, action) => {
+const astronautsReducer = (state = initialState.astronauts, action) => {
   switch (action.type) {
-    case RECEIVE_RECORDS:
+    case RECEIVE_ASTRONAUTS:
       return Object.assign({}, state, {
         isFetching: false,
-        items: action.records
+        items: action.astronauts
       });
-    case REQUEST_RECORDS:
+    case REQUEST_ASTRONAUTS:
       return Object.assign({}, state, {
         isFetching: true
+      });
+    default:
+      return state;
+  }
+};
+
+const appReducer = (state = null, action) => {
+  switch (action.type) {
+    case REQUEST_ASTRONAUTS:
+    case RECEIVE_ASTRONAUTS:
+      return astronautsReducer(state.astronauts, action);
+    case EDITOR_OPENED:
+      return Object.assign({}, state, {
+        editorOpened: true
       });
     default:
       return state;
@@ -48,7 +66,10 @@ const editor = (state = null, action) => {
   }
 };
 
+export default appReducer;
+
+/*
 export default combineReducers({
-  records,
+  astronauts,
   editor
-});
+});*/
