@@ -1,13 +1,19 @@
 import { combineReducers } from "redux";
 import {
-  RECEIVE_ASTRONAUTS,
   REQUEST_ASTRONAUTS,
+  RECEIVE_ASTRONAUTS,
   OPEN_EDITOR,
-  CLOSE_EDITOR
+  CLOSE_EDITOR,
+  EDIT_ASTRONAUT,
+  UPDATE_EDITOR
 } from "./actions.js";
 
 const initialState = {
   isEditorActive: false,
+  editor: {
+    astronaut: {},
+    fields: {}
+  },
   astronauts: {
     isFetching: true,
     items: []
@@ -71,24 +77,39 @@ const appReducer = (state = initialState, action) => {
       return updateObject(state, {
         isEditorActive: false
       });
+    case EDIT_ASTRONAUT:
+      return updateObject(state, {
+        isEditorActive: true,
+        editor: editorReducer(state.editor, action)
+      });
+    case UPDATE_EDITOR:
+      return updateObject(state, {
+        editor: editorReducer(state.editor, action)
+      });
     default:
       return state;
   }
 };
-/*
-const editor = (state = null, action) => {
+
+const updateEditorAstronaut = (state, action) => ({
+  ...state,
+  ...action.field
+});
+
+const editorReducer = (state, action) => {
   switch (action.type) {
-    case "ADD_RECORD":
-      return [...state, { ...action.record }];
+    case EDIT_ASTRONAUT:
+      return updateObject(state, {
+        astronaut: action.astronaut
+      });
+    case UPDATE_EDITOR:
+      return {
+        ...state,
+        astronaut: updateEditorAstronaut(state.astronaut, action)
+      };
     default:
       return state;
   }
-};*/
+};
 
 export default appReducer;
-
-/*
-export default combineReducers({
-  astronauts,
-  editor
-});*/

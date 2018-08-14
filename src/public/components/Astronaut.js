@@ -4,12 +4,13 @@ import PropTypes from "prop-types";
 function Astronaut(props) {
   const birth = new Date(props.birth);
   return (
-    <div className="astronaut" onClick={props.onClick} >
+    <div className="astronaut" onClick={props.onClick}>
       <span className="cell name">{`Name: ${props.firstName} ${
         props.lastName
       }`}</span>
       <span className="cell birth">
-        {`Birth: ${birth.getDate()}.${birth.getMonth()}.${birth.getFullYear()}`}
+        {`Birth: ${birth.getDate()}.${birth.getMonth() +
+          1}.${birth.getFullYear()}`}
       </span>
       <span className="cell super-power">{`Superpower: ${
         props.superPower
