@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchRecords } from "../actions.js";
+import { fetchAstronauts } from "../actions.js";
 import AstronautList from "../components/AstronautList.js";
 //import Editor from "./Editor.js";
 
@@ -12,7 +12,7 @@ function AppHeader() {
         Culpa labore Lorem mollit aliqua in labore dolore smod veniam nostrud
         aliqua labore incididunt consectetur nostrud minim. Adipisicing et esse
         reprehenderit fugiat commodo cillum duis reprehenderit aliqua qui
-        commodo.
+        commodos.
       </p>
     </header>
   );
@@ -24,17 +24,17 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(fetchRecords);
+    this.props.dispatch(fetchAstronauts);
   }
 
   render() {
     return (
       <section className="app">
         <AppHeader />
-        {!this.props.records.isFetching ? (
+        {!this.props.astronauts.isFetching ? (
           <AstronautList
-            editRecord={console.log}
-            records={this.props.records.items}
+            edit={console.log}
+            astronauts={this.props.astronauts.items}
           />
         ) : (
           "loading..."
@@ -45,7 +45,7 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  records: state.records
+  astronauts: state.astronauts
 });
 
 export default connect(mapStateToProps)(App);

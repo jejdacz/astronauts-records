@@ -7,9 +7,9 @@ const paths = {
 };
 // Webpack configuration
 module.exports = {
-  devtool: 'source-map',
+  devtool: "source-map",
   entry: path.join(paths.PUBLIC, "index.js"),
-  mode: "development",
+  mode: process.env.MODE || "production",
   output: {
     path: paths.DIST,
     filename: "app.bundle.js"

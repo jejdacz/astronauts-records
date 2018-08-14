@@ -7,8 +7,10 @@
     "start": "nodemon --exec babel-node src/server.js",
     "build": "webpack; babel src/server.js -o build/server.js",
     "mocha": "mocha --require babel-core/register --require babel-polyfill",
-    "test": "mocha --require babel-core/register --require babel-polyfill ./test/index.js",
-    "dev": "webpack-dev-server"
+    "test":
+      "mocha --require babel-core/register --require babel-polyfill ./test/index.js",
+    "dev": "MODE=development webpack-dev-server",
+    "prod": "MODE=production webpack-dev-server"
   },
   "repository": {
     "type": "git",
@@ -53,5 +55,8 @@
     "webpack": "^4.16.3",
     "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.1.5"
+  },
+  "nodemonConfig": {
+    "ignore": ["src/public/*"]
   }
 }

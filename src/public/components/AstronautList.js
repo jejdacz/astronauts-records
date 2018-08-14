@@ -5,16 +5,16 @@ import Astronaut from "./Astronaut.js";
 function AstronautList(props) {
   return (
     <div className="astronaut-list">
-      {props.records.map(a => (
-        <Astronaut onClick={() => props.editRecord(a.id)} key={a.id} {...a} />
+      {props.astronauts.map(a => (
+        <Astronaut onClick={() => props.edit(a.id)} key={a.id} {...a} />
       ))}
     </div>
   );
 }
 
 AstronautList.propTypes = {
-  records: PropTypes.array.isRequired,
-  editRecord: PropTypes.func.isRequired
+  astronauts: PropTypes.array.isRequired,
+  edit: PropTypes.func.isRequired
 };
 
 export default AstronautList;

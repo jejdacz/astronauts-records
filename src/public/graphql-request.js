@@ -17,4 +17,4 @@ const graphqlRequest = (query, variables) =>
     }
   });
 
-  export default graphqlRequest;
+export default graphqlRequest;

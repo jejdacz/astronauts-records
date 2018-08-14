@@ -2,10 +2,20 @@ import { combineReducers } from "redux";
 import {
   RECEIVE_ASTRONAUTS,
   REQUEST_ASTRONAUTS,
-  EDITOR_OPENED
+  OPEN_EDITOR,
+  CLOSE_EDITOR
 } from "./actions.js";
 
 const initialState = {
+  isEditorActive: false,
+  astronauts: {
+    isFetching: true,
+    items: []
+  }
+};
+
+const stubState = {
+  isEditorActive: false,
   astronauts: {
     isFetching: false,
     items: [
@@ -27,15 +37,18 @@ const initialState = {
   }
 };
 
-const astronautsReducer = (state = initialState.astronauts, action) => {
+const updateObject = (oldObject, newValues) =>
+  Object.assign({}, oldObject, newValues);
+
+const astronautsReducer = (state, action) => {
   switch (action.type) {
     case RECEIVE_ASTRONAUTS:
-      return Object.assign({}, state, {
+      return updateObject(state, {
         isFetching: false,
         items: action.astronauts
       });
     case REQUEST_ASTRONAUTS:
-      return Object.assign({}, state, {
+      return updateObject(state, {
         isFetching: true
       });
     default:
@@ -43,20 +56,26 @@ const astronautsReducer = (state = initialState.astronauts, action) => {
   }
 };
 
-const appReducer = (state = null, action) => {
+const appReducer = (state = initialState, action) => {
   switch (action.type) {
     case REQUEST_ASTRONAUTS:
     case RECEIVE_ASTRONAUTS:
-      return astronautsReducer(state.astronauts, action);
-    case EDITOR_OPENED:
-      return Object.assign({}, state, {
-        editorOpened: true
+      return updateObject(state, {
+        astronauts: astronautsReducer(state.astronauts, action)
+      });
+    case OPEN_EDITOR:
+      return updateObject(state, {
+        isEditorActive: true
+      });
+    case CLOSE_EDITOR:
+      return updateObject(state, {
+        isEditorActive: false
       });
     default:
       return state;
   }
 };
-
+/*
 const editor = (state = null, action) => {
   switch (action.type) {
     case "ADD_RECORD":
@@ -64,7 +83,7 @@ const editor = (state = null, action) => {
     default:
       return state;
   }
-};
+};*/
 
 export default appReducer;
 
