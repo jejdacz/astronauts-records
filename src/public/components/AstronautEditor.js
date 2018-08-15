@@ -1,30 +1,24 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { isValidDate, isValidWord } from "../form-validation.js";
 
 function AstronautEditor(props) {
-  const { astronaut } = props;
-  /*
-      firstName: this.props.astronaut.firstName,
-      lastName: this.props.astronaut.lastName,
-      birth: new Date(this.props.astronaut.birth),
-      superPower: this.props.astronaut.superPower
-*/
+  const { astronaut } = props.state;
+
   // TODO component for input date (3x input number)
 
-  const validationErrors = [];
-
-  const isValidWord = w => /^[A-Za-z]+$/.test(w);
-  const isValidDate = d => !isNaN(Date.parse(d));
-
-  const formatDate = d => {
-    const date = new Date(d);
-    return `${date.getDate()}.${Number(date.getMonth()) +
-      1}.${date.getFullYear()}`;
-  };
+  const isFormValid =
+    isValidWord(astronaut.firstName) &&
+    isValidWord(astronaut.lastName) &&
+    isValidDate(
+      astronaut.birthDay,
+      astronaut.birthMonth,
+      astronaut.birthYear
+    ) &&
+    isValidWord(astronaut.superPower);
 
   const handleChange = e => {
     let { name, value } = e.target;
-    if (name === "birth") value = value;
     props.onChange({ [name]: value });
   };
 
@@ -39,7 +33,6 @@ function AstronautEditor(props) {
           type="text"
           value={astronaut.firstName}
           onChange={handleChange}
-          required="required"
         />
       </label>
       <label>
@@ -49,19 +42,32 @@ function AstronautEditor(props) {
           type="text"
           value={astronaut.lastName}
           onChange={handleChange}
-          required="required"
         />
       </label>
-      <label>
-        Birth:
+      <fieldset>
+        <legend>Birth:</legend>
+        <label>Day:</label>
         <input
-          name="birth"
-          type="string"
-          value={formatDate(astronaut.birth)}
+          name="birthDay"
+          type="number"
+          value={astronaut.birthDay}
           onChange={handleChange}
-          required="required"
         />
-      </label>
+        <label>Month:</label>
+        <input
+          name="birthMonth"
+          type="number"
+          value={astronaut.birthMonth}
+          onChange={handleChange}
+        />
+        <label>Year:</label>
+        <input
+          name="birthYear"
+          type="number"
+          value={astronaut.birthYear}
+          onChange={handleChange}
+        />
+      </fieldset>
       <label>
         Superpower:
         <input
@@ -69,10 +75,11 @@ function AstronautEditor(props) {
           type="text"
           value={astronaut.superPower}
           onChange={handleChange}
-          required="required"
         />
       </label>
-      <input type="submit" value="Save" />
+      <input type="submit" value="Save" disabled={!isFormValid} />
+      <input type="button" value="Cancel" disabled={!isFormValid} />
+      <input type="button" value="Delete" disabled={!isFormValid} />
     </form>
   );
 }

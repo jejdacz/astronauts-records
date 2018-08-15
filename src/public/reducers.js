@@ -91,11 +91,6 @@ const appReducer = (state = initialState, action) => {
   }
 };
 
-const updateEditorAstronaut = (state, action) => ({
-  ...state,
-  ...action.field
-});
-
 const editorReducer = (state, action) => {
   switch (action.type) {
     case EDIT_ASTRONAUT:
@@ -105,7 +100,7 @@ const editorReducer = (state, action) => {
     case UPDATE_EDITOR:
       return {
         ...state,
-        astronaut: updateEditorAstronaut(state.astronaut, action)
+        astronaut: { ...state.astronaut, ...action.field }
       };
     default:
       return state;
