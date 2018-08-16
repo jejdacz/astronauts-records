@@ -91,16 +91,27 @@ const appReducer = (state = initialState, action) => {
   }
 };
 
+const astronautToEditorFields = astronaut => {
+  const astronautCopy = JSON.parse(JSON.stringify(astronaut));
+  const { birth, ...rest } = astronautCopy;
+  const parsedBirth = birth.split("-");
+
+  return {
+    ...rest,
+    birth: { year: parsedBirth[0], month: parsedBirth[1], day: parsedBirth[2] }
+  };
+};
+
 const editorReducer = (state, action) => {
   switch (action.type) {
     case EDIT_ASTRONAUT:
       return updateObject(state, {
-        astronaut: action.astronaut
+        fields: astronautToEditorFields(action.astronaut)
       });
     case UPDATE_EDITOR:
       return {
         ...state,
-        astronaut: { ...state.astronaut, ...action.field }
+        fields: { ...state.fields, ...action.field }
       };
     default:
       return state;

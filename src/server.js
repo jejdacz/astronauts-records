@@ -41,6 +41,9 @@ const astronautSchema = new mongoose.Schema({
   birth: {
     type: Date,
     //get: formatDateString,
+    get: v => new Date(v).toISOString().substr(0, 10),
+    //set: v => console.log(`set: ${v}`),
+    //get: v => console.log(`get: ${new Date(v).toISOString()}`),
     required: true
   },
   superPower: {

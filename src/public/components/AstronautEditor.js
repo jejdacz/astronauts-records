@@ -1,37 +1,30 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import InputDate from "./InputDate.js";
 import { isValidDate, isValidWord } from "../form-validation.js";
 
-function AstronautEditor(props) {
-  const { astronaut } = props.state;
-
-  // TODO component for input date (3x input number)
-
+export default function AstronautEditor({ onChange, onSubmit, fields }) {
   const isFormValid =
-    isValidWord(astronaut.firstName) &&
-    isValidWord(astronaut.lastName) &&
-    isValidDate(
-      astronaut.birthDay,
-      astronaut.birthMonth,
-      astronaut.birthYear
-    ) &&
-    isValidWord(astronaut.superPower);
+    isValidWord(fields.firstName) &&
+    isValidWord(fields.lastName) &&
+    isValidDate(fields.birth.year, fields.birth.month, fields.birth.day) &&
+    isValidWord(fields.superPower);
 
   const handleChange = e => {
     let { name, value } = e.target;
-    props.onChange({ [name]: value });
+    onChange({ [name]: value });
   };
 
   //className={false ? null : "invalid"}
 
   return (
-    <form onSubmit={props.onSubmit}>
+    <form onSubmit={onSubmit}>
       <label>
         First Name:
         <input
           name="firstName"
           type="text"
-          value={astronaut.firstName}
+          value={fields.firstName}
           onChange={handleChange}
         />
       </label>
@@ -40,40 +33,21 @@ function AstronautEditor(props) {
         <input
           name="lastName"
           type="text"
-          value={astronaut.lastName}
+          value={fields.lastName}
           onChange={handleChange}
         />
       </label>
-      <fieldset>
-        <legend>Birth:</legend>
-        <label>Day:</label>
-        <input
-          name="birthDay"
-          type="number"
-          value={astronaut.birthDay}
-          onChange={handleChange}
-        />
-        <label>Month:</label>
-        <input
-          name="birthMonth"
-          type="number"
-          value={astronaut.birthMonth}
-          onChange={handleChange}
-        />
-        <label>Year:</label>
-        <input
-          name="birthYear"
-          type="number"
-          value={astronaut.birthYear}
-          onChange={handleChange}
-        />
-      </fieldset>
+      <InputDate
+        legend="Birth:"
+        date={fields.birth}
+        onChange={obj => onChange({ birth: obj })}
+      />
       <label>
         Superpower:
         <input
           name="superPower"
           type="text"
-          value={astronaut.superPower}
+          value={fields.superPower}
           onChange={handleChange}
         />
       </label>
@@ -89,5 +63,3 @@ AstronautEditor.propTypes = {
   save: PropTypes.func.isRequired,
   cancel: PropTypes.func.isRequired
 };*/
-
-export default AstronautEditor;

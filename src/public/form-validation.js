@@ -1,6 +1,6 @@
 export const isValidWord = w => /^[A-Za-z]+$/.test(w);
 
-export const getLastDayOfMonth = (month, year) => {
+export const getLastDayOfMonth = (year, month) => {
   if (month === undefined || year === undefined) {
     throw new Error("undefined argument(s)");
   }
@@ -24,7 +24,7 @@ export const getLastDayOfMonth = (month, year) => {
         : 28;
 };
 
-export const isValidDate = (day, month, year) => {
+export const isValidDate = (year, month, day) => {
   if (day === undefined || month === undefined || year === undefined) {
     throw new Error("undefined argument(s)");
   }
@@ -37,10 +37,12 @@ export const isValidDate = (day, month, year) => {
     day == NaN ||
     month == NaN ||
     year == NaN ||
+    year < 0 ||
+    year > 9999 ||
     month < 1 ||
     month > 12 ||
     day < 1 ||
-    day > getLastDayOfMonth(month, year)
+    day > getLastDayOfMonth(year, month)
   ) {
     return false;
   }

@@ -6,7 +6,7 @@ function AstronautList(props) {
   return (
     <div className="astronaut-list">
       {props.astronauts.map(a => (
-        <Astronaut onClick={() => props.onClick(a.id)} key={a.id} {...a} />
+        <Astronaut onClick={() => props.onClick(a)} key={a.id} {...a} />
       ))}
     </div>
   );
