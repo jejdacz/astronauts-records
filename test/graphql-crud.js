@@ -6,7 +6,7 @@ let baseRequest = request.defaults({
     "Content-Type": "application/json",
     Accept: "application/json"
   },
-  url: "http://localhost:4000/graphql",
+  url: "http://localhost:8080/graphql",
   method: "POST"
 });
 

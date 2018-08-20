@@ -2,15 +2,14 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 function Astronaut(props) {
-  const birth = new Date(props.birth);
+  const birth = props.birth.split("-");
   return (
     <div className="astronaut" onClick={props.onClick}>
       <span className="cell name">{`Name: ${props.firstName} ${
         props.lastName
       }`}</span>
       <span className="cell birth">
-        {`Birth: ${birth.getDate()}.${birth.getMonth() +
-          1}.${birth.getFullYear()}`}
+        {`Birth: ${birth[2]}.${birth[1]}.${birth[0]}`}
       </span>
       <span className="cell super-power">{`Superpower: ${
         props.superPower

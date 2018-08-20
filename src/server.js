@@ -23,11 +23,6 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 db.once("open", function() {
   console.log("MongoDB connected!");
 });
-/*
-const formatDateString = s => {
-  const date = new Date(s);
-  return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
-};*/
 
 const astronautSchema = new mongoose.Schema({
   firstName: {
@@ -40,10 +35,7 @@ const astronautSchema = new mongoose.Schema({
   },
   birth: {
     type: Date,
-    //get: formatDateString,
     get: v => new Date(v).toISOString().substr(0, 10),
-    //set: v => console.log(`set: ${v}`),
-    //get: v => console.log(`get: ${new Date(v).toISOString()}`),
     required: true
   },
   superPower: {
