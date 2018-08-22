@@ -3,11 +3,16 @@ import PropTypes from "prop-types";
 import InputDate from "./InputDate.js";
 import { isValidDate, isValidWord } from "../form-validation.js";
 
-export default function AstronautEditor({ onChange, onSubmit, fields }) {
+export default function AstronautEditor({
+  onChange,
+  onSubmit,
+  onCancel,
+  fields
+}) {
   const isFormValid =
     isValidWord(fields.firstName) &&
     isValidWord(fields.lastName) &&
-    isValidDate(fields.birth.year, fields.birth.month, fields.birth.day) &&
+    isValidDate(...fields.birth.split("-")) &&
     isValidWord(fields.superPower);
 
   const handleChange = e => {
@@ -15,10 +20,15 @@ export default function AstronautEditor({ onChange, onSubmit, fields }) {
     onChange({ [name]: value });
   };
 
+  const handleSubmit = e => {
+    e.preventDefault();
+    onSubmit();
+  };
+
   //className={false ? null : "invalid"}
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={handleSubmit}>
       <label>
         First Name:
         <input
@@ -26,6 +36,7 @@ export default function AstronautEditor({ onChange, onSubmit, fields }) {
           type="text"
           value={fields.firstName}
           onChange={handleChange}
+          placeholder="John"
         />
       </label>
       <label>
@@ -35,6 +46,7 @@ export default function AstronautEditor({ onChange, onSubmit, fields }) {
           type="text"
           value={fields.lastName}
           onChange={handleChange}
+          placeholder="Doe"
         />
       </label>
       <InputDate
@@ -49,11 +61,11 @@ export default function AstronautEditor({ onChange, onSubmit, fields }) {
           type="text"
           value={fields.superPower}
           onChange={handleChange}
+          placeholder="superpower"
         />
       </label>
       <input type="submit" value="Save" disabled={!isFormValid} />
-      <input type="button" value="Cancel" disabled={!isFormValid} />
-      <input type="button" value="Delete" disabled={!isFormValid} />
+      <input type="button" value="Cancel" onClick={onCancel} />
     </form>
   );
 }

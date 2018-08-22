@@ -22,16 +22,26 @@ function AppHeader() {
 class App extends Component {
   constructor(props) {
     super(props);
-    this.handleEdit = this.handleEdit.bind(this);
+    this.handleEditClick = this.handleEditClick.bind(this);
+    this.handleDeleteClick = this.handleDeleteClick.bind(this);
+    //this.handleClickAdd = this.handleClickAdd.bind(this);
   }
 
   componentDidMount() {
     this.props.dispatch(fetchAstronauts);
   }
 
-  handleEdit(astronaut) {
+  handleEditClick(astronaut) {
     this.props.dispatch(editAstronaut(astronaut));
   }
+
+  handleDeleteClick(id) {
+    this.props.dispatch(deleteAstronaut(id));
+  }
+  /*
+  handleClickAdd() {
+    this.props.dispatch(createAstronaut());
+  }*/
 
   render() {
     return (
@@ -39,7 +49,8 @@ class App extends Component {
         <AppHeader />
         {!this.props.astronauts.isFetching ? (
           <AstronautList
-            onClick={this.handleEdit}
+            onEditClick={this.handleEditClick}
+            onDeleteClick={this.handleDeleteClick}
             astronauts={this.props.astronauts.items}
           />
         ) : (

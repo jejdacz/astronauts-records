@@ -6,7 +6,11 @@ function AstronautList(props) {
   return (
     <div className="astronaut-list">
       {props.astronauts.map(a => (
-        <Astronaut onClick={() => props.onClick(a)} key={a.id} {...a} />
+        <div key={a.id}>
+          <Astronaut {...a} />
+          <button onClick={() => props.onEditClick(a)}>edit</button>
+          <button onClick={() => props.onDeleteClick(a.id)}>delete</button>
+        </div>
       ))}
     </div>
   );
@@ -14,7 +18,8 @@ function AstronautList(props) {
 
 AstronautList.propTypes = {
   astronauts: PropTypes.array.isRequired,
-  onClick: PropTypes.func.isRequired
+  onEditClick: PropTypes.func.isRequired,
+  onDeleteClick: PropTypes.func.isRequired
 };
 
 export default AstronautList;

@@ -11,7 +11,8 @@ import {
 const initialState = {
   isEditorActive: false,
   editor: {
-    astronaut: {},
+    onSubmit: "",
+    isFetching: false,
     fields: {}
   },
   astronauts: {
@@ -105,9 +106,7 @@ const astronautToEditorFields = astronaut => {
 const editorReducer = (state, action) => {
   switch (action.type) {
     case EDIT_ASTRONAUT:
-      return updateObject(state, {
-        fields: astronautToEditorFields(action.astronaut)
-      });
+      return { ...state, fields: JSON.parse(JSON.stringify(action.astronaut)) };
     case UPDATE_EDITOR:
       return {
         ...state,
