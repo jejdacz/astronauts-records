@@ -4,7 +4,6 @@ import {
   RECEIVE_ASTRONAUTS,
   OPEN_EDITOR,
   CLOSE_EDITOR,
-  EDIT_ASTRONAUT,
   UPDATE_EDITOR
 } from "./actions.js";
 
@@ -31,14 +30,14 @@ const stubState = {
         firstName: "Neil",
         lastName: "Armstrong",
         birth: "9.8.1930",
-        superPower: "Healing"
+        superpower: "Healing"
       },
       {
         id: "1",
         firstName: "Jurij",
         lastName: "Gagarin",
         birth: "9.8.1930",
-        superPower: "Healing"
+        superpower: "Healing"
       }
     ]
   }
@@ -72,16 +71,12 @@ const appReducer = (state = initialState, action) => {
       });
     case OPEN_EDITOR:
       return updateObject(state, {
-        isEditorActive: true
+        isEditorActive: true,
+        editor: editorReducer(state.editor, action)
       });
     case CLOSE_EDITOR:
       return updateObject(state, {
         isEditorActive: false
-      });
-    case EDIT_ASTRONAUT:
-      return updateObject(state, {
-        isEditorActive: true,
-        editor: editorReducer(state.editor, action)
       });
     case UPDATE_EDITOR:
       return updateObject(state, {
@@ -105,13 +100,15 @@ const astronautToEditorFields = astronaut => {
 
 const editorReducer = (state, action) => {
   switch (action.type) {
-    case EDIT_ASTRONAUT:
+    case OPEN_EDITOR:
       return { ...state, fields: JSON.parse(JSON.stringify(action.astronaut)) };
     case UPDATE_EDITOR:
       return {
         ...state,
         fields: { ...state.fields, ...action.field }
       };
+    case CLOSE_EDITOR:
+      return { ...state, fields: {} };
     default:
       return state;
   }

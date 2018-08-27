@@ -38,7 +38,7 @@ const astronautSchema = new mongoose.Schema({
     get: v => new Date(v).toISOString().substr(0, 10),
     required: true
   },
-  superPower: {
+  superpower: {
     type: String,
     required: true
   }
@@ -52,16 +52,16 @@ const schema = buildSchema(`
     astronauts: [Astronaut]
   },
   type Mutation {
-    updateAstronaut(id: String!, firstName: String!, lastName: String!, birth: String!, superPower: String!): Astronaut
+    updateAstronaut(id: String!, firstName: String!, lastName: String!, birth: String!, superpower: String!): Astronaut
     deleteAstronaut(id: String!): Astronaut
-    addAstronaut(firstName: String!, lastName: String!, birth: String!, superPower: String!): Astronaut
+    addAstronaut(firstName: String!, lastName: String!, birth: String!, superpower: String!): Astronaut
   },
   type Astronaut {
     id: String
     firstName: String
     lastName: String
     birth: String
-    superPower: String
+    superpower: String
   }
 `);
 

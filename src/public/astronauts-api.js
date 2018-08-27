@@ -1,7 +1,7 @@
 import graphqlRequest from "./graphql-request.js";
 
 const astronauts = () => {
-  const query = `{ astronauts {id firstName lastName birth superPower} }`;
+  const query = `{ astronauts {id firstName lastName birth superpower} }`;
   return graphqlRequest(query).then(({ data }) => data.astronauts);
 };
 
@@ -12,33 +12,33 @@ const astronaut = variables => {
       firstName
       lastName
       birth
-      superPower
+      superpower
     }
   }`;
   return graphqlRequest(query, variables).then(({ data }) => data.astronaut);
 };
 
 const addAstronaut = variables => {
-  const query = `mutation addAstronaut($firstName: String!, $lastName: String!, $birth: String!, $superPower: String!) {
-      addAstronaut(firstName: $firstName, lastName: $lastName, birth: $birth, superPower: $superPower) {
+  const query = `mutation addAstronaut($firstName: String!, $lastName: String!, $birth: String!, $superpower: String!) {
+      addAstronaut(firstName: $firstName, lastName: $lastName, birth: $birth, superpower: $superpower) {
         id
         firstName
         lastName
         birth
-        superPower
+        superpower
       }
     }`;
   return graphqlRequest(query, variables);
 };
 
 const updateAstronaut = variables => {
-  const query = `mutation updateAstronaut($id: String!, $firstName: String!, $lastName: String!, $birth: String!, $superPower: String!) {
-    updateAstronaut(id: $id, firstName: $firstName, lastName: $lastName, birth: $birth, superPower: $superPower) {
+  const query = `mutation updateAstronaut($id: String!, $firstName: String!, $lastName: String!, $birth: String!, $superpower: String!) {
+    updateAstronaut(id: $id, firstName: $firstName, lastName: $lastName, birth: $birth, superpower: $superpower) {
       id
       firstName
       lastName
       birth
-      superPower
+      superpower
     }
   }`;
   return graphqlRequest(query, variables).then(({ data }) => data.astronaut);
@@ -51,7 +51,7 @@ const deleteAstronaut = variables => {
       firstName
       lastName
       birth
-      superPower
+      superpower
     }
   }`;
   return graphqlRequest(query, variables).then(({ data }) => data.astronaut);

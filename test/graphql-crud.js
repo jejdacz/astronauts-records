@@ -18,16 +18,16 @@ describe("GraphQL CREATE operation", () => {
       firstName: "Neil",
       lastName: "Armstrong",
       birth: "5.8.1930",
-      superPower: "healing"
+      superpower: "healing"
     };
 
-    const query = `mutation addAstronaut($firstName: String!, $lastName: String!, $birth: String!, $superPower: String!) {
-      addAstronaut(firstName: $firstName, lastName: $lastName, birth: $birth, superPower: $superPower) {
+    const query = `mutation addAstronaut($firstName: String!, $lastName: String!, $birth: String!, $superpower: String!) {
+      addAstronaut(firstName: $firstName, lastName: $lastName, birth: $birth, superpower: $superpower) {
         id
         firstName
         lastName
         birth
-        superPower
+        superpower
       }
     }`;
 
@@ -51,7 +51,7 @@ describe("GraphQL CREATE operation", () => {
 
 describe("GraphQL READ operation", () => {
   it("should read all astronauts", done => {
-    const query = `{ astronauts {id firstName lastName birth superPower} }`;
+    const query = `{ astronauts {id firstName lastName birth superpower} }`;
 
     const options = {
       body: JSON.stringify({
@@ -75,7 +75,7 @@ describe("GraphQL READ by ID operation", () => {
         firstName
         lastName
         birth
-        superPower
+        superpower
       }
     }`;
 
@@ -103,16 +103,16 @@ describe("GraphQL UPDATE operation", () => {
       firstName: "Abraham",
       lastName: "Armstrong",
       birth: "5.8.1930",
-      superPower: "healing"
+      superpower: "healing"
     };
 
-    const query = `mutation updateAstronaut($id: String!, $firstName: String!, $lastName: String!, $birth: String!, $superPower: String!) {
-      updateAstronaut(id: $id, firstName: $firstName, lastName: $lastName, birth: $birth, superPower: $superPower) {
+    const query = `mutation updateAstronaut($id: String!, $firstName: String!, $lastName: String!, $birth: String!, $superpower: String!) {
+      updateAstronaut(id: $id, firstName: $firstName, lastName: $lastName, birth: $birth, superpower: $superpower) {
         id
         firstName
         lastName
         birth
-        superPower
+        superpower
       }
     }`;
 
@@ -141,7 +141,7 @@ describe("GraphQL DELETE operation", () => {
         firstName
         lastName
         birth
-        superPower
+        superpower
       }
     }`;
 

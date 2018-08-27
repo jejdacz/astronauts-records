@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import AstronautEditor from "../components/AstronautEditor";
-import { updateEditor } from "../actions.js";
-/*
-const handleSubmit = (action, dispatch) => {
-  switch (action) {
-    case "update" :
-    dispatch()
-  }
-}*/
+import {
+  updateEditor,
+  closeEditor,
+  addAstronaut,
+  updateAstronaut
+} from "../actions.js";
+import validate from "../astronaut-validation.js";
 
 class AstronautEditorContainer extends Component {
   constructor(props) {
@@ -18,11 +17,15 @@ class AstronautEditorContainer extends Component {
     this.handleCancel = this.handleCancel.bind(this);
   }
 
+  componentDidMount() {
+    //fetchAstronaut
+  }
+
   handleSubmit() {
     switch (props.onSubmitAction) {
       case "add":
-        const { id, ...astronaut } = this.props.fields;
-        this.props.dispatch(addAstronaut(astronaut));
+        const { id, ...rest } = this.props.fields;
+        this.props.dispatch(addAstronaut(rest));
         break;
       case "update":
         this.props.dispatch(updateAstronaut(this.props.fields));
@@ -47,6 +50,8 @@ class AstronautEditorContainer extends Component {
         fields={this.props.fields}
         onSubmit={this.handleSubmit}
         onCancel={this.handleCancel}
+        errors={validate(this.props.fields)}
+        submitting={false} //make true on loading/saving actions
       />
     ) : (
       "saving..."

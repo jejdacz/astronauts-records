@@ -7,14 +7,10 @@ export default function AstronautEditor({
   onChange,
   onSubmit,
   onCancel,
-  fields
+  fields,
+  errors,
+  submitting
 }) {
-  const isFormValid =
-    isValidWord(fields.firstName) &&
-    isValidWord(fields.lastName) &&
-    isValidDate(...fields.birth.split("-")) &&
-    isValidWord(fields.superPower);
-
   const handleChange = e => {
     let { name, value } = e.target;
     onChange({ [name]: value });
@@ -24,8 +20,6 @@ export default function AstronautEditor({
     e.preventDefault();
     onSubmit();
   };
-
-  //className={false ? null : "invalid"}
 
   return (
     <form onSubmit={handleSubmit}>
@@ -37,6 +31,7 @@ export default function AstronautEditor({
           value={fields.firstName}
           onChange={handleChange}
           placeholder="John"
+          className={errors.firstName ? "invalid" : null}
         />
       </label>
       <label>
@@ -47,25 +42,32 @@ export default function AstronautEditor({
           value={fields.lastName}
           onChange={handleChange}
           placeholder="Doe"
+          className={errors.lastName ? "invalid" : null}
         />
       </label>
       <InputDate
         legend="Birth:"
         date={fields.birth}
         onChange={obj => onChange({ birth: obj })}
+        className={errors.birth ? "invalid" : null}
       />
       <label>
-        Superpower:
+        superpower:
         <input
-          name="superPower"
+          name="superpower"
           type="text"
-          value={fields.superPower}
+          value={fields.superpower}
           onChange={handleChange}
           placeholder="superpower"
+          className={errors.superpower ? "invalid" : null}
         />
       </label>
-      <input type="submit" value="Save" disabled={!isFormValid} />
-      <input type="button" value="Cancel" onClick={onCancel} />
+      <button type="submit" disabled={submitting || !errors.form}>
+        Save
+      </button>
+      <button type="button" onClick={onCancel}>
+        Cancel
+      </button>
     </form>
   );
 }

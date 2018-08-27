@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchAstronauts, editAstronaut } from "../actions.js";
+import { fetchAstronauts, openEditor } from "../actions.js";
 import AstronautList from "../components/AstronautList.js";
 import AstronautEditorContainer from "./AstronautEditorContainer.js";
 //import Editor from "./Editor.js";
@@ -32,7 +32,7 @@ class App extends Component {
   }
 
   handleEditClick(astronaut) {
-    this.props.dispatch(editAstronaut(astronaut));
+    this.props.dispatch(openEditor(astronaut));
   }
 
   handleDeleteClick(id) {

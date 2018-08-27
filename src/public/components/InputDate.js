@@ -24,7 +24,7 @@ export default function InputDate(props) {
   };
 
   return (
-    <fieldset>
+    <fieldset className={props.className}>
       <legend>{props.legend}</legend>
       <label>Day:</label>
       <input

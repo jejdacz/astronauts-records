@@ -2,10 +2,7 @@ import api from "./astronauts-api.js";
 
 export const OPEN_EDITOR = "OPEN_EDITOR";
 export const CLOSE_EDITOR = "CLOSE_EDITOR";
-
-export const EDIT_ASTRONAUT = "EDIT_ASTRONAUT";
 export const UPDATE_EDITOR = "UPDATE_EDITOR";
-export const EDITOR_SUBMIT = "EDITOR_SUBMIT";
 
 export const REQUEST_ASTRONAUTS = "REQUEST_ASTRONAUTS";
 export const RECEIVE_ASTRONAUTS = "RECEIVE_ASTRONAUTS";
@@ -35,8 +32,16 @@ export const addAstronaut = astronaut => (dispatch, getState) => {
     .catch(err => console.warn(err.message));
 };
 
-export const editAstronaut = astronaut => ({
-  type: EDIT_ASTRONAUT,
+export const updateAstronaut = astronaut => (dispatch, getState) => {
+  dispatch(updateAstronautPending());
+  return api
+    .updateAstronaut(astronaut)
+    .then(data => dispatch(updateAstronautSuccess(data)))
+    .catch(err => dispatch(updateAstronautFailure(err.message)));
+};
+
+export const openEditor = astronaut => ({
+  type: OPEN_EDITOR,
   astronaut
 });
 
@@ -45,6 +50,6 @@ export const updateEditor = field => ({
   field
 });
 
-export const editorSubmit = () => ({
-  type: EDITOR_SUBMIT
+export const closeEditor = () => ({
+  type: CLOSE_EDITOR
 });
