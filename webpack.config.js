@@ -12,7 +12,7 @@ module.exports = {
   mode: process.env.MODE || "production",
   output: {
     path: paths.DIST,
-    filename: "app.bundle.js"
+    filename: "static/app.bundle.js"
   },
   devServer: {
     port: 4000,

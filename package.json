@@ -5,10 +5,8 @@
   "main": "src/server.js",
   "scripts": {
     "start": "nodemon --exec babel-node src/server.js",
-    "build": "webpack; babel src/server.js -o build/server.js",
-    "mocha": "mocha --require babel-core/register --require babel-polyfill",
-    "test":
-      "mocha --require babel-core/register --require babel-polyfill ./test/index.js",
+    "build": "webpack; babel src --out-dir build --ignore public,spec.js",
+    "test": "mocha --require babel-core/register --require babel-polyfill './src/**/*.spec.js'",
     "dev": "MODE=development webpack-dev-server",
     "prod": "MODE=production webpack-dev-server"
   },
@@ -57,6 +55,8 @@
     "webpack-dev-server": "^3.1.5"
   },
   "nodemonConfig": {
-    "ignore": ["src/public/*"]
+    "ignore": [
+      "src/public/*"
+    ]
   }
 }

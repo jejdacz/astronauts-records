@@ -6,6 +6,7 @@ import express from "express";
 import graphqlHTTP from "express-graphql";
 import { buildSchema } from "graphql";
 import mongoose from "mongoose";
+import { isValidWord } from "./form-validation.js";
 
 //Set up default mongoose connection
 const mongoDB = "mongodb://localhost:27017/evidence";
@@ -68,8 +69,13 @@ const schema = buildSchema(`
 const updateAstronaut = args => {
   const { id, ...update } = args;
   return new Promise((resolve, reject) => {
-    Astronaut.findByIdAndUpdate(id, update, { new: true }, (err, res) => {
-      err ? reject(err) : resolve(res);
+    Astronaut.findById(id, (err, res) => {
+      if (err) {
+        reject(err);
+      } else {
+        res.set({ update });
+        res.save((err, res) => (err ? reject(err) : resolve(res)));
+      }
     });
   });
 };
@@ -117,8 +123,6 @@ const root = {
 
 const app = express();
 
-app.use(express.static(__dirname + "/public"));
-
 app.use(
   "/graphql",
   graphqlHTTP({
@@ -129,5 +133,27 @@ app.use(
 );
 
 app.get("/", (req, res) => res.sendFile(__dirname + "/public/index.html"));
+
+/*
+app.get("/", (req, res) => {
+  throw new Error("dd");
+});
+*/
+
+app.use("/static", express.static(__dirname + "/public/static"));
+
+app.use(function(req, res, next) {
+  var err = new Error("Not Found");
+  err.status = 404;
+  next(err);
+});
+
+app.use(function(err, req, res, next) {
+  if (err.status === 404) {
+    res.sendStatus(404);
+  } else {
+    res.sendStatus(500);
+  }
+});
 
 app.listen(process.env.PORT || 8080, () => console.log("Http server ready!"));

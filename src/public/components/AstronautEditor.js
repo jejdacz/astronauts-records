@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import InputDate from "./InputDate.js";
-import { isValidDate, isValidWord } from "../form-validation.js";
 
 export default function AstronautEditor({
   onChange,
