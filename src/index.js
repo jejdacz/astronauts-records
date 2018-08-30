@@ -9,7 +9,7 @@ import mongoose from "mongoose";
 import { isValidWord } from "input-validation";
 
 //Set up default mongoose connection
-const mongoDB = "mongodb://localhost:27017/evidence";
+const mongoDB = process.env.MONGOLAB_URI;
 mongoose.connect(
   mongoDB,
   { useNewUrlParser: true }
