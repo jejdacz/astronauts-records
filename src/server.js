@@ -123,6 +123,8 @@ const root = {
 
 const app = express();
 
+app.use(express.static(__dirname + "/client/build"));
+
 app.use(
   "/graphql",
   graphqlHTTP({
@@ -132,15 +134,13 @@ app.use(
   })
 );
 
-app.get("/", (req, res) => res.sendFile(__dirname + "/public/index.html"));
+app.get("*", (req, res) => res.sendFile(__dirname + "client/build/index.html"));
 
 /*
 app.get("/", (req, res) => {
   throw new Error("dd");
 });
 */
-
-app.use("/static", express.static(__dirname + "/public/static"));
 
 app.use(function(req, res, next) {
   var err = new Error("Not Found");
@@ -156,4 +156,4 @@ app.use(function(err, req, res, next) {
   }
 });
 
-app.listen(process.env.PORT || 8080, () => console.log("Http server ready!"));
+app.listen(process.env.PORT || 5000, () => console.log("Http server ready!"));

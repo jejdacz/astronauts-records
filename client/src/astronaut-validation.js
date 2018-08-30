@@ -1,4 +1,4 @@
-import { isValidDate, isValidWord } from "../form-validation.js";
+import { isValidDate, isValidWord } from "input-validation";
 
 export default values => {
   const errors = {};

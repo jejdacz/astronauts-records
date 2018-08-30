@@ -24,7 +24,7 @@ class App extends Component {
     super(props);
     this.handleEditClick = this.handleEditClick.bind(this);
     this.handleDeleteClick = this.handleDeleteClick.bind(this);
-    //this.handleClickAdd = this.handleClickAdd.bind(this);
+    this.handleClickAdd = this.handleClickAdd.bind(this);
   }
 
   componentDidMount() {
@@ -36,12 +36,12 @@ class App extends Component {
   }
 
   handleDeleteClick(id) {
-    this.props.dispatch(deleteAstronaut(id));
+    //this.props.dispatch(deleteAstronaut(id));
   }
-  /*
+
   handleClickAdd() {
-    this.props.dispatch(createAstronaut());
-  }*/
+    //this.props.dispatch(createAstronaut());
+  }
 
   render() {
     return (

@@ -22,7 +22,7 @@ class AstronautEditorContainer extends Component {
   }
 
   handleSubmit() {
-    switch (props.onSubmitAction) {
+    switch (this.props.onSubmitAction) {
       case "add":
         const { id, ...rest } = this.props.fields;
         this.props.dispatch(addAstronaut(rest));
