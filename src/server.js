@@ -6,7 +6,7 @@ import express from "express";
 import graphqlHTTP from "express-graphql";
 import { buildSchema } from "graphql";
 import mongoose from "mongoose";
-import { isValidWord } from "./form-validation.js";
+import { isValidWord } from "input-validation";
 
 //Set up default mongoose connection
 const mongoDB = "mongodb://localhost:27017/evidence";

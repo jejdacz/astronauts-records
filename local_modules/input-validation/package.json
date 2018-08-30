@@ -1,0 +1,9 @@
+{
+  "name": "input-validation",
+  "version": "1.0.0",
+  "description": "User input validation functions",
+  "main": "index.js",
+  "author": "Marek Mego",
+  "license": "MIT",
+  "dependencies": {}
+}
