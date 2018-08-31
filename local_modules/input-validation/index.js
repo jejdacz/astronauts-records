@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var isValidWord = (exports.isValidWord = function isValidWord(w) {
+var isValidName = (exports.isValidName = function isValidName(w) {
   return /^[A-Za-z-' ]+$/.test(w.trim());
 });
 
@@ -62,3 +62,8 @@ var isValidDate = (exports.isValidDate = function isValidDate(
   }
   return true;
 });
+
+exports.default = {
+  isValidName: isValidName,
+  isValidDate: isValidDate
+};

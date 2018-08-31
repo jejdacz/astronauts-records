@@ -6,7 +6,7 @@ let baseRequest = request.defaults({
     "Content-Type": "application/json",
     Accept: "application/json"
   },
-  url: "http://localhost:8080/graphql",
+  url: "http://localhost:5000/graphql",
   method: "POST"
 });
 
@@ -17,7 +17,7 @@ describe("GraphQL CREATE operation", () => {
     const variables = {
       firstName: "Neil",
       lastName: "Armstrong",
-      birth: "5.8.1930",
+      birth: "1930-08-05",
       superpower: "healing"
     };
 
@@ -102,7 +102,7 @@ describe("GraphQL UPDATE operation", () => {
       id,
       firstName: "Abraham",
       lastName: "Armstrong",
-      birth: "5.8.1930",
+      birth: "1930-08-05",
       superpower: "healing"
     };
 

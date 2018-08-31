@@ -1,12 +1,12 @@
 {
-  "name": "Astronauts records",
+  "name": "astronauts-records",
   "version": "1.0.0",
   "description": "simple app",
   "main": "./build/index.js",
   "scripts": {
     "dev": "MONGOLAB_URI=mongodb://localhost:27017/evidence nodemon --exec babel-node src/index.js",
     "start": "node ./build/index.js",
-    "heroku-postbuild": "npm run build && cd client && npm install && npm run build",
+    "heroku-postbuild": "npm run build && cd client && npm install && npm run build && cd ..",
     "build": "npm run clean && npm run build-babel",
     "build-babel": "babel src --out-dir build --ignore public,spec.js",
     "clean": "rm -rf build && mkdir build",
@@ -32,12 +32,9 @@
     "graphql": "^0.13.2",
     "graphql-tools": "^3.1.1",
     "input-validation": "file:local_modules/input-validation",
-    "mongoose": "^5.2.10"
+    "mongoose": "^5.2.12"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
     "babel-register": "^6.26.0",
     "nodemon": "^1.18.4",
     "request": "^2.88.0"

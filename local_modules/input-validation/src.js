@@ -1,4 +1,4 @@
-export const isValidWord = w => /^[A-Za-z-' ]+$/.test(w.trim());
+export const isValidName = w => /^[A-Za-z-'. ]+$/.test(w.trim());
 
 export const getLastDayOfMonth = (year, month) => {
   if (month === undefined || year === undefined) {
@@ -48,3 +48,5 @@ export const isValidDate = (year, month, day) => {
   }
   return true;
 };
+
+export default { isValidName, isValidDate };

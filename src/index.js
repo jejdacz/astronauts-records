@@ -1,12 +1,12 @@
 /***********************************
- * ExpressServer
+ * ExpressServer app
  ***********************************/
 
 import express from "express";
 import graphqlHTTP from "express-graphql";
 import { buildSchema } from "graphql";
 import mongoose from "mongoose";
-import { isValidWord } from "input-validation";
+import { isValidName } from "input-validation";
 
 //Set up default mongoose connection
 const mongoDB = process.env.MONGOLAB_URI;
@@ -28,11 +28,13 @@ db.once("open", function() {
 const astronautSchema = new mongoose.Schema({
   firstName: {
     type: String,
-    required: true
+    required: true,
+    validator: isValidName
   },
   lastName: {
     type: String,
-    required: true
+    required: true,
+    validator: isValidName
   },
   birth: {
     type: Date,
@@ -133,6 +135,8 @@ app.use(
     graphiql: true
   })
 );
+
+app.get("/connection-test", (req, res) => res.sendStatus(200));
 
 app.get("*", (req, res) => res.sendFile(__dirname + "client/build/index.html"));
 

@@ -1,23 +1,23 @@
-import { isValidDate, isValidWord } from "input-validation";
+import { isValidDate, isValidName } from "input-validation";
 
 export default values => {
   const errors = {};
 
   if (!values.firstName) {
     errors.firstName = "Required";
-  } else if (!isValidWord(values.firstName)) {
+  } else if (!isValidName(values.firstName)) {
     errors.firstName = "Invalid first name";
   }
 
   if (!values.lastName) {
     errors.lastName = "Required";
-  } else if (!isValidWord(values.lastName)) {
+  } else if (!isValidName(values.lastName)) {
     errors.lastName = "Invalid last name";
   }
 
   if (!values.superpower) {
     errors.superpower = "Required";
-  } else if (!isValidWord(values.superpower)) {
+  } else if (!isValidName(values.superpower)) {
     errors.superpower = "Invalid superpower";
   }
 
