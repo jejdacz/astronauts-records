@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "babel-node src.js",
-    "build": "npm run clean && npm run build",
+    "build": "npm run clean && npm run build-babel",
     "build-babel": "babel src.js --out-file index.js --ignore spec.js",
     "test": "mocha --require babel-core/register --require babel-polyfill './**/*.spec.js'",
     "clean": "rm -f index.js"
