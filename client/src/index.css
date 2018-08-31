@@ -1,5 +1,20 @@
+:root {
+  --primary-dark: #501050dd;
+}
+
 body {
+  background: #f9fafb;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 16px;
   margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+  padding: 30px;
+  color: var(--primary-dark);
+}
+
+.title {
+  font-size: 2rem;
+}
+
+.invalid {
+  border-color: red;
 }

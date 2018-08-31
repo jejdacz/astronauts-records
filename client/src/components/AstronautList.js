@@ -6,8 +6,8 @@ function AstronautList(props) {
   return (
     <div className="astronaut-list">
       {props.astronauts.map(a => (
-        <div key={a.id}>
-          <Astronaut {...a} />
+        <div>
+          <Astronaut key={a.id} {...a} />
           <button onClick={() => props.onEditClick(a)}>edit</button>
           <button onClick={() => props.onDeleteClick(a.id)}>delete</button>
         </div>
