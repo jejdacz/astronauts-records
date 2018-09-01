@@ -24,6 +24,14 @@ export const fetchAstronauts = (dispatch, getState) => {
     .catch(err => console.warn(err.message));
 };
 
+export const loadAstronaut = astronaut => (dispatch, getState) => {
+  /*dispatch(requestAddAstronaut());
+  return api
+    .addAstronaut(astronaut)
+    .then(data => dispatch(receiveAddAstronaut(data)))
+    .catch(err => console.warn(err.message));*/
+};
+
 export const addAstronaut = astronaut => (dispatch, getState) => {
   /*dispatch(requestAddAstronaut());
   return api

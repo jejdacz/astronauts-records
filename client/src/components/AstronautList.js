@@ -1,15 +1,15 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Astronaut from "./Astronaut.js";
 
-function AstronautList(props) {
+function AstronautList({ astronauts, renderLink }) {
   return (
     <div className="astronaut-list">
-      {props.astronauts.map(a => (
+      {astronauts.map(a => (
         <div>
           <Astronaut key={a.id} {...a} />
-          <button onClick={() => props.onEditClick(a)}>edit</button>
-          <button onClick={() => props.onDeleteClick(a.id)}>delete</button>
+          <Link to={`/astronauts/${a.id}`}>Edit</Link>
         </div>
       ))}
     </div>
@@ -17,9 +17,7 @@ function AstronautList(props) {
 }
 
 AstronautList.propTypes = {
-  astronauts: PropTypes.array.isRequired,
-  onEditClick: PropTypes.func.isRequired,
-  onDeleteClick: PropTypes.func.isRequired
+  astronauts: PropTypes.array.isRequired
 };
 
 export default AstronautList;

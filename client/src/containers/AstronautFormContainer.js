@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import AstronautEditor from "../components/AstronautEditor";
+import AstronautEditor from "../components/AstronautForm.js";
 import {
   updateEditor,
   closeEditor,
@@ -21,20 +21,6 @@ class AstronautEditorContainer extends Component {
     //fetchAstronaut
   }
 
-  handleSubmit() {
-    switch (this.props.onSubmitAction) {
-      case "add":
-        const { id, ...rest } = this.props.fields;
-        this.props.dispatch(addAstronaut(rest));
-        break;
-      case "update":
-        this.props.dispatch(updateAstronaut(this.props.fields));
-        break;
-      default:
-        throw new Error("Invalid Editor submit action");
-    }
-  }
-
   handleChange(field) {
     this.props.dispatch(updateEditor(field));
   }
@@ -48,7 +34,7 @@ class AstronautEditorContainer extends Component {
       <AstronautEditor
         onChange={this.handleChange}
         fields={this.props.fields}
-        onSubmit={this.handleSubmit}
+        onSubmit={this.props.handleSubmit}
         onCancel={this.handleCancel}
         errors={validate(this.props.fields)}
         submitting={false} //make true on loading/saving actions
