@@ -47,12 +47,18 @@ const astronautSchema = new mongoose.Schema({
   }
 });
 
+let lastUpdated = Date.now();
+
+astronautSchema.post("save", () => (lastUpdated = Date.now()));
+astronautSchema.post("remove", () => (lastUpdated = Date.now()));
+
 const Astronaut = mongoose.model("Astronaut", astronautSchema);
 
 const schema = buildSchema(`
   type Query {
     astronaut(id: String!): Astronaut
     astronauts: [Astronaut]
+    lastUpdated: String
   },
   type Mutation {
     updateAstronaut(id: String!, firstName: String!, lastName: String!, birth: String!, superpower: String!): Astronaut
@@ -115,9 +121,14 @@ const getAstronauts = () => {
   });
 };
 
+const getLastUpdated = () => {
+  return lastUpdated;
+};
+
 const root = {
   astronaut: getAstronaut,
   astronauts: getAstronauts,
+  lastUpdated: getLastUpdated,
   updateAstronaut: updateAstronaut,
   deleteAstronaut: deleteAstronaut,
   addAstronaut: addAstronaut
@@ -125,7 +136,7 @@ const root = {
 
 const app = express();
 
-app.use(express.static(__dirname + "/client/build"));
+app.use(express.static(__dirname + "/../client/build"));
 
 app.use(
   "/graphql",
@@ -138,7 +149,9 @@ app.use(
 
 app.get("/connection-test", (req, res) => res.sendStatus(200));
 
-app.get("*", (req, res) => res.sendFile(__dirname + "client/build/index.html"));
+app.get("*", (req, res) =>
+  res.sendFile(__dirname + "/../client/build/index.html")
+);
 
 /*
 app.get("/", (req, res) => {

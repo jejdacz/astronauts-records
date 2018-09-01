@@ -14,7 +14,8 @@ const initialState = {
   astronauts: {
     loading: false,
     error: null,
-    items: []
+    items: [],
+    receivedAt: 0
   }
 };
 
@@ -31,7 +32,8 @@ const astronautsReducer = (state, action) => {
         ...state,
         loading: false,
         error: null,
-        items: action.astronauts
+        items: action.astronauts,
+        receivedAt: Date.now()
       };
     case LOAD_ASTRONAUTS_FAIL:
       return {

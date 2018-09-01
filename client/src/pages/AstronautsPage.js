@@ -1,20 +1,9 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { loadAstronauts } from "../astronautActions.js";
+import { loadAstronautsIfNeeded } from "../astronautActions.js";
+import Header from "../components/Header.js";
 import AstronautList from "../components/AstronautList.js";
-
-const Header = () => (
-  <header>
-    <h1 className="title">Evidence kosmonautu</h1>
-    <p>
-      Culpa labore Lorem mollit aliqua in labore dolore smod veniam nostrud
-      aliqua labore incididunt consectetur nostrud minim. Adipisicing et esse
-      reprehenderit fugiat commodo cillum duis reprehenderit aliqua qui
-      commodos.
-    </p>
-  </header>
-);
 
 class AstronautsPage extends Component {
   constructor(props) {
@@ -22,7 +11,7 @@ class AstronautsPage extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(loadAstronauts);
+    this.props.dispatch(loadAstronautsIfNeeded);
   }
 
   renderError(error) {
@@ -34,11 +23,13 @@ class AstronautsPage extends Component {
   }
 
   renderContent = content => (
-    <section className="app">
+    <Fragment>
       <Header />
-      <Link to={`/astronauts/new`}>Add Astronaut</Link>
-      {content}
-    </section>
+      <main>
+        <Link to={`/astronauts/new`}>Add Astronaut</Link>
+        {content}
+      </main>
+    </Fragment>
   );
 
   render() {

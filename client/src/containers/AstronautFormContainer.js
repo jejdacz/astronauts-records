@@ -7,7 +7,7 @@ import {
   addAstronaut,
   updateAstronaut
 } from "../actions.js";
-import validate from "../astronaut-validation.js";
+import validate from "../astronautValidation.js";
 
 class AstronautEditorContainer extends Component {
   constructor(props) {

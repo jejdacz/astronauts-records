@@ -7,8 +7,8 @@ function AstronautList({ astronauts, renderLink }) {
   return (
     <div className="astronaut-list">
       {astronauts.map(a => (
-        <div>
-          <Astronaut key={a.id} {...a} />
+        <div key={a.id}>
+          <Astronaut {...a} />
           <Link to={`/astronauts/${a.id}`}>Edit</Link>
         </div>
       ))}

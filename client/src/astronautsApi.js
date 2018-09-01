@@ -1,4 +1,9 @@
-import graphqlRequest from "./graphql-request.js";
+import graphqlRequest from "./graphqlRequest.js";
+
+const lastUpdated = () => {
+  const query = `{ lastUpdated }`;
+  return graphqlRequest(query).then(({ data }) => Number(data.lastUpdated));
+};
 
 const astronauts = () => {
   const query = `{ astronauts {id firstName lastName birth superpower} }`;
@@ -62,5 +67,6 @@ export default {
   astronaut,
   addAstronaut,
   updateAstronaut,
-  deleteAstronaut
+  deleteAstronaut,
+  lastUpdated
 };
