@@ -1,27 +1,29 @@
 import api from "./astronauts-api.js";
 
-export const OPEN_EDITOR = "OPEN_EDITOR";
-export const CLOSE_EDITOR = "CLOSE_EDITOR";
-export const UPDATE_EDITOR = "UPDATE_EDITOR";
+export const LOAD_ASTRONAUTS_REQUEST = "LOAD_ASTRONAUTS_REQUEST";
+export const LOAD_ASTRONAUTS_SUCCESS = "LOAD_ASTRONAUTS_SUCCESS";
+export const LOAD_ASTRONAUTS_FAIL = "LOAD_ASTRONAUTS_FAIL";
 
-export const REQUEST_ASTRONAUTS = "REQUEST_ASTRONAUTS";
-export const RECEIVE_ASTRONAUTS = "RECEIVE_ASTRONAUTS";
-
-const receiveAstronauts = astronauts => ({
-  type: RECEIVE_ASTRONAUTS,
-  astronauts
+const loadAstronautsRequest = () => ({
+  type: LOAD_ASTRONAUTS_REQUEST
 });
 
-const requestAstronauts = () => ({
-  type: REQUEST_ASTRONAUTS
+const loadAstronautsSuccess = data => ({
+  type: LOAD_ASTRONAUTS_SUCCESS,
+  astronauts: data
 });
 
-export const fetchAstronauts = (dispatch, getState) => {
-  dispatch(requestAstronauts());
+const loadAstronautsFail = error => ({
+  type: LOAD_ASTRONAUTS_FAIL,
+  error
+});
+
+export const loadAstronauts = (dispatch, getState) => {
+  dispatch(loadAstronautsRequest());
   return api
     .astronauts()
-    .then(data => dispatch(receiveAstronauts(data)))
-    .catch(err => console.warn(err.message));
+    .then(data => dispatch(loadAstronautsSuccess(data)))
+    .catch(err => dispatch(loadAstronautsFail(err)));
 };
 
 export const loadAstronaut = astronaut => (dispatch, getState) => {
@@ -47,7 +49,7 @@ export const updateAstronaut = astronaut => (dispatch, getState) => {
     .then(data => dispatch(updateAstronautSuccess(data)))
     .catch(err => dispatch(updateAstronautFailure(err.message)));*/
 };
-
+/*
 export const openEditor = astronaut => ({
   type: OPEN_EDITOR,
   astronaut
@@ -60,4 +62,4 @@ export const updateEditor = field => ({
 
 export const closeEditor = () => ({
   type: CLOSE_EDITOR
-});
+});*/

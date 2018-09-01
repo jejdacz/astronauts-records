@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { updateAstronaut, fetchAstronaut } from "../actions.js";
+import { loadAstronaut, updateAstronaut } from "../astronautActions.js";
 import AstronautForm from "../components/AstronautForm.js";
 import validate from "../astronaut-validation.js";
 
@@ -11,7 +11,7 @@ class AstronautPage extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(fetchAstronaut(this.props.match.params.id));
+    this.props.dispatch(loadAstronaut(this.props.match.params.id));
   }
 
   handleSubmit(fields) {

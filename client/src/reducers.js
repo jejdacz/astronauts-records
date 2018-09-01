@@ -1,67 +1,49 @@
 import { combineReducers } from "redux";
 import {
-  REQUEST_ASTRONAUTS,
-  RECEIVE_ASTRONAUTS,
-  OPEN_EDITOR,
-  CLOSE_EDITOR,
-  UPDATE_EDITOR
-} from "./actions.js";
+  LOAD_ASTRONAUTS_REQUEST,
+  LOAD_ASTRONAUTS_SUCCESS,
+  LOAD_ASTRONAUTS_FAIL
+} from "./astronautActions.js";
 
 const initialState = {
-  isEditorActive: false,
-  editor: {
-    onSubmit: "",
-    isFetching: false,
+  form: {
+    loading: false,
+    error: null,
     fields: {}
   },
   astronauts: {
-    isFetching: true,
+    loading: false,
+    error: null,
     items: []
   }
 };
 
-const stubState = {
-  isEditorActive: false,
-  astronauts: {
-    isFetching: false,
-    items: [
-      {
-        id: "0",
-        firstName: "Neil",
-        lastName: "Armstrong",
-        birth: "9.8.1930",
-        superpower: "Healing"
-      },
-      {
-        id: "1",
-        firstName: "Jurij",
-        lastName: "Gagarin",
-        birth: "9.8.1930",
-        superpower: "Healing"
-      }
-    ]
-  }
-};
-
-const updateObject = (oldObject, newValues) =>
-  Object.assign({}, oldObject, newValues);
-
 const astronautsReducer = (state, action) => {
   switch (action.type) {
-    case RECEIVE_ASTRONAUTS:
-      return updateObject(state, {
-        isFetching: false,
+    case LOAD_ASTRONAUTS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+    case LOAD_ASTRONAUTS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
         items: action.astronauts
-      });
-    case REQUEST_ASTRONAUTS:
-      return updateObject(state, {
-        isFetching: true
-      });
+      };
+    case LOAD_ASTRONAUTS_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.error
+      };
     default:
       return state;
   }
 };
-
+/*
 const appReducer = (state = initialState, action) => {
   switch (action.type) {
     case REQUEST_ASTRONAUTS:
@@ -113,5 +95,9 @@ const editorReducer = (state, action) => {
       return state;
   }
 };
+*/
+const rootReducer = (state = initialState, action) => ({
+  astronauts: astronautsReducer(state.astronauts, action)
+});
 
-export default appReducer;
+export default rootReducer;

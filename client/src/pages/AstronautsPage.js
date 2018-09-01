@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { fetchAstronauts } from "../actions.js";
+import { loadAstronauts } from "../astronautActions.js";
 import AstronautList from "../components/AstronautList.js";
 
-const AppHeader = () => (
+const Header = () => (
   <header>
     <h1 className="title">Evidence kosmonautu</h1>
     <p>
@@ -22,24 +22,39 @@ class AstronautsPage extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(fetchAstronauts);
+    this.props.dispatch(loadAstronauts);
   }
 
+  renderError(error) {
+    return <h4>{error.message}</h4>;
+  }
+
+  renderLoading() {
+    return <h4>loading...</h4>;
+  }
+
+  renderContent = content => (
+    <section className="app">
+      <Header />
+      <Link to={`/astronauts/new`}>Add Astronaut</Link>
+      {content}
+    </section>
+  );
+
   render() {
-    return (
-      <section className="app">
-        <AppHeader />
-        <Link to={`/astronauts/new`}>Add Astronaut</Link>
-        {!this.props.astronauts.isFetching ? (
-          <AstronautList astronauts={this.props.astronauts.items} />
-        ) : (
-          "loading..."
-        )}
-      </section>
-    );
+    const { loading, error, items } = this.props;
+
+    if (error) {
+      return this.renderContent(this.renderError(error));
+    }
+    if (loading) {
+      return this.renderContent(this.renderLoading());
+    }
+
+    return this.renderContent(<AstronautList astronauts={items} />);
   }
 }
 
-const mapStateToProps = state => ({ ...state });
+const mapStateToProps = state => ({ ...state.astronauts });
 
 export default connect(mapStateToProps)(AstronautsPage);
