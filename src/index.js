@@ -138,6 +138,8 @@ const app = express();
 
 app.use(express.static(__dirname + "/../client/build"));
 
+//app.use(favicon(__dirname + "/../client/build/favicon.ico"));
+
 app.use(
   "/graphql",
   graphqlHTTP({
@@ -173,4 +175,7 @@ app.use(function(err, req, res, next) {
   }
 });
 
-app.listen(process.env.PORT || 5000, () => console.log("Http server ready!"));
+app.listen(
+  process.env.PORT || 5000,
+  err => (err ? console.log(err) : console.log("Http server ready!"))
+);

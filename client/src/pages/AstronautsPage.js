@@ -24,11 +24,9 @@ class AstronautsPage extends Component {
 
   renderContent = content => (
     <Fragment>
+      <Link to="/astronauts/new">Add Astronaut</Link>
       <Header />
-      <main>
-        <Link to={`/astronauts/new`}>Add Astronaut</Link>
-        {content}
-      </main>
+      <main>{content}</main>
     </Fragment>
   );
 

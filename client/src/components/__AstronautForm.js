@@ -1,10 +1,12 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import InputDate from "./InputDate.js";
 
 export default function AstronautEditor({
   onChange,
   onSubmit,
+  onCancel,
   fields,
   errors,
   submitting
@@ -60,9 +62,10 @@ export default function AstronautEditor({
           className={errors.superpower ? "invalid" : null}
         />
       </label>
-      <button type="submit" disabled={submitting || errors.form}>
+      <button type="submit" disabled={submitting || !errors.form}>
         Save
       </button>
+      <Link to="/">Cancel</Link>
     </form>
   );
 }

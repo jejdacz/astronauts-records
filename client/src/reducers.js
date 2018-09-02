@@ -2,14 +2,17 @@ import { combineReducers } from "redux";
 import {
   LOAD_ASTRONAUTS_REQUEST,
   LOAD_ASTRONAUTS_SUCCESS,
-  LOAD_ASTRONAUTS_FAIL
+  LOAD_ASTRONAUTS_FAILURE,
+  ADD_ASTRONAUT_REQUEST,
+  ADD_ASTRONAUT_SUCCESS,
+  ADD_ASTRONAUT_FAILURE
 } from "./astronautActions.js";
 
 const initialState = {
-  form: {
-    loading: false,
+  newAstronaut: {
+    saving: false,
     error: null,
-    fields: {}
+    response: null
   },
   astronauts: {
     loading: false,
@@ -35,10 +38,36 @@ const astronautsReducer = (state, action) => {
         items: action.astronauts,
         receivedAt: Date.now()
       };
-    case LOAD_ASTRONAUTS_FAIL:
+    case LOAD_ASTRONAUTS_FAILURE:
       return {
         ...state,
         loading: false,
+        error: action.error
+      };
+    default:
+      return state;
+  }
+};
+
+const newAstronautReducer = (state, action) => {
+  switch (action.type) {
+    case ADD_ASTRONAUT_REQUEST:
+      return {
+        ...state,
+        saving: true,
+        error: null
+      };
+    case ADD_ASTRONAUT_SUCCESS:
+      return {
+        ...state,
+        saving: false,
+        error: null,
+        response: action.response
+      };
+    case ADD_ASTRONAUT_FAILURE:
+      return {
+        ...state,
+        saving: false,
         error: action.error
       };
     default:
@@ -99,7 +128,8 @@ const editorReducer = (state, action) => {
 };
 */
 const rootReducer = (state = initialState, action) => ({
-  astronauts: astronautsReducer(state.astronauts, action)
+  astronauts: astronautsReducer(state.astronauts, action),
+  newAstronaut: newAstronautReducer(state.newAstronaut, action)
 });
 
 export default rootReducer;

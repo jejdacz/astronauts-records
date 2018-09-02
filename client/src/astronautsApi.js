@@ -33,7 +33,7 @@ const addAstronaut = variables => {
         superpower
       }
     }`;
-  return graphqlRequest(query, variables);
+  return graphqlRequest(query, variables).then(({ data }) => data.addAstronaut);
 };
 
 const updateAstronaut = variables => {
@@ -46,7 +46,9 @@ const updateAstronaut = variables => {
       superpower
     }
   }`;
-  return graphqlRequest(query, variables).then(({ data }) => data.astronaut);
+  return graphqlRequest(query, variables).then(
+    ({ data }) => data.updateAstronaut
+  );
 };
 
 const deleteAstronaut = variables => {
@@ -59,7 +61,9 @@ const deleteAstronaut = variables => {
       superpower
     }
   }`;
-  return graphqlRequest(query, variables).then(({ data }) => data.astronaut);
+  return graphqlRequest(query, variables).then(
+    ({ data }) => data.deleteAstronaut
+  );
 };
 
 export default {

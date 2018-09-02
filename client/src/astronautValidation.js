@@ -27,7 +27,7 @@ export default values => {
     errors.birth = "Invalid date";
   }
 
-  if (!Object.values(errors).length) {
+  if (Object.values(errors).length) {
     errors.form = "Invalid form";
   }
 

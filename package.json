@@ -41,7 +41,10 @@
   },
   "nodemonConfig": {
     "ignore": [
-      "client/*"
+      "*.test.js",
+      "client/*",
+      "build/*",
+      "node_modules/*"
     ]
   }
 }
