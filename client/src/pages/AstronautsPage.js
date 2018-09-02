@@ -11,7 +11,12 @@ class AstronautsPage extends Component {
   }
 
   componentDidMount() {
+    console.log("componentDidmount");
     this.props.dispatch(loadAstronautsIfNeeded);
+  }
+
+  componentWillUnmount() {
+    console.log("componentWillunmount");
   }
 
   renderError(error) {

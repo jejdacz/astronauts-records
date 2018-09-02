@@ -12,6 +12,12 @@ const initialState = {
   newAstronaut: {
     saving: false,
     error: null,
+    astronaut: {
+      firstName: "John",
+      lastName: "Doe",
+      birth: "1900-01-01",
+      superpower: "superpower"
+    },
     response: null
   },
   astronauts: {
@@ -55,7 +61,8 @@ const newAstronautReducer = (state, action) => {
       return {
         ...state,
         saving: true,
-        error: null
+        error: null,
+        astronaut: action.astronaut
       };
     case ADD_ASTRONAUT_SUCCESS:
       return {

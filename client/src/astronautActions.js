@@ -26,8 +26,9 @@ export const ADD_ASTRONAUT_FAILURE = "ADD_ASTRONAUT_FAILURE";
 
 export const addAstronautAction = {};
 
-addAstronautAction.request = () => ({
-  type: ADD_ASTRONAUT_REQUEST
+addAstronautAction.request = astronaut => ({
+  type: ADD_ASTRONAUT_REQUEST,
+  astronaut
 });
 
 addAstronautAction.success = data => ({
@@ -44,7 +45,7 @@ export const apiCall = (
   apiCallFunc,
   { request, success, failure }
 ) => apiCallArgs => (dispatch, getState) => {
-  dispatch(request());
+  dispatch(request(apiCallArgs));
   return apiCallFunc(apiCallArgs)
     .then(data => dispatch(success(data)))
     .catch(err => dispatch(failure(err)));
