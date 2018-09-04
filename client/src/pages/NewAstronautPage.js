@@ -29,6 +29,10 @@ class NewAstronautPage extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidMount() {
+    console.log("reset form");
+  }
+
   handleChange(field) {
     this.setState(prev => ({ fields: { ...prev.fields, ...field } }));
   }

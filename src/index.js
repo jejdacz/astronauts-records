@@ -8,18 +8,15 @@ import { buildSchema } from "graphql";
 import mongoose from "mongoose";
 import { isValidName } from "input-validation";
 
-//Set up default mongoose connection
 const mongoDB = process.env.MONGOLAB_URI;
 mongoose.connect(
   mongoDB,
   { useNewUrlParser: true }
 );
-// Get Mongoose to use the global promise library
-mongoose.Promise = global.Promise;
-//Get the default connection
-const db = mongoose.connection;
 
-//Bind connection to error event (to get notification of connection errors)
+mongoose.Promise = global.Promise;
+
+const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 db.once("open", function() {
   console.log("MongoDB connected!");
@@ -29,12 +26,12 @@ const astronautSchema = new mongoose.Schema({
   firstName: {
     type: String,
     required: true,
-    validator: isValidName
+    validate: { validator: isValidName, message: "Invalid name" }
   },
   lastName: {
     type: String,
     required: true,
-    validator: isValidName
+    validate: { validator: isValidName, message: "Invalid name" }
   },
   birth: {
     type: Date,
@@ -74,49 +71,50 @@ const schema = buildSchema(`
   }
 `);
 
-const updateAstronaut = args => {
+const updateAstronaut = (args, c) => {
   const { id, ...update } = args;
   return new Promise((resolve, reject) => {
     Astronaut.findById(id, (err, res) => {
       if (err) {
-        reject(err);
+        c.next(err);
       } else {
         res.set({ update });
-        res.save((err, res) => (err ? reject(err) : resolve(res)));
+        res.save((err, res) => (err ? c.next(err) : resolve(res)));
       }
     });
   });
 };
 
-const deleteAstronaut = args => {
+const deleteAstronaut = (args, c) => {
   return new Promise((resolve, reject) => {
     Astronaut.findByIdAndDelete(args.id, (err, res) => {
-      err ? reject(err) : resolve(res);
+      err ? c.next(err) : resolve(res);
     });
   });
 };
 
-const addAstronaut = args => {
+const addAstronaut = (args, c) => {
   const astronaut = new Astronaut(args);
   return new Promise((resolve, reject) => {
     astronaut.save((err, res) => {
-      err ? reject(err) : resolve(res);
+      err ? c.next(err) : resolve(res);
     });
   });
 };
 
-const getAstronaut = args => {
+const getAstronaut = (args, c) => {
   return new Promise((resolve, reject) => {
     Astronaut.findById(args.id, (err, res) => {
-      err ? reject(err) : resolve(res);
+      err ? c.next(err) : resolve(res);
     });
   });
 };
 
-const getAstronauts = () => {
+const getAstronauts = (args, c) => {
   return new Promise((resolve, reject) => {
     Astronaut.find((err, res) => {
-      err ? reject(err) : resolve(res);
+      console.log(c);
+      err ? c.next(err) : resolve(res);
     });
   });
 };
@@ -138,28 +136,18 @@ const app = express();
 
 app.use(express.static(__dirname + "/../client/build"));
 
-//app.use(favicon(__dirname + "/../client/build/favicon.ico"));
-
-app.use(
-  "/graphql",
+app.use("/graphql", (req, res, next) =>
   graphqlHTTP({
     schema: schema,
     rootValue: root,
-    graphiql: true
-  })
+    graphiql: true,
+    context: { next }
+  })(req, res)
 );
-
-app.get("/connection-test", (req, res) => res.sendStatus(200));
 
 app.get("*", (req, res) =>
   res.sendFile(__dirname + "/../client/build/index.html")
 );
-
-/*
-app.get("/", (req, res) => {
-  throw new Error("dd");
-});
-*/
 
 app.use(function(req, res, next) {
   var err = new Error("Not Found");
@@ -170,6 +158,8 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res, next) {
   if (err.status === 404) {
     res.sendStatus(404);
+  } else if ((err.name = "ValidationError")) {
+    res.status(400).json({ error: err.message });
   } else {
     res.sendStatus(500);
   }

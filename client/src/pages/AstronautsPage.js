@@ -2,7 +2,6 @@ import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { loadAstronautsIfNeeded } from "../astronautActions.js";
-import Header from "../components/Header.js";
 import AstronautList from "../components/AstronautList.js";
 
 class AstronautsPage extends Component {
@@ -29,8 +28,18 @@ class AstronautsPage extends Component {
 
   renderContent = content => (
     <Fragment>
-      <Link to="/astronauts/new">Add Astronaut</Link>
-      <Header />
+      <header>
+        <Link className="btn bg-nav rnd large" to="/astronauts/new">
+          +
+        </Link>
+        <h1 className="title">Evidence kosmonautu</h1>
+        <p>
+          Culpa labore Lorem mollit aliqua in labore dolore smod veniam nostrud
+          aliqua labore incididunt consectetur nostrud minim. Adipisicing et
+          esse reprehenderit fugiat commodo cillum duis reprehenderit aliqua qui
+          commodos.
+        </p>
+      </header>
       <main>{content}</main>
     </Fragment>
   );
