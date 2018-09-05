@@ -12,12 +12,7 @@ const initialState = {
   newAstronaut: {
     saving: false,
     error: null,
-    astronaut: {
-      firstName: "John",
-      lastName: "Doe",
-      birth: "1900-01-01",
-      superpower: "superpower"
-    },
+    astronaut: {},
     response: null
   },
   astronauts: {

@@ -3,6 +3,12 @@ import PropTypes from "prop-types";
 
 // parses dateString "YYYY-MM-DD" and returns { year: Number, month: Number, day: Number}
 const dateStringToObject = d => {
+  if (d === undefined) {
+    throw new Error("Missing argument");
+  }
+  if (!/\d{4}-\d{2}-\d{2}/.test(d)) {
+    throw new Error("Invalid argument");
+  }
   const dateArray = d.split("-").map(v => v.replace(/^0+/, ""));
 
   return { year: dateArray[0], month: dateArray[1], day: dateArray[2] };
@@ -16,7 +22,9 @@ const dateObjectToString = d =>
   )}`;
 
 export default function InputDate(props) {
-  const date = dateStringToObject(props.date);
+  const date = props.date
+    ? dateStringToObject(props.date)
+    : { year: "", month: "", day: "" };
 
   const handleChange = e => {
     let { name, value } = e.target;

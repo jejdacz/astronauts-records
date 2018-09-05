@@ -113,7 +113,6 @@ const getAstronaut = (args, c) => {
 const getAstronauts = (args, c) => {
   return new Promise((resolve, reject) => {
     Astronaut.find((err, res) => {
-      console.log(c);
       err ? c.next(err) : resolve(res);
     });
   });
