@@ -1,64 +1,54 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-// parses dateString "YYYY-MM-DD" and returns { year: Number, month: Number, day: Number}
-const dateStringToObject = d => {
-  if (d === undefined) {
-    throw new Error("Missing argument");
-  }
-  if (!/\d{4}-\d{2}-\d{2}/.test(d)) {
-    throw new Error("Invalid argument");
-  }
-  const dateArray = d.split("-").map(v => v.replace(/^0+/, ""));
-
-  return { year: dateArray[0], month: dateArray[1], day: dateArray[2] };
-};
-
-// returns dateString "YYYY-MM-DD"
-const dateObjectToString = d =>
-  `${d.year.padStart(4, "0")}-${d.month.padStart(2, "0")}-${d.day.padStart(
-    2,
-    "0"
-  )}`;
-
 export default function InputDate(props) {
-  const date = props.date
-    ? dateStringToObject(props.date)
-    : { year: "", month: "", day: "" };
-
   const handleChange = e => {
     let { name, value } = e.target;
-    props.onChange(dateObjectToString({ ...date, [name]: value }));
+    props.onChange({ ...props.date, [name]: value });
   };
 
   return (
-    <fieldset className={props.className}>
-      <legend>{props.legend}</legend>
-      <label>Day:</label>
-      <input
-        name="day"
-        type="number"
-        value={date.day}
-        onChange={handleChange}
-        placeholder="1"
-      />
-      <label>Month:</label>
-      <input
-        name="month"
-        type="number"
-        value={date.month}
-        onChange={handleChange}
-        placeholder="1"
-      />
-      <label>Year:</label>
-      <input
-        name="year"
-        type="number"
-        value={date.year}
-        onChange={handleChange}
-        placeholder="1900"
-      />
-    </fieldset>
+    <div className="form-group">
+      <label>{props.label}</label>
+      <div className={`form-row`}>
+        <div className="col">
+          <input
+            name="day"
+            type="number"
+            min="1"
+            max="31"
+            value={props.date.day}
+            onChange={handleChange}
+            placeholder="D"
+            className={`form-control ${props.className}`}
+          />
+        </div>
+        <div className="col">
+          <input
+            name="month"
+            type="number"
+            min="1"
+            max="12"
+            value={props.date.month}
+            onChange={handleChange}
+            placeholder="M"
+            className={`form-control ${props.className}`}
+          />
+        </div>
+        <div className="col-5">
+          <input
+            name="year"
+            type="number"
+            min="0"
+            value={props.date.year}
+            onChange={handleChange}
+            placeholder="Y"
+            className={`form-control ${props.className}`}
+          />
+        </div>
+      </div>
+      <small className="form-text text-muted">format: Day-Month-Year</small>
+    </div>
   );
 }
 

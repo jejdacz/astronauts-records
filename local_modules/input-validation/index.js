@@ -16,7 +16,7 @@ var getLastDayOfMonth = exports.getLastDayOfMonth = function getLastDayOfMonth(y
   month = parseInt(month);
   year = parseInt(year);
 
-  if (month == NaN || year == NaN || month < 1 || month > 12) {
+  if (isNaN(month) || isNaN(year) || month < 1 || month > 12) {
     throw new Error("bad arguments");
   }
 
@@ -35,7 +35,7 @@ var isValidDate = exports.isValidDate = function isValidDate(year, month, day) {
   month = parseInt(month);
   year = parseInt(year);
 
-  if (day == NaN || month == NaN || year == NaN || year < 0 || year > 9999 || month < 1 || month > 12 || day < 1 || day > getLastDayOfMonth(year, month)) {
+  if (isNaN(day) || isNaN(month) || isNaN(year) || year < 0 || year > 9999 || month < 1 || month > 12 || day < 1 || day > getLastDayOfMonth(year, month)) {
     return false;
   }
   return true;

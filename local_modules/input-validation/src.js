@@ -8,7 +8,7 @@ export const getLastDayOfMonth = (year, month) => {
   month = parseInt(month);
   year = parseInt(year);
 
-  if (month == NaN || year == NaN || month < 1 || month > 12) {
+  if (isNaN(month) || isNaN(year) || month < 1 || month > 12) {
     throw new Error("bad arguments");
   }
 
@@ -34,9 +34,9 @@ export const isValidDate = (year, month, day) => {
   year = parseInt(year);
 
   if (
-    day == NaN ||
-    month == NaN ||
-    year == NaN ||
+    isNaN(day) ||
+    isNaN(month) ||
+    isNaN(year) ||
     year < 0 ||
     year > 9999 ||
     month < 1 ||

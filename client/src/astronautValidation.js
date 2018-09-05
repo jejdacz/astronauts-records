@@ -21,9 +21,16 @@ export default values => {
     errors.superpower = "Invalid superpower";
   }
 
-  if (!values.birth) {
+  if (
+    !values.birth ||
+    values.birth.year === undefined ||
+    values.birth.month === undefined ||
+    values.birth.day === undefined
+  ) {
     errors.birth = "Required";
-  } else if (!isValidDate(...values.birth.split("-"))) {
+  } else if (
+    !isValidDate(values.birth.year, values.birth.month, values.birth.day)
+  ) {
     errors.birth = "Invalid date";
   }
 

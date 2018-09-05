@@ -1,3 +1,6 @@
+/*@import url("bootstrap-reboot.css");*/
+@import url("bootstrap.css");
+
 :root {
   --primary-dark: #501050dd;
 }
@@ -8,8 +11,11 @@ body {
   font-size: 16px;
   line-height: 1;
   margin: 0;
-  padding: 30px;
   color: var(--primary-dark);
+}
+header {
+  color: #f9fafb;
+  background: var(--primary-dark);
 }
 
 .title {
