@@ -1,52 +1,41 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import hocForm, { MetaContext } from "./hocForm.js";
 import InputDate from "./InputDate.js";
 import validate from "../astronautValidation.js";
+import Field from "./Field.js";
 /*
-values: {
-  firstName: "",
-  lastName: "",
-  birth: { year: "", month: "", day: "" },
-  superpower: ""
-},*/
+const Field = ({type, name, value, label, onChange}) => {
 
-const createForm = options => FormComponent => {
-  return class extends Component {
-    constructor(props) {
-      super(props);
-      this.options = options;
-      this.state = {
-        values: props.values,
-        touched: {}
-      };
-      this.handleChange = this.handleChange.bind(this);
-      this.handleBlur = this.handleBlur.bind(this);
-    }
 
-    handleChange(field) {
-      this.setState(prev => ({ values: { ...prev.values, ...field } }));
-    }
-
-    handleBlur(field) {
-      this.setState(prev => ({ touched: { ...prev.touched, ...field } }));
-    }
-
-    render() {
-      return (
-        <FormComponent
-          onChange={this.handleChange}
-          onBlur={this.handleBlur}
-          values={this.state.values}
-          errors={this.options.validate(this.state.values)}
-          touched={this.state.touched}
-          {...this.props}
-        />
-      );
-    }
+    onChange({ name: value });
+  const handleChange = e => {
+      let { value } = e.target;
+      onChange({ name: value });
   };
-};
 
-function AstronautForm({
+
+  const handleBlur = e => {
+    let { name, value } = e.target;
+    onBlur({ [name]: true });
+  };
+
+  return (
+    <label>label</label>
+    <input
+      name
+      type
+      value
+      onChange={handleChange}
+      onBlur={handleBlur}
+      placeholder="John"
+      className={`form-control ${touched.firstName &&
+        (errors.firstName ? "is-invalid" : "is-valid")}`}
+    />
+  );
+}*/
+
+const AstronautForm = ({
   onChange,
   onBlur,
   onSubmit,
@@ -54,13 +43,14 @@ function AstronautForm({
   touched,
   errors,
   submitting
-}) {
+}) => {
   const handleChange = e => {
     let { name, value } = e.target;
     onChange({ [name]: value });
   };
 
   const handleSubmit = e => {
+    console.log(e.target);
     e.preventDefault();
     onSubmit(values);
   };
@@ -74,6 +64,14 @@ function AstronautForm({
     <div className="container">
       <form onSubmit={handleSubmit}>
         <div className="form-group">
+          <Field
+            name="firstName"
+            type="text"
+            label="First-Name:"
+            placeholder="John"
+            component="input"
+          />
+          {/*
           <label>First Name:</label>
           <input
             name="firstName"
@@ -84,7 +82,7 @@ function AstronautForm({
             placeholder="John"
             className={`form-control ${touched.firstName &&
               (errors.firstName ? "is-invalid" : "is-valid")}`}
-          />
+          />*/}
         </div>
         <div className="form-group">
           <label>Last Name:</label>
@@ -132,9 +130,9 @@ function AstronautForm({
       </form>
     </div>
   );
-}
+};
 
-export default createForm({ validate })(AstronautForm);
+export default hocForm({ validate })(AstronautForm);
 /*
 AstronautEditor.propTypes = {
   save: PropTypes.func.isRequired,
