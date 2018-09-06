@@ -9,11 +9,11 @@ const App = () => {
   return (
     <div className="App">
       <Switch>
-        <Route exact={true} path="/" component={AstronautsPage} />
-        <Route path="/astronauts/new" component={NewAstronautPage} />
-        <Route path="/astronauts/:id" component={AstronautPage} />
-        <Route component={NotFoundPage} />
-      </Switch>
+        <Route exact={true} path="/" component={AstronautsPage} />{" "}
+        <Route path="/astronauts/new" component={NewAstronautPage} />{" "}
+        <Route path="/astronauts/:id" component={AstronautPage} />{" "}
+        <Route component={NotFoundPage} />{" "}
+      </Switch>{" "}
     </div>
   );
 };

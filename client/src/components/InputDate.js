@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-export default function InputDate(props) {
+export default function InputDate({ date, onChange, onBlur, label, ...props }) {
   const handleChange = e => {
     let { name, value } = e.target;
-    props.onChange({ ...props.date, [name]: value });
+    onChange({ ...date, [name]: value });
   };
 
   return (
     <div className="form-group">
-      <label>{props.label}</label>
+      <label>{label}</label>
       <div className={`form-row`}>
         <div className="col">
           <input
@@ -17,8 +17,9 @@ export default function InputDate(props) {
             type="number"
             min="1"
             max="31"
-            value={props.date.day}
+            value={date.day}
             onChange={handleChange}
+            onBlur={onBlur}
             placeholder="D"
             className={`form-control ${props.className}`}
           />
@@ -29,8 +30,9 @@ export default function InputDate(props) {
             type="number"
             min="1"
             max="12"
-            value={props.date.month}
+            value={date.month}
             onChange={handleChange}
+            onBlur={onBlur}
             placeholder="M"
             className={`form-control ${props.className}`}
           />
@@ -40,8 +42,9 @@ export default function InputDate(props) {
             name="year"
             type="number"
             min="0"
-            value={props.date.year}
+            value={date.year}
             onChange={handleChange}
+            onBlur={onBlur}
             placeholder="Y"
             className={`form-control ${props.className}`}
           />

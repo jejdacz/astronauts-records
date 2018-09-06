@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { addAstronaut } from "../astronautActions.js";
 import AstronautForm from "../components/AstronautForm.js";
+import validate from "../astronautValidation.js";
 
 // parses dateString "YYYY-MM-DD" and returns { year: Number, month: Number, day: Number}
 const dateStringToObject = d => {
@@ -42,25 +43,38 @@ const Dialog = props => (
 class NewAstronautPage extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      fields: {
+        firstName: "",
+        lastName: "",
+        birth: { year: "", month: "", day: "" },
+        superpower: ""
+      },
+      touched: {}
+    };
+    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleBlur = this.handleBlur.bind(this);
   }
 
   componentDidMount() {
     console.log("reset form");
   }
 
-  handleSubmit(values) {
-    this.props.dispatch(addAstronaut(values));
+  handleChange(field) {
+    this.setState(prev => ({ fields: { ...prev.fields, ...field } }));
+  }
+
+  handleSubmit() {
+    this.props.dispatch(addAstronaut(this.state.fields));
+  }
+
+  handleBlur(field) {
+    this.setState(prev => ({ touched: { ...prev.touched, ...field } }));
   }
 
   render() {
     const { saving, error, response } = this.props;
-    const initValues = {
-      firstName: "",
-      lastName: "",
-      birth: { year: "", month: "", day: "" },
-      superpower: ""
-    };
 
     if (saving) {
       return (
@@ -83,8 +97,12 @@ class NewAstronautPage extends Component {
         <Fragment>
           <Header />
           <AstronautForm
-            values={initValues}
+            onChange={this.handleChange}
+            onBlur={this.handleBlur}
+            fields={this.state.fields}
             onSubmit={this.handleSubmit}
+            errors={validate(this.state.fields)}
+            touched={this.state.touched}
             submitting={saving}
           />
           {error && <Dialog>{error.message}</Dialog>}
