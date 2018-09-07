@@ -71,49 +71,49 @@ const schema = buildSchema(`
   }
 `);
 
-const updateAstronaut = (args, c) => {
+const updateAstronaut = (args, context) => {
   const { id, ...update } = args;
   return new Promise((resolve, reject) => {
     Astronaut.findById(id, (err, res) => {
       if (err) {
-        c.next(err);
+        context.next(err);
       } else {
         res.set({ update });
-        res.save((err, res) => (err ? c.next(err) : resolve(res)));
+        res.save((err, res) => (err ? context.next(err) : resolve(res)));
       }
     });
   });
 };
 
-const deleteAstronaut = (args, c) => {
+const deleteAstronaut = (args, context) => {
   return new Promise((resolve, reject) => {
     Astronaut.findByIdAndDelete(args.id, (err, res) => {
-      err ? c.next(err) : resolve(res);
+      err ? context.next(err) : resolve(res);
     });
   });
 };
 
-const addAstronaut = (args, c) => {
+const addAstronaut = (args, context) => {
   const astronaut = new Astronaut(args);
   return new Promise((resolve, reject) => {
     astronaut.save((err, res) => {
-      err ? c.next(err) : resolve(res);
+      err ? context.next(err) : resolve(res);
     });
   });
 };
 
-const getAstronaut = (args, c) => {
+const getAstronaut = (args, context) => {
   return new Promise((resolve, reject) => {
     Astronaut.findById(args.id, (err, res) => {
-      err ? c.next(err) : resolve(res);
+      err ? context.next(err) : resolve(res);
     });
   });
 };
 
-const getAstronauts = (args, c) => {
+const getAstronauts = (args, context) => {
   return new Promise((resolve, reject) => {
     Astronaut.find((err, res) => {
-      err ? c.next(err) : resolve(res);
+      err ? context.next(err) : resolve(res);
     });
   });
 };

@@ -1,39 +1,31 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
-import hocForm, { MetaContext } from "./hocForm.js";
+import hocForm, { GlobalContext } from "./hocForm.js";
 import InputDate from "./InputDate.js";
 import validate from "../astronautValidation.js";
 import Field from "./Field.js";
-/*
-const Field = ({type, name, value, label, onChange}) => {
 
-
-    onChange({ name: value });
-  const handleChange = e => {
-      let { value } = e.target;
-      onChange({ name: value });
-  };
-
-
-  const handleBlur = e => {
-    let { name, value } = e.target;
-    onBlur({ [name]: true });
-  };
-
-  return (
-    <label>label</label>
+const inputField = ({
+  type,
+  name,
+  label,
+  placeholder,
+  context: { onChange, onBlur, values, touched, errors }
+}) => (
+  <Fragment>
+    <label>{label}</label>
     <input
-      name
-      type
-      value
-      onChange={handleChange}
-      onBlur={handleBlur}
-      placeholder="John"
-      className={`form-control ${touched.firstName &&
-        (errors.firstName ? "is-invalid" : "is-valid")}`}
+      name={name}
+      type={type}
+      value={values[name]}
+      onChange={onChange}
+      onBlur={onBlur}
+      placeholder={placeholder}
+      className={`form-control ${touched[name] &&
+        (errors[name] ? "is-invalid" : "is-valid")}`}
     />
-  );
-}*/
+  </Fragment>
+);
 
 const AstronautForm = ({
   onChange,
@@ -69,7 +61,7 @@ const AstronautForm = ({
             type="text"
             label="First-Name:"
             placeholder="John"
-            component="input"
+            component={inputField}
           />
           {/*
           <label>First Name:</label>
