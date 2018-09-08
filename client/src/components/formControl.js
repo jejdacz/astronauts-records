@@ -1,12 +1,41 @@
+// TODO move to AstronautForm.js
+
 import React, { Component } from "react";
-import validateF from "../astronautValidation.js";
+import PropTypes from "prop-types";
+import {
+  compose,
+  withState,
+  withContext,
+  getContext,
+  mapProps,
+  withProps,
+  withHandlers
+} from "recompose";
+import validate from "../astronautValidation.js";
+import { traceProps, traceContext } from "../recomposeUtils.js";
 
-const GlobalContext = React.createContext(null);
+const withValidation = validate =>
+  withProps(props => ({
+    errors: validate(props.values)
+  }));
 
-const withValidation = validate => FormComponent => props => (
-  <FormComponent errors={validate(props.values)} {...props} />
-);
+const FinalForm = compose(
+  withState("meta", "updateState", { name: "alice" }),
+  withHandlers({
+    rename: ({ updateState }) => () => updateState({ name: "Jenny" })
+  }),
+  traceProps("before getContext"),
+  withContext({ rename: PropTypes.func }, props => ({
+    rename: props.rename
+  })),
+  getContext({ rename: PropTypes.func }),
+  withValidation(validate),
+  traceProps("after getContext"),
+  traceContext({ rename: PropTypes.func }, "after getContext")
+)(props => <em onClick={props.rename}>{props.meta.name}</em>);
 
+const Export = props => <FinalForm values={{ firstName: "Joe2" }} />;
+/*
 const formControl = FormComponent => {
   return class extends Component {
     constructor(props) {
@@ -46,9 +75,6 @@ const formControl = FormComponent => {
       );
     }
   };
-};
+};*/
 
-const hocForm = withValidation(validateF)(formControl);
-
-export { GlobalContext };
-export default hocForm;
+export default Export;

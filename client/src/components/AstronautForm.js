@@ -27,6 +27,8 @@ const inputField = ({
   </Fragment>
 );
 
+// const InputWithContext = getContext({formContext: PropTypes.object})(input)
+
 const AstronautForm = ({
   onChange,
   onBlur,
