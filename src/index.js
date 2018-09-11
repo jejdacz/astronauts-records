@@ -8,7 +8,7 @@ import { buildSchema } from "graphql";
 import mongoose from "mongoose";
 import { isValidName } from "input-validation";
 
-const mongoDB = process.env.MONGOLAB_URI;
+const mongoDB = process.env.MONGODB_URI;
 mongoose.connect(
   mongoDB,
   { useNewUrlParser: true }

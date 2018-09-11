@@ -4,8 +4,8 @@
   "description": "simple app",
   "main": "./build/index.js",
   "scripts": {
-    "dev": "NODE_ENV=development MONGOLAB_URI=mongodb://localhost:27017/evidence nodemon --exec babel-node src/index.js",
-    "start": "NODE_ENV=production node ./build/index.js",
+    "dev": "NODE_ENV=development MONGODB_URI=mongodb://localhost:27017/evidence nodemon --exec babel-node src/index.js",
+    "start": "node ./build/index.js",
     "heroku-postbuild": "npm run build && cd client && npm install && npm run build && cd ..",
     "build": "npm run clean && npm run build-babel",
     "build-babel": "babel src --out-dir build --ignore public,spec.js",
