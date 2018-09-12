@@ -35,6 +35,18 @@ const FinalForm = compose(
 )(props => <em onClick={props.rename}>{props.meta.name}</em>);
 
 const Export = props => <FinalForm values={{ firstName: "Joe2" }} />;
+
+//formControl HoC Component
+
+// transform input props (convert datestring)
+// update values on input change
+// store touched state of inputs and pass state to inputs
+// validate values pass errors to base component and inputs
+// pass values to inputs
+// transform output values onsubmit
+
+// parse dateString and store it as birthDay, birthMonth, birthYear
+
 /*
 const formControl = FormComponent => {
   return class extends Component {
@@ -57,6 +69,11 @@ const formControl = FormComponent => {
     handleBlur(e) {
       const { name } = e.target;
       this.setState(prev => ({ touched: { ...prev.touched, [name]: true } }));
+    }
+
+    handleSubmit() {
+      transform date values to string
+      pass values to consumer submit function
     }
 
     render() {

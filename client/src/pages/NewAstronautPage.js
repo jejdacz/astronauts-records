@@ -58,7 +58,7 @@ class NewAstronautPage extends Component {
     const initValues = {
       firstName: "",
       lastName: "",
-      birth: { year: "", month: "", day: "" },
+      birth: { year: "", month: "", day: "" }, // replace by "" and parse dateString in formControl HOC
       superpower: ""
     };
 

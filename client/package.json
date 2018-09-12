@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "input-validation": "file:../local_modules/input-validation",
+    "ramda": "^0.25.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-redux": "^5.0.7",
@@ -17,6 +18,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
+    "test:debug": "react-scripts --inspect-brk test --runInBand --env=jsdom",
     "eject": "react-scripts eject"
   },
   "proxy": "http://localhost:5000",

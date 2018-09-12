@@ -5,12 +5,13 @@ import InputDate from "./InputDate.js";
 import validate from "../astronautValidation.js";
 import Field from "./Field.js";
 
-const inputField = ({
+const InputField = ({
   type,
   name,
   label,
   placeholder,
-  context: { onChange, onBlur, values, touched, errors }
+  context: { onChange, onBlur, values, touched, errors },
+  ...props
 }) => (
   <Fragment>
     <label>{label}</label>
@@ -26,10 +27,10 @@ const inputField = ({
     />
   </Fragment>
 );
-
+// modify props extract error and touched and value
 // const InputWithContext = getContext({formContext: PropTypes.object})(input)
 
-const AstronautForm = ({
+export const AstronautForm = ({
   onChange,
   onBlur,
   onSubmit,
@@ -63,7 +64,7 @@ const AstronautForm = ({
             type="text"
             label="First-Name:"
             placeholder="John"
-            component={inputField}
+            component={InputField}
           />
           {/*
           <label>First Name:</label>
