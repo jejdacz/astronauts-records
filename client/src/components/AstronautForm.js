@@ -3,9 +3,31 @@ import PropTypes from "prop-types";
 import hocForm, { GlobalContext } from "./hocForm.js";
 import InputDate from "./InputDate.js";
 import validate from "../astronautValidation.js";
-import Field from "./Field.js";
+import Field from "./Field.js"; //***
+import {
+  compose,
+  withState,
+  withContext,
+  getContext,
+  mapProps,
+  withProps,
+  withHandlers,
+  withStateHandlers
+} from "recompose";
+import { traceProps, traceContext } from "../recomposeUtils.js";
 
-const InputField = ({
+export const touchedHandler = withStateHandlers(
+  () => ({
+    touched: {}
+  }),
+  {
+    handleBlur: ({ touched }) => ({ target: { name } }) => ({
+      touched: { ...touched, [name]: true }
+    })
+  }
+);
+
+export const InputField = ({
   type,
   name,
   label,

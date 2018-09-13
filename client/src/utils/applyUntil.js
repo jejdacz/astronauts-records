@@ -1,6 +1,6 @@
 import { curry } from "ramda";
 
-const mapUntil = curry((predicate, mapFunc, arr) => {
+const applyUntil = curry((predicate, mapFunc, arr) => {
   if (typeof predicate !== "function")
     throw new Error("Invalid argument, predicate has to be a function.");
 
@@ -23,4 +23,4 @@ const mapUntil = curry((predicate, mapFunc, arr) => {
   return result;
 });
 
-export default mapUntil;
+export default applyUntil;

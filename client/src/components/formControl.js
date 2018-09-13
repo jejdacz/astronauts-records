@@ -9,10 +9,28 @@ import {
   getContext,
   mapProps,
   withProps,
-  withHandlers
+  withHandlers,
+  withStateHandlers
 } from "recompose";
 import validate from "../astronautValidation.js";
 import { traceProps, traceContext } from "../recomposeUtils.js";
+
+export const touchedHandler = withStateHandlers(
+  ({ initTouched = {} }) => ({
+    touched: initTouched
+  }),
+  {
+    handleBlur: ({ touched }) => ({ target: { name } }) => ({
+      touched: { ...touched, [name]: true }
+    })
+  }
+);
+
+/*
+handleBlur(e) {
+  const { name } = e.target;
+  this.setState(prev => ({ touched: { ...prev.touched, [name]: true } }));
+}*/
 
 const withValidation = validate =>
   withProps(props => ({
