@@ -9,26 +9,32 @@ const SampleForm = ({ handleBlur }) => (
       name="firstName"
       onBlur={e => handleBlur(e)}
       value="John"
+      onChange={e => e}
     />
     <input
       type="text"
       name="lastName"
       onBlur={e => handleBlur(e)}
       value="Doe"
+      onChange={e => e}
     />
   </form>
 );
 
-const FormWithtouchedHandler = touchedHandler(SampleForm);
+const FormWithTouchedHandler = touchedHandler(SampleForm);
 
 describe("component decorated with touchedHandler", () => {
   let wrapper;
   beforeEach(() => {
-    wrapper = mount(<FormWithtouchedHandler />);
+    wrapper = mount(<FormWithTouchedHandler />);
   });
 
   it("should have property handleBlur", () => {
     expect(wrapper.children()).toHaveProp("handleBlur");
+  });
+
+  it("should have property touched", () => {
+    expect(wrapper.children()).toHaveProp("touched");
   });
 
   describe("when field raise onBlur event", () => {

@@ -27,6 +27,22 @@ export const touchedHandler = withStateHandlers(
   }
 );
 
+export const changeHandler = withStateHandlers(
+  ({ values = {} }) => ({
+    values
+  }),
+  {
+    handleChange: ({ values }) => ({ target: { name, value } }) => ({
+      values: { ...values, [name]: value }
+    })
+  }
+);
+
+export const submitHandler = beforeSubmit =>
+  withHandlers({
+    handleSubmit: ({ onSubmit, values }) => () => onSubmit(beforeSubmit(values))
+  });
+
 export const InputField = ({
   type,
   name,
