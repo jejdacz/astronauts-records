@@ -43,30 +43,68 @@ export const submitHandler = beforeSubmit =>
     handleSubmit: ({ onSubmit, values }) => () => onSubmit(beforeSubmit(values))
   });
 
-export const InputField = ({
-  type,
-  name,
-  label,
-  placeholder,
-  context: { onChange, onBlur, values, touched, errors },
-  ...props
-}) => (
+export const validationHandler = validate =>
+  withProps(({ values }) => ({
+    errors: validate(values)
+  }));
+
+export const contextProvider = withContext(
+  { formContext: PropTypes.object },
+  ({ values, errors, touched, handleChange, handleBlur }) => ({
+    values,
+    errors,
+    touched,
+    handleChange,
+    handleBlur
+  })
+);
+
+export const contextConsumer = getContext({ formContext: PropTypes.object });
+
+export const filterPropsForName = mapProps(
+  ({ name, values, errors, touched, ...props }) => ({
+    name,
+    value: values[name],
+    error: errors[name],
+    touched: touched[name],
+    ...props
+  })
+);
+
+export const withLabel = () => BaseComponent => ({ label, ...props }) => (
   <Fragment>
     <label>{label}</label>
-    <input
-      name={name}
-      type={type}
-      value={values[name]}
-      onChange={onChange}
-      onBlur={onBlur}
-      placeholder={placeholder}
-      className={`form-control ${touched[name] &&
-        (errors[name] ? "is-invalid" : "is-valid")}`}
-    />
+    <BaseComponent {...props} />
   </Fragment>
 );
-// modify props extract error and touched and value
-// const InputWithContext = getContext({formContext: PropTypes.object})(input)
+
+export const renderInput = ({
+  type,
+  name,
+  placeholder,
+  handleChange,
+  handleBlur,
+  value,
+  touched,
+  error,
+  ...props
+}) => (
+  <input
+    name={name}
+    type={type}
+    value={value}
+    onChange={handleChange}
+    onBlur={handleBlur}
+    placeholder={placeholder}
+    className={`form-control ${touched && (error ? "is-invalid" : "is-valid")}`}
+  />
+);
+
+export const InputBase = contextConsumer(renderInput);
+export const InputField = compose(
+  filterPropsForName,
+  withLabel
+)(InputBase);
 
 export const AstronautForm = ({
   onChange,

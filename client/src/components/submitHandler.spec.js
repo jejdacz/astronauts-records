@@ -2,20 +2,10 @@ import React from "react";
 import { mount } from "enzyme";
 import { submitHandler } from "./AstronautForm.js";
 
-const SampleForm = ({ handleChange, onSubmit }) => (
-  <form onSubmit={onSubmit}>
-    <input
-      type="text"
-      name="firstName"
-      onChange={e => handleChange(e)}
-      value="John"
-    />
-    <input
-      type="text"
-      name="lastName"
-      onChange={e => handleChange(e)}
-      value="Doe"
-    />
+const SampleForm = ({ handleSubmit }) => (
+  <form onSubmit={handleSubmit}>
+    <input type="text" name="firstName" onChange={e => e} value="John" />
+    <input type="text" name="lastName" onChange={e => e} value="Doe" />
   </form>
 );
 const onSubmitMock = jest.fn();
@@ -29,7 +19,7 @@ describe("component decorated with submitHandler", () => {
 
   beforeEach(() => {
     wrapper = mount(
-      <FormWithSubmitHandler values={values} onSubmit={onSubmitMock} />
+      <FormWithSubmitHandler values={values} onSubmit={x => x} />
     );
   });
 
@@ -46,18 +36,14 @@ describe("component decorated with submitHandler", () => {
     expect(wrapper.children()).toHaveProp("values", values);
   });
 
-  describe("when form raise submit event", () => {
-    it("should call onSubmit function", () => {
-      expect(onSubmitMock.mock.calls.length).toEqual(0);
-
-      wrapper.simulate("submit");
-
-      expect(onSubmitMock.mock.calls.length).toEqual(1);
-    });
+  describe("on submit event", () => {
     it("should call beforeSubmit function", () => {
       wrapper.simulate("submit");
-
-      expect(beforeSubmitMock.mock.calls.length).toEqual(1);
+      expect(beforeSubmitMock.mock.calls[0][0]).toEqual(values);
+    });
+    it("should pass values to beforeSubmit function", () => {
+      wrapper.simulate("submit");
+      expect(beforeSubmitMock.mock.calls[0][0]).toEqual(values);
     });
   });
 });
