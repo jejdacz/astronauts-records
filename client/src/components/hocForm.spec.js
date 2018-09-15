@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { mount } from "enzyme";
 import { compose } from "recompose";
 import {
@@ -9,6 +10,7 @@ import {
   validationHandler,
   contextProvider
 } from "./AstronautForm.js";
+import { traceProps, traceContext } from "../recomposeUtils.js";
 
 const fields = [
   { name: "firstName", type: "text", label: "First name:" },
@@ -50,5 +52,12 @@ describe("Hoc Form", () => {
     wrapper = mount(<HocForm values={values} onSubmit={x => x} />);
   });
 
-  it("should ", () => {});
+  it("should have two input fields", () => {
+    wrapper
+      .find("input")
+      .find("[name='lastName']")
+      .simulate("blur");
+    console.log(wrapper.html());
+    expect(wrapper.find("input").length).toEqual(2);
+  });
 });

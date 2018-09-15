@@ -47,23 +47,31 @@ export const validationHandler = validate =>
   withProps(({ values }) => ({
     errors: validate(values)
   }));
-
+//****not tested->error
 export const contextProvider = withContext(
   { formContext: PropTypes.object },
   ({ values, errors, touched, handleChange, handleBlur }) => ({
-    values,
-    errors,
-    touched,
-    handleChange,
-    handleBlur
+    formContext: {
+      values,
+      errors,
+      touched,
+      handleChange,
+      handleBlur
+    }
   })
 );
 
 export const contextConsumer = getContext({ formContext: PropTypes.object });
-
+//****not tested->error
 export const filterPropsForName = mapProps(
-  ({ name, values, errors, touched, ...props }) => ({
+  ({
+    formContext: { values, errors, touched, handleChange, handleBlur },
     name,
+    ...props
+  }) => ({
+    name,
+    handleChange,
+    handleBlur,
     value: values[name],
     error: errors[name],
     touched: touched[name],
@@ -71,7 +79,7 @@ export const filterPropsForName = mapProps(
   })
 );
 
-export const withLabel = () => BaseComponent => ({ label, ...props }) => (
+export const addLabel = BaseComponent => ({ label, ...props }) => (
   <Fragment>
     <label>{label}</label>
     <BaseComponent {...props} />
@@ -79,6 +87,7 @@ export const withLabel = () => BaseComponent => ({ label, ...props }) => (
 );
 
 export const renderInput = ({
+  className,
   type,
   name,
   placeholder,
@@ -96,15 +105,26 @@ export const renderInput = ({
     onChange={handleChange}
     onBlur={handleBlur}
     placeholder={placeholder}
-    className={`form-control ${touched && (error ? "is-invalid" : "is-valid")}`}
+    className={[
+      "form-control",
+      className,
+      touched && (error ? "is-invalid" : "is-valid")
+    ]
+      .filter(e => e)
+      .join(" ")}
   />
 );
+/*
+className={`form-control ${className ? className : ""}${
+  touched ? (error ? "is-invalid" : "is-valid") : ""
+}`}*/
 
-export const InputBase = contextConsumer(renderInput);
+//****not tested->error
 export const InputField = compose(
+  contextConsumer,
   filterPropsForName,
-  withLabel
-)(InputBase);
+  addLabel
+)(renderInput);
 
 export const AstronautForm = ({
   onChange,
