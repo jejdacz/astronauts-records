@@ -105,15 +105,22 @@ export const renderInput = ({
     onChange={handleChange}
     onBlur={handleBlur}
     placeholder={placeholder}
-    className={[
+    className={grSp(
       "form-control",
       className,
       touched && (error ? "is-invalid" : "is-valid")
-    ]
-      .filter(e => e)
-      .join(" ")}
+    )}
   />
 );
+
+const group = delimiter => (...args) =>
+  args
+    .filter(a => a !== undefined && a !== "" && a !== null)
+    .map(a => (a.trim ? a.trim() : a))
+    .join(delimiter);
+
+const grSp = group(" ");
+
 /*
 className={`form-control ${className ? className : ""}${
   touched ? (error ? "is-invalid" : "is-valid") : ""
