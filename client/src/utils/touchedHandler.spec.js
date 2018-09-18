@@ -1,6 +1,6 @@
 import React from "react";
 import { mount } from "enzyme";
-import { touchedHandler } from "./AstronautForm.js";
+import { touchedHandler } from "./hocForm.js";
 
 const SampleForm = ({ handleBlur }) => (
   <form>

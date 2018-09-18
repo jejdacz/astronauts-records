@@ -9,8 +9,8 @@ import {
   submitHandler,
   validationHandler,
   contextProvider
-} from "./AstronautForm.js";
-import { traceProps, traceContext } from "../recomposeUtils.js";
+} from "./hocForm.js";
+import { traceProps, traceContext } from "./index.js";
 
 const fields = [
   { name: "firstName", type: "text", label: "First name:" },
@@ -57,7 +57,7 @@ describe("Hoc Form", () => {
       .find("input")
       .find("[name='lastName']")
       .simulate("blur");
-    console.log(wrapper.html());
+    //console.log(wrapper.html());
     expect(wrapper.find("input").length).toEqual(2);
   });
 });

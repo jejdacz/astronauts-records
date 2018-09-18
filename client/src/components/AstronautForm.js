@@ -1,227 +1,97 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
-import hocForm, { GlobalContext } from "./hocForm.js";
-import InputDate from "./InputDate.js";
-import validate from "../astronautValidation.js";
-import Field from "./Field.js"; //***
 import {
-  compose,
-  withState,
-  withContext,
-  getContext,
-  mapProps,
-  withProps,
-  withHandlers,
-  withStateHandlers
-} from "recompose";
-import { traceProps, traceContext } from "../recomposeUtils.js";
+  Field,
+  touchedHandler,
+  changeHandler,
+  submitHandler,
+  validationHandler,
+  contextProvider
+} from "./hocForm.js";
+import validate from "../astronautValidation.js";
+import { compose, mapProps } from "recompose";
+import { hasValues, dateStringToObject } from "../utils/index.js";
 
-export const touchedHandler = withStateHandlers(
-  () => ({
-    touched: {}
-  }),
-  {
-    handleBlur: ({ touched }) => ({ target: { name } }) => ({
-      touched: { ...touched, [name]: true }
-    })
-  }
+const Input = ({ handleChange, handleBlur, touched, error, ...input }) => (
+  <input {...input} onChange={handleChange} onBlur={handleBlur} />
 );
 
-export const changeHandler = withStateHandlers(
-  ({ values = {} }) => ({
-    values
-  }),
-  {
-    handleChange: ({ values }) => ({ target: { name, value } }) => ({
-      values: { ...values, [name]: value }
-    })
-  }
-);
+const InputWithValidation = showValidation({
+  valid: "is-valid",
+  invalid: "is-invalid"
+})(Input);
 
-export const submitHandler = beforeSubmit =>
-  withHandlers({
-    handleSubmit: ({ onSubmit, values }) => () => onSubmit(beforeSubmit(values))
-  });
-
-export const validationHandler = validate =>
-  withProps(({ values }) => ({
-    errors: validate(values)
-  }));
-//****not tested->error
-export const contextProvider = withContext(
-  { formContext: PropTypes.object },
-  ({ values, errors, touched, handleChange, handleBlur }) => ({
-    formContext: {
-      values,
-      errors,
-      touched,
-      handleChange,
-      handleBlur
-    }
-  })
-);
-
-export const contextConsumer = getContext({ formContext: PropTypes.object });
-//****not tested->error
-export const filterPropsForName = mapProps(
-  ({
-    formContext: { values, errors, touched, handleChange, handleBlur },
-    name,
-    ...props
-  }) => ({
-    name,
-    handleChange,
-    handleBlur,
-    value: values[name],
-    error: errors[name],
-    touched: touched[name],
-    ...props
-  })
-);
-
-export const addLabel = BaseComponent => ({ label, ...props }) => (
-  <Fragment>
+const InputField = ({ label, ...input }) => (
+  <div className="form-group">
     <label>{label}</label>
-    <BaseComponent {...props} />
-  </Fragment>
+    <InputWithValidation {...input} />
+  </div>
 );
 
-export const renderInput = ({
-  className,
-  type,
-  name,
-  placeholder,
-  handleChange,
-  handleBlur,
-  value,
-  touched,
-  error,
-  ...props
-}) => (
-  <input
-    name={name}
-    type={type}
-    value={value}
-    onChange={handleChange}
-    onBlur={handleBlur}
-    placeholder={placeholder}
-    className={grSp(
-      "form-control",
-      className,
-      touched && (error ? "is-invalid" : "is-valid")
-    )}
-  />
-);
-
-const group = delimiter => (...args) =>
-  args
-    .filter(a => a !== undefined && a !== "" && a !== null)
-    .map(a => (a.trim ? a.trim() : a))
-    .join(delimiter);
-
-const grSp = group(" ");
-
-/*
-className={`form-control ${className ? className : ""}${
-  touched ? (error ? "is-invalid" : "is-valid") : ""
-}`}*/
-
-//****not tested->error
-export const InputField = compose(
-  contextConsumer,
-  filterPropsForName,
-  addLabel
-)(renderInput);
-
-export const AstronautForm = ({
-  onChange,
-  onBlur,
-  onSubmit,
-  values,
-  touched,
-  errors,
-  submitting
-}) => {
-  const handleChange = e => {
-    let { name, value } = e.target;
-    onChange({ [name]: value });
-  };
-
-  const handleSubmit = e => {
-    console.log(e.target);
-    e.preventDefault();
-    onSubmit(values);
-  };
-
-  const handleBlur = e => {
-    let { name, value } = e.target;
-    onBlur({ [name]: true });
-  };
-
+export const AstronautForm = ({ onSubmit, errors, submitting }) => {
   return (
     <div className="container">
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <Field
-            name="firstName"
-            type="text"
-            label="First-Name:"
-            placeholder="John"
-            component={InputField}
-          />
-          {/*
-          <label>First Name:</label>
-          <input
-            name="firstName"
-            type="text"
-            value={values.firstName}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            placeholder="John"
-            className={`form-control ${touched.firstName &&
-              (errors.firstName ? "is-invalid" : "is-valid")}`}
-          />*/}
-        </div>
-        <div className="form-group">
-          <label>Last Name:</label>
-          <input
-            name="lastName"
-            type="text"
-            value={values.lastName}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            placeholder="Doe"
-            className={`form-control ${touched.lastName &&
-              (errors.lastName ? "is-invalid" : "is-valid")}`}
-          />
-        </div>
-        <InputDate
-          label="Birth:"
-          date={values.birth}
-          /*TODO unify onChange, onBlur methods or hide element into unified component aka FIELD*/
-          onChange={obj => onChange({ birth: obj })}
-          onBlur={() => onBlur({ birth: true })}
-          className={
-            touched.birth && (errors.birth ? "is-invalid" : "is-valid")
-          }
+        <Field
+          name="firstName"
+          type="text"
+          label="First Name:"
+          placeholder="John"
+          component={InputField}
+        />
+        <Field
+          name="lastName"
+          type="text"
+          label="Last Name:"
+          placeholder="Doe"
+          component={InputField}
         />
         <div className="form-group">
-          <label>Superpower:</label>
-          <input
-            name="superpower"
-            type="text"
-            value={values.superpower}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            placeholder="super-strength"
-            className={`form-control ${touched.superpower &&
-              (errors.superpower ? "is-invalid" : "is-valid")}`}
-          />
+          <label>Birth:</label>
+          <div className={`form-row`}>
+            <div className="col">
+              <Field
+                name="birthDay"
+                type="number"
+                placeholder="D"
+                min="1"
+                max="31"
+                component={InputWithValidation}
+              />
+            </div>
+            <div className="col">
+              <Field
+                name="birthMonth"
+                type="number"
+                placeholder="M"
+                min="1"
+                max="12"
+                component={InputWithValidation}
+              />
+            </div>
+            <div className="col-5">
+              <Field
+                name="birthYear"
+                type="number"
+                placeholder="Y"
+                min="0"
+                component={InputWithValidation}
+              />
+            </div>
+          </div>
+          <small className="form-text text-muted">format: Day-Month-Year</small>
         </div>
+        <Field
+          name="superpower"
+          type="text"
+          label="Superpower:"
+          placeholder="superpower"
+          component={InputField}
+        />
         <button
           type="submit"
           className="btn btn-primary"
-          disabled={submitting || errors.form}
+          disabled={submitting || hasValues(errors)}
         >
           Save
         </button>
@@ -230,7 +100,38 @@ export const AstronautForm = ({
   );
 };
 
-export default hocForm({ validate })(AstronautForm);
+const initValues = ({ values }) => {
+  if (values) {
+    let date = dateStringToObject(values.birth);
+    let birthDate = {
+      birthDay: date.day,
+      birthMonth: date.month,
+      birthYear: date.year
+    };
+    return { ...values, birth: undefined, ...birthDate };
+  } else {
+    return {
+      firstName: "",
+      lastName: "",
+      birthDay: "",
+      birthMonth: "",
+      birthYear: "",
+      superPower: ""
+    };
+  }
+};
+
+export default compose(
+  mapProps(({ values, ...props }) => ({
+    ...props,
+    values: initValues(values)
+  })),
+  touchedHandler,
+  changeHandler,
+  submitHandler(x => x),
+  validationHandler(validate),
+  contextProvider
+)(AstronautForm);
 /*
 AstronautEditor.propTypes = {
   save: PropTypes.func.isRequired,

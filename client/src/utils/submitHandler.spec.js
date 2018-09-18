@@ -1,6 +1,6 @@
 import React from "react";
 import { mount } from "enzyme";
-import { submitHandler } from "./AstronautForm.js";
+import { submitHandler } from "./hocForm.js";
 
 const SampleForm = ({ handleSubmit }) => (
   <form onSubmit={handleSubmit}>
