@@ -1,10 +1,9 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import AstronautsPage from "../pages/AstronautsPage.js";
-import NewAstronautPage from "../pages/NewAstronautPage.js";
-import AstronautPage from "../pages/AstronautPage.js";
-import NotFoundPage from "../pages/NotFoundPage.js";
-import TestPage from "./formControl.js";
+import AstronautsPage from "../pages/AstronautsPage/AstronautsPage.js";
+import NewAstronautPage from "../pages/NewAstronautPage/NewAstronautPage.js";
+import AstronautPage from "../pages/AstronautPage/AstronautPage.js";
+import NotFoundPage from "../pages/NotFoundPage/NotFoundPage.js";
 
 const App = () => {
   return (
@@ -13,7 +12,6 @@ const App = () => {
         <Route exact={true} path="/" component={AstronautsPage} />
         <Route path="/astronauts/new" component={NewAstronautPage} />
         <Route path="/astronauts/:id" component={AstronautPage} />
-        <Route path="/test/" component={TestPage} />
         <Route component={NotFoundPage} />
       </Switch>
     </div>

@@ -2,9 +2,34 @@ import React from "react";
 import PropTypes from "prop-types";
 import { mount } from "enzyme";
 
-import { Field, renderInput, showValidation } from "./hocForm.js";
+import Field from "./Field.js";
+import renderValidation from "./renderValidation.js";
 
-const inputWithValidation = showValidation({
+const renderInput = ({
+  className,
+  type,
+  name,
+  placeholder,
+  handleChange,
+  handleBlur,
+  touched,
+  error,
+  value,
+  ...input
+}) => (
+  <input
+    {...input}
+    className={className || null}
+    name={name}
+    type={type}
+    value={value || null}
+    onChange={handleChange}
+    onBlur={handleBlur}
+    placeholder={placeholder || null}
+  />
+);
+
+const inputWithValidation = renderValidation({
   valid: "valid",
   invalid: "invalid"
 })(renderInput);

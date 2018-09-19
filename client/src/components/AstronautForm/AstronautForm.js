@@ -1,14 +1,12 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
-import {
-  Field,
-  touchedHandler,
-  changeHandler,
-  submitHandler,
-  validationHandler,
-  contextProvider
-} from "./hocForm.js";
-import validate from "../astronautValidation.js";
+import Field from "./hocForm/Field.js";
+import touchedHandler from "./hocForm/touchedHandler.js";
+import changeHandler from "./hocForm/changeHandler.js";
+import submitHandler from "./hocForm/submitHandler.js";
+import validationHandler from "./hocForm/validationHandler.js";
+import contextProvider from "./hocForm/contextProvider.js";
+import validate from "../../utils/validateAstronaut.js";
 import { compose, mapProps } from "recompose";
 import { hasValues, dateStringToObject } from "../utils/index.js";
 

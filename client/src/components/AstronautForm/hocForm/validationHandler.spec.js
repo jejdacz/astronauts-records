@@ -1,6 +1,6 @@
 import React from "react";
 import { mount } from "enzyme";
-import { validationHandler } from "./hocForm.js";
+import validationHandler from "./validationHandler.js";
 
 const SampleForm = props => <form />;
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { mount } from "enzyme";
-import { changeHandler } from "./hocForm.js";
+import changeHandler from "./changeHandler.js";
 
 const SampleForm = ({ handleChange }) => (
   <form>

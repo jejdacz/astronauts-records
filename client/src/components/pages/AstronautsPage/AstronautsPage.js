@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { loadAstronautsIfNeeded } from "../astronautActions.js";
-import AstronautList from "../components/AstronautList.js";
+import { loadAstronautsIfNeeded } from "../../../astronautActions.js";
+import AstronautList from "../../AstronautList/AstronautList.js";
 
 class AstronautsPage extends Component {
   constructor(props) {

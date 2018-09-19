@@ -1,6 +1,6 @@
 import { isValidDate, isValidName } from "input-validation";
 
-export default values => {
+const validateAstronaut = values => {
   const errors = {};
 
   if (!values.firstName) {
@@ -40,3 +40,5 @@ export default values => {
 
   return errors;
 };
+
+export default validateAstronaut;

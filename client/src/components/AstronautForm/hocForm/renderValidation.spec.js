@@ -1,9 +1,9 @@
 import React from "react";
 import { mount } from "enzyme";
-import { showValidation } from "./hocForm.js";
+import renderValidation from "./renderValidation.js";
 
 const Sample = props => <div />;
-const WithShowValid = showValidation({
+const WithShowValid = renderValidation({
   valid: "is-valid",
   invalid: "is-invalid"
 })(Sample);

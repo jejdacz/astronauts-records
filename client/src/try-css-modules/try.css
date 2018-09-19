@@ -1,5 +1,0 @@
-@import "./tt.css";
-
-:local(.redBorder) {
-  border-color: var(--primary);
-}

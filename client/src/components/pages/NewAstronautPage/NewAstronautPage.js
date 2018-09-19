@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { addAstronaut } from "../astronautActions.js";
-import AstronautForm from "../components/AstronautForm.js";
+import { addAstronaut } from "../../../astronautActions.js";
+import AstronautForm from "../../AstronautForm/AstronautForm.js";
 
 // parses dateString "YYYY-MM-DD" and returns { year: Number, month: Number, day: Number}
 const dateStringToObject = d => {

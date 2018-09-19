@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import Astronaut from "./Astronaut.js";
+import Astronaut from "./Astronaut/Astronaut.js";
 
 function AstronautList({ astronauts, renderLink }) {
   return (
