@@ -1,5 +1,5 @@
 import React from "react";
-import { gSp } from "../../../utils/glue.js";
+import { glueSpace as gSp } from "../../../utils/glue.js";
 
 const renderValidation = ({ valid, invalid }) => BaseComponent => ({
   className,

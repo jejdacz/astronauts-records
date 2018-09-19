@@ -9,6 +9,6 @@ export const glue = curry((delimiter, values) =>
     .join(delimiter)
 );
 
-export const gSp = glue(" ");
+export const glueSpace = glue(" ");
 
 export default glue;

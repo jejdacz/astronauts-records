@@ -11,7 +11,7 @@ import validate from "../../utils/validateAstronaut.js";
 import { compose, mapProps } from "recompose";
 import hasValues from "../../utils/hasValues.js";
 import dateStringToObject from "../../utils/hasValues.js";
-import { gSp } from "../../utils/glue.js";
+import { glueSpace as gSp } from "../../utils/glue.js";
 
 const Input = ({
   handleChange,
