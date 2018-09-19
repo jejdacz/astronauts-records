@@ -1,5 +1,5 @@
 /*@import url("bootstrap-reboot.css");*/
-@import url("bootstrap.css");
+@import "./bootstrap.css";
 
 :root {
   --primary-dark: #501050dd;
