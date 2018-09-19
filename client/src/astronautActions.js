@@ -1,4 +1,4 @@
-import api from "./astronautsApi.js";
+import api from "./utils/astronautsApi.js";
 
 export const LOAD_ASTRONAUTS_REQUEST = "LOAD_ASTRONAUTS_REQUEST";
 export const LOAD_ASTRONAUTS_SUCCESS = "LOAD_ASTRONAUTS_SUCCESS";

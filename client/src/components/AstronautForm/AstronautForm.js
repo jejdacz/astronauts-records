@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import Field from "./hocForm/Field.js";
+import renderValidation from "./hocForm/renderValidation.js";
 import touchedHandler from "./hocForm/touchedHandler.js";
 import changeHandler from "./hocForm/changeHandler.js";
 import submitHandler from "./hocForm/submitHandler.js";
@@ -8,13 +9,27 @@ import validationHandler from "./hocForm/validationHandler.js";
 import contextProvider from "./hocForm/contextProvider.js";
 import validate from "../../utils/validateAstronaut.js";
 import { compose, mapProps } from "recompose";
-import { hasValues, dateStringToObject } from "../utils/index.js";
+import hasValues from "../../utils/hasValues.js";
+import dateStringToObject from "../../utils/hasValues.js";
+import { gSp } from "../../utils/glue.js";
 
-const Input = ({ handleChange, handleBlur, touched, error, ...input }) => (
-  <input {...input} onChange={handleChange} onBlur={handleBlur} />
+const Input = ({
+  handleChange,
+  handleBlur,
+  touched,
+  error,
+  className,
+  ...input
+}) => (
+  <input
+    className={gSp(["form-control", className])}
+    {...input}
+    onChange={handleChange}
+    onBlur={handleBlur}
+  />
 );
 
-const InputWithValidation = showValidation({
+const InputWithValidation = renderValidation({
   valid: "is-valid",
   invalid: "is-invalid"
 })(Input);
@@ -26,7 +41,7 @@ const InputField = ({ label, ...input }) => (
   </div>
 );
 
-export const AstronautForm = ({ onSubmit, errors, submitting }) => {
+export const AstronautForm = ({ handleSubmit, errors, submitting }) => {
   return (
     <div className="container">
       <form onSubmit={handleSubmit}>

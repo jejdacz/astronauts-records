@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { withContext } from "recompose";
 
 const contextProvider = withContext(

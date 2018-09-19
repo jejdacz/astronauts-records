@@ -83,7 +83,7 @@ class NewAstronautPage extends Component {
         <Fragment>
           <Header />
           <AstronautForm
-            initValues={initValues}
+            values={initValues}
             onSubmit={this.handleSubmit}
             submitting={saving}
           />

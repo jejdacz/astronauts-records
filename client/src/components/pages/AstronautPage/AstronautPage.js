@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { loadAstronaut, updateAstronaut } from "../../../astronautActions.js";
 import AstronautForm from "../../AstronautForm/AstronautForm.js";
-import validate from "../astronautValidation.js";
+import validate from "../../../utils/validateAstronaut.js";
 
 class AstronautPage extends Component {
   constructor(props) {
