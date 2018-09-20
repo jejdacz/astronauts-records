@@ -6,6 +6,7 @@ import { createStore, applyMiddleware } from "redux";
 import thunkMiddleware from "redux-thunk";
 import rootReducer from "./reducers.js";
 import App from "./components/App/App.js";
+import registerServiceWorker from "./registerServiceWorker";
 
 import "./index.css";
 
@@ -19,3 +20,4 @@ render(
   </Provider>,
   document.getElementById("root")
 );
+registerServiceWorker();

@@ -55,7 +55,7 @@ describe("Field component", () => {
   });
 
   it("should have <input> element with correct properties", () => {
-    console.log(wrapper.html());
+    //console.log(wrapper.html());
     expect(wrapper.find("input").length).toEqual(1);
     expect(wrapper.find("input")).toHaveProp("name", "firstName");
     expect(wrapper.find("input")).toHaveProp("type", "text");

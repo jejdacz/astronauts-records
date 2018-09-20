@@ -1,11 +1,10 @@
 import { curry } from "ramda";
+import toString from "./toString.js";
 
 export const glue = curry((delimiter, values) =>
   values
-    .filter(
-      a => a !== undefined && a !== "" && a !== null && a.toString !== undefined
-    )
-    .map(a => a.toString().trim())
+    .map(a => toString(a).trim())
+    .filter(a => a !== "")
     .join(delimiter)
 );
 

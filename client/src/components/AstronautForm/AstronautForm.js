@@ -7,11 +7,13 @@ import changeHandler from "./hocForm/changeHandler.js";
 import submitHandler from "./hocForm/submitHandler.js";
 import validationHandler from "./hocForm/validationHandler.js";
 import contextProvider from "./hocForm/contextProvider.js";
-import validate from "../../utils/validateAstronaut.js";
+import validate from "./validateAstronautForm.js";
 import { compose, mapProps } from "recompose";
 import hasValues from "../../utils/hasValues.js";
-import dateStringToObject from "../../utils/hasValues.js";
+import dateStringToObject from "../../utils/dateStringToObject.js";
+import objectToDateString from "../../utils/objectToDateString.js";
 import { glueSpace as gSp } from "../../utils/glue.js";
+import traceProps from "../../utils/traceProps.js";
 
 const Input = ({
   handleChange,
@@ -113,15 +115,16 @@ export const AstronautForm = ({ handleSubmit, errors, submitting }) => {
   );
 };
 
-const initValues = ({ values }) => {
+const initValues = values => {
   if (values) {
-    let date = dateStringToObject(values.birth);
-    let birthDate = {
+    const date = dateStringToObject(values.birth);
+    const birthDate = {
       birthDay: date.day,
       birthMonth: date.month,
       birthYear: date.year
     };
-    return { ...values, birth: undefined, ...birthDate };
+    const { birth, ...rest } = values;
+    return { ...rest, ...birthDate };
   } else {
     return {
       firstName: "",
@@ -134,6 +137,18 @@ const initValues = ({ values }) => {
   }
 };
 
+const formatBirth = values => {
+  const { birthDay, birthMonth, birthYear, ...rest } = values;
+  return {
+    ...rest,
+    birth: objectToDateString({
+      day: birthDay,
+      month: birthMonth,
+      year: birthYear
+    })
+  };
+};
+
 export default compose(
   mapProps(({ values, ...props }) => ({
     ...props,
@@ -141,7 +156,7 @@ export default compose(
   })),
   touchedHandler,
   changeHandler,
-  submitHandler(x => x),
+  submitHandler(formatBirth),
   validationHandler(validate),
   contextProvider
 )(AstronautForm);
