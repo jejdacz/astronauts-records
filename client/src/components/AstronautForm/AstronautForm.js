@@ -43,7 +43,12 @@ const InputField = ({ label, ...input }) => (
   </div>
 );
 
-export const AstronautForm = ({ handleSubmit, errors, submitting }) => {
+export const AstronautForm = ({
+  handleSubmit,
+  errors,
+  touched,
+  submitting
+}) => {
   return (
     <div className="container">
       <form onSubmit={handleSubmit}>
@@ -94,6 +99,12 @@ export const AstronautForm = ({ handleSubmit, errors, submitting }) => {
               />
             </div>
           </div>
+          {(touched.birthDay || touched.birthMonth || touched.birthYear) &&
+            (errors.birth && (
+              <small className="form-text text-danger">
+                Non existent date!
+              </small>
+            ))}
           <small className="form-text text-muted">format: Day-Month-Year</small>
         </div>
         <Field

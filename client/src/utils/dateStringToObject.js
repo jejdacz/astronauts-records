@@ -1,7 +1,7 @@
 const dateStringToObject = str => {
   if (typeof str !== "string")
     throw new TypeError(
-      "Invalid argument, dateString has to be type of string."
+      "Invalid type of argument, dateString has to be type of string."
     );
 
   if (!/\d{4}-\d{2}-\d{2}/.test(str))
