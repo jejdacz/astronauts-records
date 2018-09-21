@@ -40,6 +40,10 @@ const InputField = ({ label, ...input }) => (
   <div className="form-group">
     <label>{label}</label>
     <InputWithValidation {...input} />
+    {input.touched &&
+      (input.error && (
+        <small className="form-text text-danger">{input.error}</small>
+      ))}
   </div>
 );
 
@@ -50,79 +54,75 @@ export const AstronautForm = ({
   submitting
 }) => {
   return (
-    <div className="container">
-      <form onSubmit={handleSubmit}>
-        <Field
-          name="firstName"
-          type="text"
-          label="First Name:"
-          placeholder="John"
-          component={InputField}
-        />
-        <Field
-          name="lastName"
-          type="text"
-          label="Last Name:"
-          placeholder="Doe"
-          component={InputField}
-        />
-        <div className="form-group">
-          <label>Birth:</label>
-          <div className={`form-row`}>
-            <div className="col">
-              <Field
-                name="birthDay"
-                type="number"
-                placeholder="D"
-                min="1"
-                max="31"
-                component={InputWithValidation}
-              />
-            </div>
-            <div className="col">
-              <Field
-                name="birthMonth"
-                type="number"
-                placeholder="M"
-                min="1"
-                max="12"
-                component={InputWithValidation}
-              />
-            </div>
-            <div className="col-5">
-              <Field
-                name="birthYear"
-                type="number"
-                placeholder="Y"
-                min="0"
-                component={InputWithValidation}
-              />
-            </div>
+    <form onSubmit={handleSubmit}>
+      <Field
+        name="firstName"
+        type="text"
+        label="First Name:"
+        placeholder="John"
+        component={InputField}
+      />
+      <Field
+        name="lastName"
+        type="text"
+        label="Last Name:"
+        placeholder="Doe"
+        component={InputField}
+      />
+      <div className="form-group">
+        <label>Birth:</label>
+        <div className={`form-row`}>
+          <div className="col">
+            <Field
+              name="birthDay"
+              type="number"
+              placeholder="D"
+              min="1"
+              max="31"
+              component={InputWithValidation}
+            />
           </div>
-          {(touched.birthDay || touched.birthMonth || touched.birthYear) &&
-            (errors.birth && (
-              <small className="form-text text-danger">
-                Non existent date!
-              </small>
-            ))}
-          <small className="form-text text-muted">format: Day-Month-Year</small>
+          <div className="col">
+            <Field
+              name="birthMonth"
+              type="number"
+              placeholder="M"
+              min="1"
+              max="12"
+              component={InputWithValidation}
+            />
+          </div>
+          <div className="col-5">
+            <Field
+              name="birthYear"
+              type="number"
+              placeholder="Y"
+              min="0"
+              component={InputWithValidation}
+            />
+          </div>
         </div>
-        <Field
-          name="superpower"
-          type="text"
-          label="Superpower:"
-          placeholder="superpower"
-          component={InputField}
-        />
-        <button
-          type="submit"
-          className="btn btn-primary"
-          disabled={submitting || hasValues(errors)}
-        >
-          Save
-        </button>
-      </form>
-    </div>
+        <small className="form-text text-muted">format: Day-Month-Year</small>
+        {(touched.birthDay || touched.birthMonth || touched.birthYear) &&
+          (errors.birth && (
+            <small className="form-text text-danger">{errors.birth}</small>
+          ))}
+      </div>
+      <Field
+        name="superpower"
+        type="text"
+        label="Superpower:"
+        placeholder="superpower"
+        component={InputField}
+      />
+      <button
+        type="submit"
+        className="btn"
+        disabled={submitting || hasValues(errors)}
+      >
+        Save
+      </button>
+    </form>
   );
 };
 
@@ -143,7 +143,7 @@ const initValues = values => {
       birthDay: "",
       birthMonth: "",
       birthYear: "",
-      superPower: ""
+      superpower: ""
     };
   }
 };
