@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { loadAstronaut, updateAstronaut } from "../../../astronautActions.js";
-import AstronautForm from "../../AstronautForm/AstronautForm.js";
+import { loadAstronaut, updateAstronaut } from "../../astronautActions.js";
+import AstronautForm from "../AstronautForm/AstronautForm.js";
 
-class AstronautPage extends Component {
+class PageAstronaut extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -39,4 +39,4 @@ const mapStateToProps = state => ({
   fields: state.editor.fields
 });
 
-export default connect(mapStateToProps)(AstronautPage);
+export default connect(mapStateToProps)(PageAstronaut);

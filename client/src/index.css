@@ -1,5 +1,5 @@
-/*@import url("bootstrap-reboot.css");*/
-@import "./bootstrap.css";
+@import url("./styles/bootstrap-reboot.css");
+/*@import "./styles/bootstrap.css";*/
 
 :root {
   --primary-dark: #501050dd;
@@ -13,10 +13,12 @@ body {
   margin: 0;
   color: var(--primary-dark);
 }
+
+/*
 header {
   color: #f9fafb;
   background: var(--primary-dark);
-}
+}*/
 
 .title {
   font-size: 2rem;

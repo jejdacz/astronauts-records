@@ -1,0 +1,12 @@
+:local(.common) {
+  --basic: green;
+}
+
+:local(.dark-text) {
+  composes: common;
+  color: var(--basic);
+}
+
+:local(.dark-border) {
+  border-color: black;
+}

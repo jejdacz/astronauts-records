@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { loadAstronautsIfNeeded } from "../../../astronautActions.js";
-import AstronautList from "../../AstronautList/AstronautList.js";
+import { loadAstronautsIfNeeded } from "../../astronautActions.js";
+import AstronautList from "../AstronautList/AstronautList.js";
 
-class AstronautsPage extends Component {
+class PageAstronauts extends Component {
   constructor(props) {
     super(props);
   }
@@ -60,4 +60,4 @@ class AstronautsPage extends Component {
 
 const mapStateToProps = state => ({ ...state.astronauts });
 
-export default connect(mapStateToProps)(AstronautsPage);
+export default connect(mapStateToProps)(PageAstronauts);

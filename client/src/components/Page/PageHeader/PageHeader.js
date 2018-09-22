@@ -1,8 +1,9 @@
 import React from "react";
+import styles from "./PageHeader.css";
 
 const PageHeader = props => (
-  <header className="container-fluid">
-    <div className="container">{props.children}</div>
+  <header className={styles.outerContainer}>
+    <div className={styles.innerContainer}>{props.children}</div>
   </header>
 );
 

@@ -1,0 +1,7 @@
+:local(.large) {
+  font-size: 1.5rem;
+}
+
+:local(.small) {
+  font-size: 0.8rem;
+}

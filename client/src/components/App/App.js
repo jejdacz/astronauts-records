@@ -1,18 +1,18 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import AstronautsPage from "../pages/AstronautsPage/AstronautsPage.js";
-import NewAstronautPage from "../pages/NewAstronautPage/NewAstronautPage.js";
-import AstronautPage from "../pages/AstronautPage/AstronautPage.js";
-import NotFoundPage from "../pages/NotFoundPage/NotFoundPage.js";
+import PageAstronauts from "../PageAstronauts/PageAstronauts.js";
+import PageNewAstronaut from "../PageNewAstronaut/PageNewAstronaut.js";
+import PageAstronaut from "../PageAstronaut/PageAstronaut.js";
+import PageNotFound from "../PageNotFound/PageNotFound.js";
 
 const App = () => {
   return (
     <div className="App">
       <Switch>
-        <Route exact={true} path="/" component={AstronautsPage} />
-        <Route path="/astronauts/new" component={NewAstronautPage} />
-        <Route path="/astronauts/:id" component={AstronautPage} />
-        <Route component={NotFoundPage} />
+        <Route exact={true} path="/" component={PageAstronauts} />
+        <Route path="/astronauts/new" component={PageNewAstronaut} />
+        <Route path="/astronauts/:id" component={PageAstronaut} />
+        <Route component={PageNotFound} />
       </Switch>
     </div>
   );

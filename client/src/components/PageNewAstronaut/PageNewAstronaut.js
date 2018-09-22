@@ -1,12 +1,12 @@
 import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { addAstronaut } from "../../../astronautActions.js";
-import AstronautForm from "../../AstronautForm/AstronautForm.js";
-import Page from "../../Page/Page.js";
-import Dialog from "../../Dialog/Dialog.js";
+import { addAstronaut } from "../../astronautActions.js";
+import AstronautForm from "../AstronautForm/AstronautForm.js";
+import Page from "../Page/Page.js";
+import Dialog from "../Dialog/Dialog.js";
 
-class NewAstronautPage extends Component {
+class PageNewAstronaut extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -55,4 +55,4 @@ class NewAstronautPage extends Component {
 
 const mapStateToProps = state => ({ ...state.newAstronaut });
 
-export default connect(mapStateToProps)(NewAstronautPage);
+export default connect(mapStateToProps)(PageNewAstronaut);
