@@ -44,12 +44,11 @@ class PageNewAstronaut extends Component {
   render() {
     const header = (
       <Fragment>
-        <h1>New astronaut</h1>
         <Link to="/">back</Link>
       </Fragment>
     );
 
-    return <Page header={header} content={this.renderContent()} />;
+    return <Page title="New astronaut" content={this.renderContent()} />;
   }
 }
 

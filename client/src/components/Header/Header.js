@@ -1,13 +1,13 @@
 import React from "react";
-import styles from "./PageHeader.css";
+import styles from "./Header.css";
 
-const PageHeader = props => (
+const Header = props => (
   <header className={styles.outerContainer}>
     <div className={styles.innerContainer}>
-      <h1>{props.title}</h1>
+      <h1 className={styles.title}>{props.title}</h1>
       {props.children}
     </div>
   </header>
 );
 
-export default PageHeader;
+export default Header;
