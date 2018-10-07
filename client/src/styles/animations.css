@@ -1,0 +1,81 @@
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+:local(.fade-in) {
+  animation: fade-in;
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+:local(.fade-out) {
+  animation: fade-out;
+}
+
+@keyframes enter-top {
+  from {
+    transform: translateX(-100vh);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+:local(.enter-top) {
+  animation: enter-top;
+}
+
+@keyframes enter-bottom {
+  from {
+    transform: translateX(100vh);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+:local(.enter-bottom) {
+  animation: enter-bottom;
+}
+
+@keyframes enter-left {
+  from {
+    transform: translateX(-100vw);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+:local(.enter-left) {
+  animation: enter-left;
+}
+
+@keyframes enter-right {
+  from {
+    transform: translateX(100vw);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+:local(.enter-right) {
+  animation: enter-right;
+}
+
+:local(.duration-fast) {
+  animation-duration: 0.2s;
+}

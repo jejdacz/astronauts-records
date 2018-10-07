@@ -7,10 +7,7 @@ const renderValidation = ({ valid, invalid }) => BaseComponent => ({
 }) => (
   <BaseComponent
     {...props}
-    className={gSp([
-      className,
-      props.touched && (props.error ? invalid : valid)
-    ])}
+    className={gSp(className, props.touched && (props.error ? invalid : valid))}
   />
 );
 

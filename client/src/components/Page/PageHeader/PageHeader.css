@@ -1,9 +1,9 @@
 :local(.outerContainer) {
-  composes: container-fluid from "../../../styles/layout.css";
+  composes: container-fluid from "../../../styles/container.css";
 }
 
 :local(.innerContainer) {
   composes: dark-text from "../../../styles/colors.css";
   composes: large from "../../../styles/typo.css";
-  composes: container from "../../../styles/layout.css";
+  composes: container from "../../../styles/container.css";
 }

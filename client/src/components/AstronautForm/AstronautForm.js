@@ -24,7 +24,7 @@ const Input = ({
   ...input
 }) => (
   <input
-    className={gSp(["form-control", className])}
+    className={gSp("form-control", className)}
     {...input}
     onChange={handleChange}
     onBlur={handleBlur}

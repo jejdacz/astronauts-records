@@ -1,0 +1,40 @@
+@import "bootstrap-reboot.css";
+@import url("https://fonts.googleapis.com/css?family=Exo:300,500,800");
+@import url("https://fonts.googleapis.com/css?family=Cormorant+SC:300,500");
+
+:root {
+  --primary-dark: #501050dd;
+  --text-dark: #4b4635;
+  --text-dark-hsl: 46, 17%, 25%;
+  --text-link: #4c90fd;
+  --text-theme: #76736b;
+  --text-error: #df6b01;
+  --text-success: #13920c;
+  --bg-light: #fff;
+  --bg-light-secondary: #f4f4f4;
+  --padding-container: 3rem 1.5rem 4.5rem 1.5rem;
+  --shadow-container: 0 0.25rem 1.5rem 0 #00000015;
+  --bg-button-hover: #dad6c550;
+}
+
+html,
+body {
+  font-family: "Exo", sans-serif;
+  font-weight: 300;
+  color: var(--text-dark);
+  font-size: 14px;
+  line-height: 1.5;
+  letter-spacing: 0.1em;
+  margin: 0;
+  min-width: 100%;
+  min-height: 100%;
+  /*overflow-y: scroll;*/
+  background-color: var(--bg-light);
+}
+
+@media (min-width: 768px) {
+  html,
+  body {
+    font-size: 16px;
+  }
+}

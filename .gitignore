@@ -1,4 +1,5 @@
 build
+mock
 node_modules
 package-lock.json
 addAstronaut.js

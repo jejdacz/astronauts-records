@@ -1,0 +1,17 @@
+:local(.NavButton) {
+  display: inline-block;
+  text-decoration: none;
+  border: none;
+  border-radius: 0.8rem;
+  padding: 0.25rem 0.5rem;
+  line-height: 1.5;
+  font-size: 2rem;
+  text-align: center;
+  vertical-align: middle;
+  background-color: blue;
+  color: white;
+}
+
+:local(.NavButton:hover) {
+  color: red;
+}

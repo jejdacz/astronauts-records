@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { loadAstronautsIfNeeded } from "../../astronautActions.js";
 import AstronautList from "../AstronautList/AstronautList.js";
+import { Nav, NavLink, NavLogo, NavButton } from "../Nav/Nav.js";
+import styles from "./PageAstronauts.css";
 
 class PageAstronauts extends Component {
   constructor(props) {
@@ -10,13 +12,10 @@ class PageAstronauts extends Component {
   }
 
   componentDidMount() {
-    console.log("componentDidmount");
     this.props.dispatch(loadAstronautsIfNeeded);
   }
 
-  componentWillUnmount() {
-    console.log("componentWillunmount");
-  }
+  componentWillUnmount() {}
 
   renderError(error) {
     return <h4>{error.message}</h4>;
@@ -28,17 +27,18 @@ class PageAstronauts extends Component {
 
   renderContent = content => (
     <Fragment>
-      <header>
-        <Link className="btn bg-nav rnd large" to="/astronauts/new">
-          +
-        </Link>
-        <h1 className="title">Evidence kosmonautu</h1>
-        <p>
-          Culpa labore Lorem mollit aliqua in labore dolore smod veniam nostrud
-          aliqua labore incididunt consectetur nostrud minim. Adipisicing et
-          esse reprehenderit fugiat commodo cillum duis reprehenderit aliqua qui
-          commodos.
-        </p>
+      <Nav>
+        <NavLogo to="/">AR</NavLogo>
+        <NavLink to="/astronauts/new/">+ADD</NavLink>
+      </Nav>
+      <header className={styles.header}>
+        <div className={styles.container}>
+          <div className={styles.gold} />
+          <h1 className={styles.heading}>
+            ASTRONAUTS<br />
+            <span className={styles.headingSmall}>RECORDS</span>
+          </h1>
+        </div>
       </header>
       <main>{content}</main>
     </Fragment>

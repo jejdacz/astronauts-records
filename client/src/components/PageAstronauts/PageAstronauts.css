@@ -1,0 +1,106 @@
+:local(.header) {
+  color: inherit;
+}
+
+:local(.container) {
+  composes: container from "../../styles/container.css";
+  composes: fade-in from "../../styles/animations.css";
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 4.5rem 1.5rem;
+  background-image: url("astro2.jpg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  animation-duration: 1.5s;
+  animation-timing-function: ease-out;
+}
+
+:local(.heading) {
+  color: #90854c;
+  display: inline-block;
+  font-family: "Cormorant SC", serif;
+  font-size: 1.75rem;
+  letter-spacing: 0.25em;
+  margin-right: -0.25em;
+  line-height: 1;
+  font-weight: 500;
+  background-color: #ffffffbd;
+  padding: 0.5em 0.5em 0.5em 0.5em;
+  composes: enter-left from "../../styles/animations.css";
+  animation-duration: 0.3s;
+  animation-delay: 0.5s;
+  animation-fill-mode: both;
+  animation-timing-function: ease-out;
+  text-shadow: 0 0.1em 0.2em #00000025;
+}
+
+:local(.headingSmall) {
+  letter-spacing: 1.65em;
+  margin-right: -1.65em;
+  font-size: 0.6em;
+}
+
+@keyframes gold {
+  from {
+    opacity: 0;
+    transform-origin: top;
+    transform: scale(1, 0);
+  }
+  to {
+    opacity: 1;
+    transform-origin: top;
+    transform: scale(1, 1);
+  }
+}
+
+:local(.gold) {
+  display: none;
+  animation: gold;
+  animation-duration: 0.2s;
+  animation-delay: 0.7s;
+  animation-fill-mode: both;
+  animation-timing-function: ease-out;
+  box-shadow: 0 5px 10px 0 #00000025;
+}
+
+@media (min-width: 768px) {
+  :local(.header) {
+    height: calc(20rem * 1.5);
+  }
+
+  :local(.container) {
+    justify-content: flex-start;
+    background-repeat: no-repeat;
+    background-position: top right;
+  }
+
+  :local(.heading) {
+    font-size: 2rem;
+    font-weight: 300;
+  }
+}
+
+@media (min-width: 992px) {
+  :local(.header) {
+    height: calc(30rem * 1.5);
+  }
+
+  :local(.heading) {
+    font-size: 3.5rem;
+  }
+
+  :local(.gold) {
+    display: inline-block;
+    width: 7rem;
+    height: 7rem;
+    background-image: url("astro_voy.jpg");
+    background-size: auto auto;
+    background-position: bottom left;
+    position: relative;
+    bottom: 0.25rem;
+  }
+}

@@ -1,0 +1,45 @@
+:local(.container) {
+  width: 100%;
+  padding-right: 1.5rem;
+  padding-left: 1.5rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+:local(.containerFluid) {
+  width: 100%;
+  padding-right: 1.5rem;
+  padding-left: 1.5rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 576px) {
+  :local(.container) {
+    max-width: 540px;
+  }
+}
+
+@media (min-width: 768px) {
+  :local(.container) {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  :local(.container) {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  :local(.container) {
+    max-width: 1140px;
+  }
+}
+
+@media (min-width: 1350px) {
+  :local(..container) {
+    max-width: 1290px;
+  }
+}
