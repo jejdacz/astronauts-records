@@ -1,7 +1,7 @@
 @keyframes nav-top {
   from {
     position: absolute;
-    transform: translateY(-3.5rem);
+    transform: translateY(-100%);
   }
   to {
     transform-origin: top;
@@ -10,7 +10,7 @@
   }
 }
 
-:local(.nav) {
+.nav {
   composes: container-fluid from "../../styles/container.css";
   padding: 0;
   position: fixed;
@@ -23,50 +23,54 @@
   animation-timing-function: ease-out;
 }
 
-:local(.link) {
+.link {
   display: block;
   letter-spacing: 0.15rem;
   color: var(--text-link);
   padding: 1rem 1rem 1rem 1rem;
 }
 
-:local(.link:hover),
-:local(.link:active) {
+.link:hover,
+.link:active {
   color: #d0b45c;
   text-decoration: none;
 }
 
-:local(.container) {
-  composes: container from "../../styles/container.css";
-  display: flex;
-}
-
-:local(.placeholder) {
-  height: 3.5rem;
-}
-
-@media (min-width: 768px) {
-  :local(.link) {
-    letter-spacing: 0.33rem;
-    padding: 1.5rem 1.5rem 1.5rem 1.5rem;
-    margin-right: 2rem;
-  }
-
-  :local(.placeholder) {
-    height: 4.5rem;
-  }
-}
-
-:local(.link:last-child) {
+.link:last-child {
   padding-right: 0;
   margin-right: 0;
 }
 
-:local(.link:first-child) {
+.link:first-child {
   padding-left: 0;
 }
 
-:local(.logo) {
+.logo {
+  composes: link;
   margin-right: auto;
   color: #76736b;
+}
+
+.container {
+  composes: container from "../../styles/container.css";
+  display: flex;
+}
+
+.placeholder {
+  height: 3.5rem;
+}
+
+@media (min-width: 768px) {
+  .link {
+    letter-spacing: 0.33rem;
+    padding: 1.5rem 1.5rem 1.5rem 1.5rem;
+  }
+
+  .link:not:first-child:not:last-child {
+    margin-right: 2rem;
+  }
+
+  .placeholder {
+    height: 4.5rem;
+  }
 }

@@ -19,11 +19,7 @@ export const NavLink = ({ to, children, className, style }) => (
 );
 
 export const NavLogo = ({ to, children, className, style }) => (
-  <Link
-    to={to}
-    className={gs(styles.link, styles.logo, className)}
-    style={style}
-  >
+  <Link to={to} className={gs(styles.logo, className)} style={style}>
     {children}
   </Link>
 );

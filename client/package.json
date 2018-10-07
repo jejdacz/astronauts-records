@@ -9,7 +9,7 @@
     "react-dom": "^16.4.2",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "1.1.5",
+    "react-scripts": "2.0.3",
     "recompose": "^0.30.0",
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0"
@@ -28,5 +28,11 @@
     "faker": "^4.1.0",
     "jest-enzyme": "^6.0.4",
     "react-test-renderer": "^16.5.0"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
