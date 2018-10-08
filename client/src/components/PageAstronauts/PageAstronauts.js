@@ -5,6 +5,7 @@ import { loadAstronautsIfNeeded } from "../../astronautActions.js";
 import AstronautList from "../AstronautList/AstronautList.js";
 import { Nav, NavLink, NavLogo, NavButton } from "../Nav/Nav.js";
 import Hero from "./Hero/Hero.js";
+import SectionDatabase from "./SectionDatabase/SectionDatabase.js";
 import styles from "./PageAstronauts.module.css";
 
 class PageAstronauts extends Component {
@@ -37,20 +38,7 @@ class PageAstronauts extends Component {
         <Hero />
       </header>
       <main>
-        <section id="database" className={styles.section}>
-          <div className={styles.container}>
-            <h2 className={styles.heading}>DATABASE</h2>
-            <div className={styles.group}>
-              <p>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                Maecenas libero. Integer malesuada. Cum sociis natoque penatibus
-                et magnis dis parturient montes.
-              </p>
-              <button className={styles.button}>ADD ASTRONAUT</button>
-            </div>
-            {content}
-          </div>
-        </section>
+        <SectionDatabase>{content}</SectionDatabase>
       </main>
     </Fragment>
   );

@@ -7,8 +7,8 @@
   --text-dark: #4b4635;
   --text-dark-hsl: 46, 17%, 25%;
   --text-link: #4c90fd;
-  --text-theme: #76736b;
-  --text-theme-light: #d0b45c;
+  --text-theme: #756c3e;
+  --text-theme-light: #b3ab42;
   --text-error: #df6b01;
   --text-success: #13920c;
   --bg-light: #fff;
@@ -37,7 +37,7 @@ body {
   margin: 0;
   min-width: 100%;
   min-height: 100%;
-  /*overflow-y: scroll;*/
+  overflow-y: scroll;
   background-color: var(--bg-light);
 }
 

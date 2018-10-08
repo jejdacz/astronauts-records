@@ -1,3 +1,10 @@
+.common {
+  --ultra-slow: 3s;
+  --slow: 1s;
+  --normal: 0.5s;
+  --fast: 0.2s;
+}
+
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -8,7 +15,10 @@
 }
 
 .fade-in {
+  composes: common;
   animation: fade-in;
+  animation-duration: var(--normal);
+  animation-fill-mode: both;
 }
 
 @keyframes fade-out {
@@ -21,7 +31,10 @@
 }
 
 .fade-out {
+  composes: common;
   animation: fade-out;
+  animation-duration: var(--normal);
+  animation-fill-mode: both;
 }
 
 @keyframes enter-top {
@@ -34,7 +47,10 @@
 }
 
 .enter-top {
+  composes: common;
   animation: enter-top;
+  animation-duration: var(--normal);
+  animation-fill-mode: both;
 }
 
 @keyframes enter-bottom {
@@ -47,7 +63,10 @@
 }
 
 .enter-bottom {
+  composes: common;
   animation: enter-bottom;
+  animation-duration: var(--normal);
+  animation-fill-mode: both;
 }
 
 @keyframes enter-left {
@@ -60,7 +79,10 @@
 }
 
 .enter-left {
+  composes: common;
   animation: enter-left;
+  animation-duration: var(--normal);
+  animation-fill-mode: both;
 }
 
 @keyframes enter-right {
@@ -73,9 +95,8 @@
 }
 
 .enter-right {
+  composes: common;
   animation: enter-right;
-}
-
-.duration-fast {
-  animation-duration: 0.2s;
+  animation-duration: var(--normal);
+  animation-fill-mode: both;
 }
