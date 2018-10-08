@@ -1,17 +1,13 @@
-:local(.header) {
-  color: inherit;
-}
-
-:local(.container) {
-  composes: container from "../../styles/container.css";
-  composes: fade-in from "../../styles/animations.css";
+.container {
+  composes: container from "../../../styles/container.module.css";
+  composes: fade-in from "../../../styles/animations.module.css";
   height: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   padding: 4.5rem 1.5rem;
-  background-image: url("astro2.jpg");
+  background-image: url("./astro2.jpg");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
@@ -19,7 +15,7 @@
   animation-timing-function: ease-out;
 }
 
-:local(.heading) {
+.heading {
   color: #90854c;
   display: inline-block;
   font-family: "Cormorant SC", serif;
@@ -30,7 +26,7 @@
   font-weight: 500;
   background-color: #ffffffbd;
   padding: 0.5em 0.5em 0.5em 0.5em;
-  composes: enter-left from "../../styles/animations.css";
+  composes: enter-left from "../../../styles/animations.module.css";
   animation-duration: 0.3s;
   animation-delay: 0.5s;
   animation-fill-mode: both;
@@ -38,7 +34,7 @@
   text-shadow: 0 0.1em 0.2em #00000025;
 }
 
-:local(.headingSmall) {
+.headingSmall {
   letter-spacing: 1.65em;
   margin-right: -1.65em;
   font-size: 0.6em;
@@ -57,7 +53,7 @@
   }
 }
 
-:local(.gold) {
+.gold {
   display: none;
   animation: gold;
   animation-duration: 0.2s;
@@ -68,36 +64,36 @@
 }
 
 @media (min-width: 768px) {
-  :local(.header) {
+  .hero {
     height: calc(20rem * 1.5);
   }
 
-  :local(.container) {
+  .container {
     justify-content: flex-start;
     background-repeat: no-repeat;
     background-position: top right;
   }
 
-  :local(.heading) {
+  .heading {
     font-size: 2rem;
     font-weight: 300;
   }
 }
 
 @media (min-width: 992px) {
-  :local(.header) {
+  .hero {
     height: calc(30rem * 1.5);
   }
 
-  :local(.heading) {
+  .heading {
     font-size: 3.5rem;
   }
 
-  :local(.gold) {
+  .gold {
     display: inline-block;
     width: 7rem;
     height: 7rem;
-    background-image: url("astro_voy.jpg");
+    background-image: url("./astro_voy.jpg");
     background-size: auto auto;
     background-position: bottom left;
     position: relative;

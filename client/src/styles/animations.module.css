@@ -7,7 +7,7 @@
   }
 }
 
-:local(.fade-in) {
+.fade-in {
   animation: fade-in;
 }
 
@@ -20,7 +20,7 @@
   }
 }
 
-:local(.fade-out) {
+.fade-out {
   animation: fade-out;
 }
 
@@ -33,7 +33,7 @@
   }
 }
 
-:local(.enter-top) {
+.enter-top {
   animation: enter-top;
 }
 
@@ -46,7 +46,7 @@
   }
 }
 
-:local(.enter-bottom) {
+.enter-bottom {
   animation: enter-bottom;
 }
 
@@ -59,7 +59,7 @@
   }
 }
 
-:local(.enter-left) {
+.enter-left {
   animation: enter-left;
 }
 
@@ -72,10 +72,10 @@
   }
 }
 
-:local(.enter-right) {
+.enter-right {
   animation: enter-right;
 }
 
-:local(.duration-fast) {
+.duration-fast {
   animation-duration: 0.2s;
 }

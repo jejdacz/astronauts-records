@@ -1,5 +1,7 @@
 import React from "react";
-import styles from "./PageHeader.css";
+//import styles from "./PageHeader.css";
+
+const styles = {};
 
 const PageHeader = props => (
   <header className={styles.outerContainer}>
