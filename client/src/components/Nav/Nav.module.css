@@ -1,3 +1,9 @@
+@value slow from "../../styles/animations.module.css";
+@value breakpoint-sm: 768px;
+@value sm: min-width: 768px;
+
+/* IDEA:  value brakpoint */
+
 @keyframes nav-top {
   from {
     transform: translateY(-100%);
@@ -5,20 +11,24 @@
   }
   to {
     transform: translateY(0);
-    position: fixed;
   }
 }
 
 .nav {
   composes: container-fluid from "../../styles/container.module.css";
   padding: 0;
+  position: absolute;
   transform-origin: top;
   background-color: rgba(255, 255, 255, 0.9);
   z-index: 1000;
   animation: nav-top;
-  animation-duration: 1.5s;
+  animation-duration: slow;
   animation-delay: 0.2s;
-  animation-fill-mode: both;
+  animation-fill-mode: backwards;
+}
+
+.navFixed {
+  position: fixed;
 }
 
 .link {
@@ -70,5 +80,11 @@
 
   .placeholder {
     height: calc(3 * var(--md));
+  }
+}
+
+@media (sm) {
+  .link {
+    letter-spacing: 0.15rem;
   }
 }

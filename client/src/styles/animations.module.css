@@ -1,3 +1,6 @@
+@value slow: 5s;
+@custom-media --breakpoint-sm (min-width: 60em);
+
 .common {
   --ultra-slow: 3s;
   --slow: 1s;
