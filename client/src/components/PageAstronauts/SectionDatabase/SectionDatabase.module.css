@@ -1,12 +1,11 @@
 .section {
-  /* composes: enter-right from "../../../styles/animations.module.css"; */
-  composes: @keyframes enter-right from "../../../styles/animations.module.css";
+  composes: enter-right from "../../../styles/animations.css";
   background-color: #f4f4f4;
   animation-delay: 0.5s;
 }
 
 .container {
-  composes: container from "../../../styles/container.module.css";
+  composes: container from "../../../styles/container.css";
   text-align: center;
   padding-top: var(--xl);
   padding-bottom: var(--xl);

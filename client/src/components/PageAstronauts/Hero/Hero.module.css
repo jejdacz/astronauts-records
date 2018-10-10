@@ -1,18 +1,21 @@
+@value fast, slow from "../../../styles/animations.css";
+@value dev-md, dev-lg from "../../../styles/breakpoints.css";
+@value md, xl from "../../../styles/scale.css";
+
 .container {
-  composes: container from "../../../styles/container.module.css";
-  composes: fade-in from "../../../styles/animations.module.css";
+  composes: container from "../../../styles/container.css";
+  composes: fade-in from "../../../styles/animations.css";
   height: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 4.5rem 1.5rem;
-  background-image: url("./astro2.jpg");
+  padding: xl md;
+  background-image: url("./astro.jpg");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
-  animation-duration: 1.5s;
-  animation-timing-function: ease-out;
+  animation-duration: slow;
 }
 
 .heading {
@@ -26,11 +29,9 @@
   font-weight: 500;
   background-color: #ffffffbd;
   padding: 0.5em 0.5em 0.5em 0.5em;
-  composes: enter-left from "../../../styles/animations.module.css";
-  animation-duration: 0.3s;
+  composes: enter-left from "../../../styles/animations.css";
+  animation-duration: fast;
   animation-delay: 0.5s;
-  animation-fill-mode: both;
-  animation-timing-function: ease-out;
   text-shadow: 0 0.1em 0.2em #00000025;
 }
 
@@ -63,7 +64,7 @@
   box-shadow: 0 5px 10px 0 #00000025;
 }
 
-@media (min-width: 768px) {
+@media (dev-md) {
   .hero {
     height: calc(20rem * 1.5);
   }
@@ -80,7 +81,7 @@
   }
 }
 
-@media (min-width: 992px) {
+@media (dev-lg) {
   .hero {
     height: calc(30rem * 1.5);
   }

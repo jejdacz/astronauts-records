@@ -1,12 +1,10 @@
-:local(.common) {
-  --basic: green;
-}
-
-:local(.dark-text) {
-  composes: common;
-  color: var(--basic);
-}
-
-:local(.dark-border) {
-  border-color: black;
-}
+@value primary-dark: #501050dd;
+@value text-dark: #4b4635;
+@value text-dark-hsl: 46, 17%, 25%;
+@value text-link: #4c90fd;
+@value text-theme: #756c3e;
+@value text-theme-light: #b3ab42;
+@value text-error: #df6b01;
+@value text-success: #13920c;
+@value bg-light: #fff;
+@value bg-light-secondary: #f4f4f4;

@@ -1,0 +1,13 @@
+@value bp-xs: 0;
+@value bp-sm: 576px;
+@value bp-md: 768px;
+@value bp-lg: 992px;
+@value bp-xl: 1200px;
+@value bp-xxl: 1350px;
+
+@value dev-xs: min-width: bp-xs;
+@value dev-sm: min-width: bp-sm;
+@value dev-md: min-width: bp-md;
+@value dev-lg: min-width: bp-lg;
+@value dev-xl: min-width: bp-xl;
+@value dev-xxl: min-width: bp-xxl;

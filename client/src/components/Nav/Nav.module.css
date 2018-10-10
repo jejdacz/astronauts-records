@@ -1,8 +1,7 @@
-@value slow from "../../styles/animations.module.css";
-@value breakpoint-sm: 768px;
-@value sm: min-width: 768px;
-
-/* IDEA:  value brakpoint */
+@value normal from "../../styles/animations.css";
+@value dev-md from "../../styles/breakpoints.css";
+@value sm, md, lg from "../../styles/scale.css";
+@value text-link, text-theme-light, text-theme from "../../styles/colors.css";
 
 @keyframes nav-top {
   from {
@@ -15,14 +14,14 @@
 }
 
 .nav {
-  composes: container-fluid from "../../styles/container.module.css";
+  composes: container-fluid from "../../styles/container.css";
   padding: 0;
   position: absolute;
   transform-origin: top;
   background-color: rgba(255, 255, 255, 0.9);
   z-index: 1000;
   animation: nav-top;
-  animation-duration: slow;
+  animation-duration: normal;
   animation-delay: 0.2s;
   animation-fill-mode: backwards;
 }
@@ -34,13 +33,13 @@
 .link {
   display: block;
   letter-spacing: 0.15rem;
-  color: var(--text-link);
-  padding: var(--sm);
+  color: text-link;
+  padding: sm;
 }
 
 .link:hover,
 .link:active {
-  color: var(--text-theme-light);
+  color: text-theme-light;
   text-decoration: none;
 }
 
@@ -54,37 +53,31 @@
 }
 
 .container {
-  composes: container from "../../styles/container.module.css";
+  composes: container from "../../styles/container.css";
   display: flex;
 }
 
 .placeholder {
-  height: calc(2 * var(--sm) + var(--md));
+  height: calc(2 * sm + md);
 }
 
 .logo {
   composes: link;
   margin-right: auto;
-  color: var(--text-theme);
+  color: text-theme;
 }
 
-@media (min-width: 768px) {
+@media (dev-md) {
   .link {
     letter-spacing: 0.3rem;
-    padding: var(--md);
+    padding: md;
   }
 
   .nav .link:not(:first-child):not(:last-child) {
-    margin-right: var(--lg);
+    margin-right: lg;
   }
 
   .placeholder {
-    height: calc(3 * var(--md));
-  }
-}
-
-@media (sm) {
-  .link {
-    letter-spacing: 0.15rem;
+    height: calc(3 * md);
   }
 }

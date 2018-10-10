@@ -33,13 +33,13 @@
 }
 
 @media (min-width: 1200px) {
-  :local(.container) {
+  .container {
     max-width: 1140px;
   }
 }
 
 @media (min-width: 1350px) {
-  :local(..container) {
+  .container {
     max-width: 1290px;
   }
 }
