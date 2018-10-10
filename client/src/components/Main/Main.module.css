@@ -1,0 +1,55 @@
+@value md, xl from "../../styles/scale.css";
+@value text-theme, text-link, bg-button-hover from "../../styles/colors.css";
+
+.section {
+  composes: enter-right from "../../styles/animations.css";
+  background-color: #f4f4f4;
+  animation-delay: 0.5s;
+}
+
+.container {
+  composes: container from "../../styles/containers.css";
+  text-align: center;
+  padding-top: xl;
+  padding-bottom: xl;
+}
+
+.heading {
+  font-weight: 300;
+  color: text-theme;
+  margin-bottom: md;
+  letter-spacing: 0.15em;
+}
+
+.group + .group {
+  margin-top: 5rem;
+}
+
+.paragraph {
+  max-width: 60em;
+  letter-spacing: 0.1em;
+  margin-bottom: md;
+}
+
+.button {
+  color: text-link;
+  border: 1px solid text-link;
+  border-radius: 0.75em;
+  padding: 0.7em 1em;
+  line-height: 1.42;
+  background: none;
+  letter-spacing: 0.2em;
+  cursor: pointer;
+}
+
+.button:hover.button:hover {
+  background-color: bg-button-hover;
+}
+
+.button:active {
+  background-color: initial;
+}
+
+.button:focus.button:active {
+  background-color: red;
+}

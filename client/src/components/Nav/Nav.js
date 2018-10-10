@@ -1,13 +1,12 @@
 import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import { glueSpace as gs } from "../../utils/glue.js";
 import styles from "./Nav.module.css";
 
-export const NavBar = ({ children, className, style, fixed, ...props }) => (
+export const Bar = ({ children, className, fixed, ...props }) => (
   <Fragment>
     <nav
       className={gs(styles.nav, fixed ? styles.navFixed : "", className)}
-      style={style}
       {...props}
     >
       <div className={styles.container}>{children}</div>
@@ -16,25 +15,19 @@ export const NavBar = ({ children, className, style, fixed, ...props }) => (
   </Fragment>
 );
 
-export const NavLink = ({ to, children, className, style, ...props }) => (
-  <Link to={to} className={gs(styles.link, className)} style={style} {...props}>
+export const Link = ({ children, className, ...props }) => (
+  <RouterLink className={gs(styles.link, className)} {...props}>
     {children}
-  </Link>
+  </RouterLink>
 );
 
-export const NavLogo = ({ to, children, className, style, ...props }) => (
-  <Link to={to} className={gs(styles.logo, className)} style={style} {...props}>
+export const Logo = ({ children, className, ...props }) => (
+  <RouterLink className={gs(styles.logo, className)} {...props}>
     {children}
-  </Link>
+  </RouterLink>
 );
 
-export const NavButton = ({
-  onClick,
-  children,
-  className,
-  style,
-  ...props
-}) => (
+export const Button = ({ onClick, children, className, ...props }) => (
   <a
     href="#"
     onClick={e => {
@@ -42,7 +35,6 @@ export const NavButton = ({
       onClick();
     }}
     className={gs(styles.link, className)}
-    style={style}
     {...props}
   >
     {children}
@@ -50,8 +42,8 @@ export const NavButton = ({
 );
 
 export default {
-  nav: NavBar,
-  link: NavLink,
-  logo: NavLogo,
-  button: NavButton
+  Bar,
+  Link,
+  Logo,
+  Button
 };

@@ -5,7 +5,7 @@
 }
 
 .container {
-  composes: container from "../../../styles/container.css";
+  composes: container from "../../../styles/containers.css";
   text-align: center;
   padding-top: var(--xl);
   padding-bottom: var(--xl);
@@ -26,4 +26,8 @@
   max-width: 60em;
   letter-spacing: 0.1em;
   margin-bottom: var(--md);
+}
+
+.red {
+  color: red;
 }

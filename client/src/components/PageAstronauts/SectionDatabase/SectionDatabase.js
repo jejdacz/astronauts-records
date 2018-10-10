@@ -1,21 +1,18 @@
-import React from "react";
-import styles from "./SectionDatabase.module.css";
+import React, { Component, Fragment } from "react";
+import { Assembly, Paragraph, Button, Group } from "../../Main/Main.js";
 
 const SectionDatabase = ({ children }) => (
-  <section id="database" className={styles.section}>
-    <div className={styles.container}>
-      <h2 className={styles.heading}>DATABASE</h2>
-      <div className={styles.group}>
-        <p>
-          Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas
-          libero. Integer malesuada. Cum sociis natoque penatibus et magnis dis
-          parturient montes.
-        </p>
-        <button className={styles.button}>ADD ASTRONAUT</button>
-      </div>
-      {children}
-    </div>
-  </section>
+  <Assembly heading="DATABASE" id="database">
+    <Group>
+      <Paragraph>
+        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas
+        libero. Integer malesuada. Cum sociis natoque penatibus et magnis dis
+        parturient montes.
+      </Paragraph>
+      <Button>ADD ASTRONAUT</Button>
+    </Group>
+    <Group>{children}</Group>
+  </Assembly>
 );
 
 export default SectionDatabase;
