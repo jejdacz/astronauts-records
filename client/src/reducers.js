@@ -1,4 +1,3 @@
-import { combineReducers } from "redux";
 import {
   LOAD_ASTRONAUTS_REQUEST,
   LOAD_ASTRONAUTS_SUCCESS,

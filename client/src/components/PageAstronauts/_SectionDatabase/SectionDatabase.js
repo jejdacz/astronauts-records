@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./SectionDatabase.module.css";
-import { glueSpace as gs } from "../../../utils/glue.js";
+import { glueSpace as gs } from "../../../utils/glueString.js";
 
 const addClass = styleClass => BaseComponent => ({ className, ...props }) =>
   React.createElement(BaseComponent, {

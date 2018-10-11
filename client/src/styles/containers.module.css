@@ -1,4 +1,5 @@
 @value urem from "./index.css";
+@value lg, xl from "./scale.css";
 @value bp-sm, bp-md, bp-lg, bp-xl, bp-xxl, dev-sm, dev-md, dev-lg, dev-xl, dev-xxl from "./breakpoints.css";
 
 .container {
@@ -15,6 +16,20 @@
   padding-left: urem;
   margin-right: auto;
   margin-left: auto;
+}
+
+.group {
+  margin: 0;
+}
+
+.group + .group {
+  margin-top: xl;
+}
+
+.box {
+  composes: container;
+  padding-top: xl;
+  padding-bottom: xl;
 }
 
 @media (dev-sm) {

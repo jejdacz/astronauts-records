@@ -1,0 +1,22 @@
+@value text-link from "../../styles/colors.css";
+
+.button {
+  color: text-link;
+  border: 1px solid text-link;
+  border-radius: 0.75em;
+  padding: 0.7em 1em;
+  line-height: 1.42;
+  background: none;
+  letter-spacing: 0.2em;
+  cursor: pointer;
+  composes: decent-shadow-em from "../../styles/effects.module.css";
+}
+
+.button:focus {
+  background-color: initial;
+  outline: none;
+}
+
+.button:active {
+  box-shadow: none;
+}

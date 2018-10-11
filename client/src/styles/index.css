@@ -2,16 +2,11 @@
 @import url("https://fonts.googleapis.com/css?family=Exo:300,500,800");
 @import url("https://fonts.googleapis.com/css?family=Cormorant+SC:300,500");
 
-@value dev-md, dev-xxl from "./breakpoints.css";
+@value dev-sm, dev-md, dev-lg, dev-xxl from "./breakpoints.css";
 @value bg-light, text-dark  from "./colors.css";
 
 @value unit: 1.5;
 @value urem: 1.5rem;
-
-:root {
-  --padding-container: 3rem 1.5rem 4.5rem 1.5rem;
-  --shadow-container: 0 0.25rem 1.5rem 0 #00000015;
-}
 
 html,
 body {
@@ -28,7 +23,7 @@ body {
   background-color: bg-light;
 }
 
-@media (dev-md) {
+@media (dev-sm) {
   html,
   body {
     font-size: 16px;

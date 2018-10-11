@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { glueSpace as gs } from "../../utils/glue.js";
+import { glueSpace as gs } from "../../utils/glueString.js";
 import styles from "./Nav.module.css";
 
 export const Bar = ({ children, className, fixed, ...props }) => (

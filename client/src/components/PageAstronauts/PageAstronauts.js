@@ -33,12 +33,13 @@ class PageAstronauts extends Component {
       <header>
         <Nav.Bar fixed={true}>
           <Nav.Logo to="/">AR</Nav.Logo>
-          <Nav.Link to="/astronauts/new/">+ADD</Nav.Link>
-          <Nav.Link to="/astronauts/new/">+ADD</Nav.Link>
+          <Nav.Link to="/astronauts/new/">Link</Nav.Link>
+          <Nav.Button to="/astronauts/new/">+ADD</Nav.Button>
         </Nav.Bar>
         <Hero />
       </header>
       <main>
+        {/*/ TODO: move AstronautList to section database.... edit + delete func<<<<======??*/}
         <SectionDatabase>{content}</SectionDatabase>
         <p>
           {this.breakpointMedium <= this.props.innerWidth

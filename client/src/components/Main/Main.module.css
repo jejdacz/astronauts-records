@@ -1,17 +1,22 @@
-@value md, xl from "../../styles/scale.css";
-@value text-theme, text-link, bg-button-hover from "../../styles/colors.css";
+@value md, lg, xl, xxl,xxxl from "../../styles/scale.css";
+@value dev-md, dev-lg from "../../styles/breakpoints.css";
+@value text-theme, text-link, bg-light-secondary, bg-light from "../../styles/colors.css";
 
 .section {
-  composes: enter-right from "../../styles/animations.css";
-  background-color: #f4f4f4;
+  composes: enter-right from "../../styles/animations.module.css";
+  background-color: bg-light-secondary;
+  animation-delay: 0.5s;
+}
+
+.sectionSecondary {
+  composes: enter-left from "../../styles/animations.module.css";
+  background-color: bg-light;
   animation-delay: 0.5s;
 }
 
 .container {
-  composes: container from "../../styles/containers.css";
+  composes: box from "../../styles/containers.module.css";
   text-align: center;
-  padding-top: xl;
-  padding-bottom: xl;
 }
 
 .heading {
@@ -21,8 +26,8 @@
   letter-spacing: 0.15em;
 }
 
-.group + .group {
-  margin-top: 5rem;
+.group {
+  composes: group from "../../styles/containers.module.css";
 }
 
 .paragraph {
@@ -31,25 +36,25 @@
   margin-bottom: md;
 }
 
-.button {
-  color: text-link;
-  border: 1px solid text-link;
-  border-radius: 0.75em;
-  padding: 0.7em 1em;
-  line-height: 1.42;
-  background: none;
-  letter-spacing: 0.2em;
-  cursor: pointer;
-}
+@media (dev-lg) {
+  .container {
+    padding-top: xxxl;
+    padding-bottom: xxxl;
+    text-align: left;
+  }
 
-.button:hover.button:hover {
-  background-color: bg-button-hover;
-}
+  .group {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
 
-.button:active {
-  background-color: initial;
-}
+  .group > * {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 
-.button:focus.button:active {
-  background-color: red;
+  .group > * + * {
+    margin-left: lg;
+  }
 }

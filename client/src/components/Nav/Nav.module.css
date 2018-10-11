@@ -1,4 +1,4 @@
-@value normal from "../../styles/animations.css";
+@value normal from "../../styles/animations.module.css";
 @value dev-md from "../../styles/breakpoints.css";
 @value sm, md, lg from "../../styles/scale.css";
 @value text-link, text-theme-light, text-theme from "../../styles/colors.css";
@@ -14,7 +14,7 @@
 }
 
 .nav {
-  composes: container-fluid from "../../styles/containers.css";
+  composes: container-fluid from "../../styles/containers.module.css";
   padding: 0;
   position: absolute;
   transform-origin: top;
@@ -53,7 +53,7 @@
 }
 
 .container {
-  composes: container from "../../styles/containers.css";
+  composes: container from "../../styles/containers.module.css";
   display: flex;
 }
 

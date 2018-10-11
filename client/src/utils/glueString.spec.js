@@ -1,4 +1,4 @@
-import { glue, glueSpace as gSp } from "./glue.js";
+import { glue, glueSpace as gSp } from "./glueString.js";
 
 const values = [1, "a", null, "c", undefined];
 

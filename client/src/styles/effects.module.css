@@ -1,0 +1,15 @@
+.decent-shadow-em {
+  box-shadow: 0 0.25em 1.5em 0 #00000010;
+}
+
+.decent-shadow {
+  box-shadow: 0 0.25rem 1.5rem 0 #00000010;
+}
+
+.hard-shadow {
+  box-shadow: 0 0.2rem 1rem 0 #00000080;
+}
+
+.container-shadow {
+  box-shadow: 0 0.25rem 1.5rem 0 #00000015;
+}

@@ -1,10 +1,10 @@
-@value fast, slow from "../../../styles/animations.css";
+@value fast, slow from "../../../styles/animations.module.css";
 @value dev-md, dev-lg from "../../../styles/breakpoints.css";
 @value md, xl from "../../../styles/scale.css";
 
 .container {
-  composes: container from "../../../styles/containers.css";
-  composes: fade-in from "../../../styles/animations.css";
+  composes: container from "../../../styles/containers.module.css";
+  composes: fade-in from "../../../styles/animations.module.css";
   height: 100%;
   display: flex;
   flex-direction: row;
@@ -29,7 +29,7 @@
   font-weight: 500;
   background-color: #ffffffbd;
   padding: 0.5em 0.5em 0.5em 0.5em;
-  composes: enter-left from "../../../styles/animations.css";
+  composes: enter-left from "../../../styles/animations.module.css";
   animation-duration: fast;
   animation-delay: 0.5s;
   text-shadow: 0 0.1em 0.2em #00000025;

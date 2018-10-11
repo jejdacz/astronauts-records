@@ -12,7 +12,7 @@ import { compose, mapProps } from "recompose";
 import hasValues from "../../utils/hasValues.js";
 import dateStringToObject from "../../utils/dateStringToObject.js";
 import objectToDateString from "../../utils/objectToDateString.js";
-import { glueSpace as gSp } from "../../utils/glue.js";
+import { glueSpace as gSp } from "../../utils/glueString.js";
 import traceProps from "../../utils/traceProps.js";
 
 const Input = ({

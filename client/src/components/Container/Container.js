@@ -1,17 +1,16 @@
 import React from "react";
-import styles from "./Container.css";
-import { glueSpace as gs } from "../../utils/glue.js";
+import attachClassName from "../../utils/attachClassName.js";
+import { glueSpace as gs } from "../../utils/glueString.js";
+import styles from "../../styles/containers.module.css";
 
-export const Container = ({ className, style, children }) => (
-  <div className={gs(className, styles.container)} style={style}>
-    {children}
-  </div>
-);
+export const Container = attachClassName(styles.container)("div");
 
-export const ContainerFluid = ({ className, style, children }) => (
-  <div className={gs(className, styles.containerFluid)} style={style}>
-    {children}
-  </div>
-);
+export const ContainerFluid = attachClassName(styles["container-fluid"])("div");
+
+export const toContainer = BaseComponent =>
+  attachClassName(styles.container)(BaseComponent);
+
+export const toContainerFluid = BaseComponent =>
+  attachClassName(styles["container-fluid"])(BaseComponent);
 
 export default Container;
