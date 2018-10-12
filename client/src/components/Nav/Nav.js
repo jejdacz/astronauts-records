@@ -1,12 +1,12 @@
 import React, { Fragment } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { glueSpace as gs } from "../../utils/glueString.js";
+import { joinToStringBySpace as jstr } from "../../utils/joinToString.js";
 import styles from "./Nav.module.css";
 
 export const Bar = ({ children, className, fixed, ...props }) => (
   <Fragment>
     <nav
-      className={gs(styles.nav, fixed ? styles.navFixed : "", className)}
+      className={jstr(styles.nav, fixed ? styles.navFixed : "", className)}
       {...props}
     >
       <div className={styles.container}>{children}</div>
@@ -16,13 +16,13 @@ export const Bar = ({ children, className, fixed, ...props }) => (
 );
 
 export const Link = ({ children, className, ...props }) => (
-  <RouterLink className={gs(styles.link, className)} {...props}>
+  <RouterLink className={jstr(styles.link, className)} {...props}>
     {children}
   </RouterLink>
 );
 
 export const Logo = ({ children, className, ...props }) => (
-  <RouterLink className={gs(styles.logo, className)} {...props}>
+  <RouterLink className={jstr(styles.logo, className)} {...props}>
     {children}
   </RouterLink>
 );
@@ -34,7 +34,7 @@ export const Button = ({ onClick, children, className, ...props }) => (
       e.preventDefault();
       onClick();
     }}
-    className={gs(styles.link, className)}
+    className={jstr(styles.link, className)}
     {...props}
   >
     {children}

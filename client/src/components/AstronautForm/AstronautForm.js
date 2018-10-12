@@ -12,7 +12,7 @@ import { compose, mapProps } from "recompose";
 import hasValues from "../../utils/hasValues.js";
 import dateStringToObject from "../../utils/dateStringToObject.js";
 import objectToDateString from "../../utils/objectToDateString.js";
-import { glueSpace as gSp } from "../../utils/glueString.js";
+import { joinToStringBySpace as jstr } from "../../utils/joinToString.js";
 import traceProps from "../../utils/traceProps.js";
 
 const Input = ({
@@ -24,7 +24,7 @@ const Input = ({
   ...input
 }) => (
   <input
-    className={gSp("form-control", className)}
+    className={jstr("form-control", className)}
     {...input}
     onChange={handleChange}
     onBlur={handleBlur}

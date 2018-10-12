@@ -1,5 +1,5 @@
 import React from "react";
-import { glueSpace as gSp } from "../../../utils/glueString.js";
+import { joinToStringBySpace as jstr } from "../../../utils/joinToString.js";
 
 const renderValidation = ({ valid, invalid }) => BaseComponent => ({
   className,
@@ -7,7 +7,7 @@ const renderValidation = ({ valid, invalid }) => BaseComponent => ({
 }) => (
   <BaseComponent
     {...props}
-    className={gSp(className, props.touched && (props.error ? invalid : valid))}
+    className={jstr(className, props.touched && (props.error ? invalid : valid))}
   />
 );
 

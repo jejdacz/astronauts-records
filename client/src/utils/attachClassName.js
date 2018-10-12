@@ -1,9 +1,9 @@
 import React from "react";
-import { glueSpace as gs } from "./glueString.js";
+import { joinToStringBySpace as jstr } from "./joinToString.js";
 
 const attachClassName = styleClass => BaseComponent => ({
   className,
   ...props
-}) => <BaseComponent className={gs(styleClass, className)} {...props} />;
+}) => <BaseComponent className={jstr(styleClass, className)} {...props} />;
 
 export default attachClassName;

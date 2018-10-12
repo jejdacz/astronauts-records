@@ -1,11 +1,11 @@
 import React from "react";
 import styles from "./SectionDatabase.module.css";
-import { glueSpace as gs } from "../../../utils/glueString.js";
+import { joinToStringBySpace as jstr } from "../../../utils/joinToString.js";
 
 const addClass = styleClass => BaseComponent => ({ className, ...props }) =>
   React.createElement(BaseComponent, {
     ...props,
-    className: gs(styleClass, className)
+    className: jstr(styleClass, className)
   });
 
 const Heading = addClass(styles.heading)("h2");
