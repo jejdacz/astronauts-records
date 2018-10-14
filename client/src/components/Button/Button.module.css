@@ -1,4 +1,4 @@
-@value text-link from "../../styles/colors.css";
+@value text-link from "../../styles/colors.module.css";
 
 .button {
   color: text-link;
@@ -8,6 +8,7 @@
   line-height: 1.42;
   background: none;
   letter-spacing: 0.2em;
+  text-transform: uppercase;
   cursor: pointer;
   composes: decent-shadow-em from "../../styles/effects.module.css";
 }

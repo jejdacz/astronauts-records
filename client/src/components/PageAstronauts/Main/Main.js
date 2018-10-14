@@ -1,4 +1,4 @@
-import attachClassName from "../../utils/attachClassName.js";
+import attachClassName from "../../../utils/attachClassName.js";
 import styles from "./Main.module.css";
 
 export const Container = attachClassName(styles.container)("div");

@@ -1,6 +1,6 @@
-@value urem from "./index.css";
-@value lg, xl from "./scale.css";
-@value bp-sm, bp-md, bp-lg, bp-xl, bp-xxl, dev-sm, dev-md, dev-lg, dev-xl, dev-xxl from "./breakpoints.css";
+@value urem from "./index.module.css";
+@value lg, xl from "./scale.module.css";
+@value bp-sm, bp-md, bp-lg, bp-xl, bp-xxl, dev-sm, dev-md, dev-lg, dev-xl, dev-xxl from "./breakpoints.module.css";
 
 .container {
   width: 100%;

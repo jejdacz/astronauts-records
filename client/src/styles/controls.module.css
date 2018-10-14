@@ -1,0 +1,28 @@
+@value text-link from "./colors.module.css";
+
+.link {
+  display: inline-block;
+  letter-spacing: 0.15rem;
+  color: text-link;
+  text-transform: uppercase;
+  padding: 0;
+}
+
+.link:hover,
+.link:active {
+  color: text-link;
+  text-decoration: none;
+}
+
+.link-button {
+  composes: link;
+  border: none;
+  background: none;
+  font-size: inherit;
+  font-weight: inherit;
+  cursor: pointer;
+}
+
+.link-button:focus {
+  outline: none;
+}

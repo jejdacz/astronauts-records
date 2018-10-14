@@ -1,17 +1,11 @@
 import React from "react";
-import {
-  Section,
-  Container,
-  Heading,
-  Paragraph,
-  Group
-} from "../../Main/Main.js";
+import { Section, Container, Heading, Paragraph, Group } from "../Main/Main.js";
 import Button from "../../Button/Button.js";
 
 const SectionDatabase = ({ children }) => (
   <Section id="database">
     <Container>
-      <Heading>DATABASE</Heading>
+      <Heading>Database</Heading>
       <Group>
         <Paragraph>
           Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas
@@ -20,7 +14,7 @@ const SectionDatabase = ({ children }) => (
           elit. Maecenas libero. Integer malesuada. Cum sociis natoque penatibus
           et magnis dis parturient montes.
         </Paragraph>
-        <Button>ADD ASTRONAUT</Button>
+        <Button>add astronaut</Button>
       </Group>
       <Group>{children}</Group>
     </Container>

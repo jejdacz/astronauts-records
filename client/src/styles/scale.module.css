@@ -1,4 +1,4 @@
-@value unit from "./index.css";
+@value unit from "./index.module.css";
 
 @value xs: calc(unit * 0.25rem);
 @value sm: calc(unit * 0.5rem);

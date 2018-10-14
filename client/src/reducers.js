@@ -22,6 +22,36 @@ const initialState = {
   }
 };
 
+const stubState = {
+  newAstronaut: {
+    saving: false,
+    error: null,
+    astronaut: {},
+    response: null
+  },
+  astronauts: {
+    loading: false,
+    error: null,
+    items: [
+      {
+        id: "0",
+        firstName: "Neil",
+        lastName: "Armstrong",
+        birth: "1930-05-08",
+        superpower: "MegaStrength"
+      },
+      {
+        id: "1",
+        firstName: "Neil",
+        lastName: "Armstrong",
+        birth: "1930-05-08",
+        superpower: "MegaStrength"
+      }
+    ],
+    receivedAt: 0
+  }
+};
+
 const astronautsReducer = (state, action) => {
   switch (action.type) {
     case LOAD_ASTRONAUTS_REQUEST:
@@ -128,7 +158,7 @@ const editorReducer = (state, action) => {
   }
 };
 */
-const rootReducer = (state = initialState, action) => ({
+const rootReducer = (state = stubState, action) => ({
   astronauts: astronautsReducer(state.astronauts, action),
   newAstronaut: newAstronautReducer(state.newAstronaut, action)
 });

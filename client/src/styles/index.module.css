@@ -2,8 +2,8 @@
 @import url("https://fonts.googleapis.com/css?family=Exo:300,500,800");
 @import url("https://fonts.googleapis.com/css?family=Cormorant+SC:300,500");
 
-@value dev-sm, dev-md, dev-lg, dev-xxl from "./breakpoints.css";
-@value bg-light, text-dark  from "./colors.css";
+@value dev-sm, dev-md, dev-lg, dev-xxl from "./breakpoints.module.css";
+@value bg-light, text-dark  from "./colors.module.css";
 
 @value unit: 1.5;
 @value urem: 1.5rem;

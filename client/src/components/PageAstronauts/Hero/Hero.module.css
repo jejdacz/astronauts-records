@@ -1,6 +1,6 @@
 @value fast, slow from "../../../styles/animations.module.css";
-@value dev-md, dev-lg from "../../../styles/breakpoints.css";
-@value md, xl from "../../../styles/scale.css";
+@value dev-md, dev-lg from "../../../styles/breakpoints.module.css";
+@value md, xl from "../../../styles/scale.module.css";
 
 .container {
   composes: container from "../../../styles/containers.module.css";

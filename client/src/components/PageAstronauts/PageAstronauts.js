@@ -1,21 +1,27 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { loadAstronautsIfNeeded } from "../../astronautActions.js";
-import AstronautList from "../AstronautList/AstronautList.js";
+import AstronautList from "./AstronautList/AstronautList.js";
+import AstronautTable from "./AstronautTable/AstronautTable.js";
 import Nav from "../Nav/Nav.js";
 import Hero from "./Hero/Hero.js";
 import SectionDatabase from "./SectionDatabase/SectionDatabase.js";
 import widthMonitor from "../widthMonitor/widthMonitor.js";
-import breakpoints from "../../styles/breakpoints.css";
+import breakpoints from "../../styles/breakpoints.module.css";
+import styles from "./PageAstronauts.module.css";
 
 class PageAstronauts extends Component {
   constructor(props) {
     super(props);
-    this.breakpointMedium = breakpoints["bp-md"].replace("px", "");
+    this.breakpointLarge = breakpoints["bp-lg"].replace("px", "");
+  }
+
+  isLargeScreenDevice() {
+    return this.props.width >= this.breakpointLarge;
   }
 
   componentDidMount() {
-    this.props.dispatch(loadAstronautsIfNeeded);
+    //this.props.dispatch(loadAstronautsIfNeeded);
   }
 
   componentWillUnmount() {}
@@ -32,21 +38,14 @@ class PageAstronauts extends Component {
     <Fragment>
       <header>
         <Nav.Bar fixed={true}>
-          <Nav.Logo to="/">AR</Nav.Logo>
-          <Nav.Link to="/astronauts/new/">Link</Nav.Link>
-          <Nav.Button to="/astronauts/new/">+ADD</Nav.Button>
+          <Nav.Logo to="/">ar</Nav.Logo>
+          <Nav.Link to="/astronauts/new/">link</Nav.Link>
+          <Nav.Button onClick={() => false}>+add</Nav.Button>
         </Nav.Bar>
         <Hero />
       </header>
       <main>
-        {/*/ TODO: move AstronautList to section database.... edit + delete func<<<<======??*/}
         <SectionDatabase>{content}</SectionDatabase>
-        <p>
-          {this.breakpointMedium <= this.props.innerWidth
-            ? "bigger"
-            : "smaller"}
-        </p>
-        <p>{this.props.width}</p>
       </main>
     </Fragment>
   );
@@ -60,8 +59,19 @@ class PageAstronauts extends Component {
     if (loading) {
       return this.renderContent(this.renderLoading());
     }
-
-    return this.renderContent(<AstronautList astronauts={items} />);
+    if (this.isLargeScreenDevice()) {
+      return this.renderContent(
+        <AstronautTable
+          astronauts={items}
+          updated={this.props.receivedAt}
+          onDeleteClick={() => false}
+        />
+      );
+    } else {
+      return this.renderContent(
+        <AstronautList astronauts={items} updated={this.props.receivedAt} />
+      );
+    }
   }
 }
 

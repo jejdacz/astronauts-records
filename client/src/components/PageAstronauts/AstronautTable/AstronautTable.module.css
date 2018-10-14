@@ -1,0 +1,48 @@
+@value text-link from "../../../styles/colors.module.css";
+
+.table {
+  max-width: 100%;
+  width: 100%;
+}
+
+.row {
+  border-bottom: 1px solid #57430120;
+  line-height: 3rem;
+}
+
+.row:first-child {
+  border-bottom: 1px solid #57430140;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.header {
+  composes: row;
+  text-transform: uppercase;
+}
+
+.header th {
+  font-weight: 300;
+}
+
+.small {
+  composes: row;
+  border: none;
+  line-height: 1.5rem;
+  padding: 0;
+}
+
+.control {
+}
+
+.link {
+}
+
+.control + .control {
+  margin-left: 3rem;
+}
+
+.button {
+}

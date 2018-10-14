@@ -1,0 +1,39 @@
+.subHeading {
+  width: 100%;
+  padding: 1.5em;
+  letter-spacing: 0.1em;
+  font-weight: 300;
+  font-size: 1.25rem;
+  margin: 0;
+  text-transform: uppercase;
+  border-bottom: 1px solid #57430120;
+}
+
+.small {
+  display: block;
+  padding: 1.5rem;
+}
+
+.list {
+  list-style-type: none;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+
+.item {
+  display: block;
+}
+
+.link {
+  display: block;
+  color: inherit;
+  font-weight: 500;
+  width: 100%;
+  padding: 1.5em 1em 1.5em 1em;
+  letter-spacing: 0.1em;
+}
+
+.link:hover {
+  text-decoration: none;
+}

@@ -26,10 +26,11 @@ export const Logo = ({ children, className, ...props }) => (
     {children}
   </RouterLink>
 );
-
-export const Button = ({ onClick, children, className, ...props }) => (
+/*
+export const LinkButton = ({ onClick, children, className, ...props }) => (
   <a
     href="#"
+    role="button"
     onClick={e => {
       e.preventDefault();
       onClick();
@@ -39,6 +40,19 @@ export const Button = ({ onClick, children, className, ...props }) => (
   >
     {children}
   </a>
+);*/
+
+export const Button = ({ onClick, children, className, ...props }) => (
+  <button
+    type="button"
+    onClick={e => {
+      onClick();
+    }}
+    className={jstr(styles.button, className)}
+    {...props}
+  >
+    {children}
+  </button>
 );
 
 export default {
