@@ -1,6 +1,6 @@
 import React from "react";
 import { Section, Container, Heading, Paragraph, Group } from "../Main/Main.js";
-import Button from "../../controls/Button.js";
+import Button from "../../Button/Button.js";
 
 const SectionDatabase = ({ children }) => (
   <Section id="database">

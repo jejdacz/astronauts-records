@@ -1,8 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import LinkButton from "../../controls/LinkButton.js";
-import Button from "../../controls/Button.js";
+import Button from "../../Button/Button.js";
 import styles from "./AstronautTable.module.css";
 
 const renderRow = ({ astronaut, onDeleteClick }) => (
@@ -11,30 +10,30 @@ const renderRow = ({ astronaut, onDeleteClick }) => (
     <td>{astronaut.birth}</td>
     <td>{astronaut.superpower}</td>
     <td>
-      <LinkButton to={`/astronauts/${astronaut.id}/edit`} noBorder={true}>
+      <Button to={`/astronauts/${astronaut.id}/edit`} noBorder={true}>
         Edit
-      </LinkButton>
-      <Button onClick={onDeleteClick} noBorder={true}>
-        Delete
       </Button>
+      <Button onClick={onDeleteClick}>Delete</Button>
     </td>
   </tr>
 );
 
 const AstronautTable = ({ astronauts, updated, onDeleteClick }) => (
   <table className={styles.table}>
-    <tr className={styles.header}>
-      <th>Name</th>
-      <th>Birth</th>
-      <th>Superpower</th>
-      <th>Controls</th>
-    </tr>
-    <tr className={styles.small}>
-      <td colspan="4">
-        <small>{`updated: ${updated}`}</small>
-      </td>
-    </tr>
-    {astronauts.map(astronaut => renderRow({ astronaut, onDeleteClick }))}
+    <tbody>
+      <tr className={styles.header}>
+        <th>Name</th>
+        <th>Birth</th>
+        <th>Superpower</th>
+        <th>Controls</th>
+      </tr>
+      <tr className={styles.small}>
+        <td colSpan="4">
+          <small>{`updated: ${updated}`}</small>
+        </td>
+      </tr>
+      {astronauts.map(astronaut => renderRow({ astronaut, onDeleteClick }))}
+    </tbody>
   </table>
 );
 

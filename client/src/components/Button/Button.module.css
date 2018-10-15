@@ -1,24 +1,53 @@
-@value text-link from "../../styles/colors.module.css";
+@value text-link, text-link-hsl from "../../styles/colors.module.css";
 
 .button {
+  display: inline-block;
+  letter-spacing: 0.15em;
   color: text-link;
-  border: 1px solid text-link;
-  border-radius: 0.75em;
-  padding: 0.7em 1em;
-  line-height: 1.42;
-  background: none;
-  letter-spacing: 0.2em;
   text-transform: uppercase;
-  cursor: pointer;
+  border-radius: 0.5em;
+  padding: 0.6em 1em;
+  line-height: 1.5;
   user-select: none;
-  composes: decent-shadow-em from "../../styles/effects.module.css";
+  text-align: center;
+  cursor: pointer;
+  background-color: transparent;
+  vertical-align: middle;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 1px;
+  font-weight: 500; /*inherit*/
+  border: 1px solid text-link;
 }
 
-.button:focus {
-  background-color: initial;
-  outline: none;
+.button:hover {
+  color: text-link;
+  background-color: hsl(0, 0%, 91%);
+  text-decoration: none;
 }
 
 .button:active {
-  box-shadow: none;
+  color: text-link;
+  background-color: hsl(0, 0%, 85%);
+}
+
+.button:focus {
+  outline: none;
+  box-shadow: 0 0 0.05rem 0.1rem hsla(text-link-hsl, 0.7);
+}
+
+.button:disabled,
+.disabled {
+  background-color: transparent;
+  cursor: default;
+  border-color: hsl(0, 0%, 60%);
+  color: hsl(0, 0%, 60%);
+}
+
+.no-border,
+.no-border:hover,
+.no-border:active,
+.no-border:focus,
+.no-border:disabled {
+  border-color: transparent;
 }
