@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import { Link as NavLink, Button } from "../../Nav/Nav.js";
+import LinkButton from "../../controls/LinkButton.js";
+import Button from "../../controls/Button.js";
 import styles from "./AstronautTable.module.css";
 
 const renderRow = ({ astronaut, onDeleteClick }) => (
@@ -10,12 +11,12 @@ const renderRow = ({ astronaut, onDeleteClick }) => (
     <td>{astronaut.birth}</td>
     <td>{astronaut.superpower}</td>
     <td>
-      <NavLink className={styles.link} to={`/astronauts/${astronaut.id}/edit`}>
+      <LinkButton to={`/astronauts/${astronaut.id}/edit`} noBorder={true}>
         Edit
-      </NavLink>
-      <button type="button" className={styles.button} onClick={onDeleteClick}>
+      </LinkButton>
+      <Button onClick={onDeleteClick} noBorder={true}>
         Delete
-      </button>
+      </Button>
     </td>
   </tr>
 );

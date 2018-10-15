@@ -10,6 +10,7 @@
   letter-spacing: 0.2em;
   text-transform: uppercase;
   cursor: pointer;
+  user-select: none;
   composes: decent-shadow-em from "../../styles/effects.module.css";
 }
 
