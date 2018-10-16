@@ -1,0 +1,17 @@
+@value bg-light from "../../styles/colors.module.css";
+@value md, lg, xl, xxl,xxxl from "../../styles/scale.module.css";
+
+.main {
+  text-align: left;
+  padding: md;
+}
+
+.container {
+  composes: enter-left from "../../styles/animations.module.css";
+  composes: container-shadow from "../../styles/effects.module.css";
+  padding-top: lg;
+  padding-bottom: xl;
+  animation: enter-left;
+  animation-duration: 0.3s;
+  background-color: bg-light;
+}

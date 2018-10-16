@@ -1,7 +1,9 @@
+@value sm, md, lg from "../../../styles/scale.module.css";
+
 .subHeading {
   width: 100%;
-  padding: 1.5em;
-  letter-spacing: 0.1em;
+  padding: md;
+  letter-spacing: 0.1rem;
   font-weight: 300;
   font-size: 1.25rem;
   margin: 0;
@@ -11,7 +13,7 @@
 
 .small {
   display: block;
-  padding: 1.5rem;
+  padding: md;
 }
 
 .list {
@@ -30,8 +32,8 @@
   color: inherit;
   font-weight: 500;
   width: 100%;
-  padding: 1.5em 1em 1.5em 1em;
-  letter-spacing: 0.1em;
+  padding: md;
+  letter-spacing: 0.1rem;
 }
 
 .link:hover {

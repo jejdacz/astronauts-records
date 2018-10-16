@@ -19,7 +19,7 @@
 }
 
 .button:focus {
-  box-shadow: 0 0 0.05rem 0.1rem hsla(text-link-hsl, 0.7);
+  box-shadow: 0 0 0.05em 0.1em hsla(text-link-hsl, 0.7);
 }
 
 .button:disabled,

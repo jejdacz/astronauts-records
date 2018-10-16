@@ -1,0 +1,11 @@
+@value bg-dark, text-light from "../../styles/colors.module.css";
+
+.footer {
+  color: text-light;
+  background-color: bg-dark;
+}
+
+.container {
+  text-align: center;
+  padding: 3rem 1.5rem;
+}

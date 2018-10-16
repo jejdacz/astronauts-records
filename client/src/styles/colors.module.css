@@ -8,6 +8,8 @@
 @value text-theme-light: #b3ab42;
 @value text-error: #df6b01;
 @value text-success: #13920c;
+@value text-light: #c1bcaa;
 @value bg-light: #fff;
 @value bg-light-secondary: #f4f4f4;
+@value bg-dark: #252525;
 @value bg-button-hover: #dad6c550;

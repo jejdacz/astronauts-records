@@ -18,20 +18,6 @@
   margin-left: auto;
 }
 
-.group {
-  margin: 0;
-}
-
-.group + .group {
-  margin-top: xl;
-}
-
-.box {
-  composes: container;
-  padding-top: xl;
-  padding-bottom: xl;
-}
-
 @media (dev-sm) {
   .container {
     max-width: 540px;

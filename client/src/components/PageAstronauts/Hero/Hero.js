@@ -1,16 +1,17 @@
 import React from "react";
 import styles from "./Hero.module.css";
+import Container from "../../Container/Container.js";
 
-const Hero = props => (
+const Hero = () => (
   <div className={styles.hero}>
-    <div className={styles.container}>
+    <Container className={styles.container}>
       <div className={styles.gold} />
       <h1 className={styles.heading}>
         ASTRONAUTS
         <br />
         <span className={styles.headingSmall}>RECORDS</span>
       </h1>
-    </div>
+    </Container>
   </div>
 );
 

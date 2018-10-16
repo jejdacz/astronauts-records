@@ -1,0 +1,5 @@
+@value bg-light from "../../styles/colors.module.css";
+
+.header {
+  background-color: bg-light;
+}

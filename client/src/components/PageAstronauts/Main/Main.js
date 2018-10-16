@@ -1,7 +1,8 @@
 import attachClassName from "../../../utils/attachClassName.js";
+import Cont from "../../Container/Container.js";
 import styles from "./Main.module.css";
 
-export const Container = attachClassName(styles.container)("div");
+export const Container = attachClassName(styles.container)(Cont);
 
 export const Section = attachClassName(styles.section)("section");
 

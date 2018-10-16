@@ -15,7 +15,8 @@
 }
 
 .container {
-  composes: box from "../../../styles/containers.module.css";
+  padding-top: xl;
+  padding-bottom: xl;
   text-align: center;
 }
 
@@ -28,7 +29,11 @@
 }
 
 .group {
-  composes: group from "../../../styles/containers.module.css";
+  margin: 0;
+}
+
+.group + .group {
+  margin-top: xl;
 }
 
 .paragraph {

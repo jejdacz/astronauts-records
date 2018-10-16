@@ -6,6 +6,7 @@ import AstronautTable from "./AstronautTable/AstronautTable.js";
 import { Nav, Link, Logo } from "../Nav/Nav.js";
 import Hero from "./Hero/Hero.js";
 import SectionDatabase from "./SectionDatabase/SectionDatabase.js";
+import Footer from "../Footer/Footer.js";
 import widthMonitor from "../widthMonitor/widthMonitor.js";
 import breakpoints from "../../styles/breakpoints.module.css";
 import styles from "./PageAstronauts.module.css";
@@ -14,10 +15,16 @@ class PageAstronauts extends Component {
   constructor(props) {
     super(props);
     this.breakpointLarge = breakpoints["bp-lg"].replace("px", "");
+    this.handleDeleteClick = this.handleDeleteClick.bind(this);
   }
 
   isLargeScreenDevice() {
     return this.props.width >= this.breakpointLarge;
+  }
+
+  handleDeleteClick(id) {
+    // open modal window
+    // pass operation delete and  close modal
   }
 
   componentDidMount() {
@@ -36,19 +43,17 @@ class PageAstronauts extends Component {
 
   renderContent = content => (
     <Fragment>
-      <header>
+      <header className={styles.header}>
         <Nav fixed={true}>
           <Logo to="/">ar</Logo>
-          <Link to="/astronauts/new/">link</Link>
-          <Link disabled={true} onClick={() => false}>
-            +add
-          </Link>
+          <Link to="/astronauts/new/">+add</Link>
         </Nav>
         <Hero />
       </header>
       <main>
         <SectionDatabase>{content}</SectionDatabase>
       </main>
+      <Footer />
     </Fragment>
   );
 
@@ -66,7 +71,7 @@ class PageAstronauts extends Component {
         <AstronautTable
           astronauts={items}
           updated={this.props.receivedAt}
-          onDeleteClick={() => false}
+          onDeleteClick={this.handleDeleteClick}
         />
       );
     } else {

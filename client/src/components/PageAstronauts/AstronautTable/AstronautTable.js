@@ -13,7 +13,7 @@ const renderRow = ({ astronaut, onDeleteClick }) => (
       <Button to={`/astronauts/${astronaut.id}/edit`} noBorder={true}>
         Edit
       </Button>
-      <Button onClick={onDeleteClick} noBorder={true}>
+      <Button onClick={() => onDeleteClick(astronaut.id)} noBorder={true}>
         Delete
       </Button>
     </td>
