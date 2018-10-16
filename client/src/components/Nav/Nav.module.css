@@ -14,7 +14,6 @@
 }
 
 .nav {
-  composes: container-fluid from "../../styles/containers.module.css";
   padding: 0;
   position: absolute;
   transform-origin: top;
@@ -31,17 +30,14 @@
 }
 
 .link {
-  display: block;
   letter-spacing: 0.15rem;
-  color: text-link;
   text-transform: uppercase;
   padding: sm;
 }
 
-.link:hover,
+.link:hover:not(:disabled),
 .link:active {
   color: text-theme-light;
-  text-decoration: none;
 }
 
 .nav .link:last-child {
@@ -54,7 +50,6 @@
 }
 
 .container {
-  composes: container from "../../styles/containers.module.css";
   display: flex;
 }
 
@@ -66,19 +61,6 @@
   composes: link;
   margin-right: auto;
   color: text-theme;
-}
-
-.button {
-  composes: link;
-  border: none;
-  background: none;
-  font-size: inherit;
-  font-weight: inherit;
-  cursor: pointer;
-}
-
-.button:focus {
-  outline: none;
 }
 
 @media (dev-md) {

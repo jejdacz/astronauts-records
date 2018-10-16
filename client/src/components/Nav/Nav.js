@@ -1,63 +1,29 @@
 import React, { Fragment } from "react";
-import { Link as RouterLink } from "react-router-dom";
 import { joinToStringBySpace as jstr } from "../../utils/joinToString.js";
+import attachClassName from "../../utils/attachClassName.js";
+import LinkButton from "../LinkButton/LinkButton.js";
+import Container from "../Container/Container.js";
 import styles from "./Nav.module.css";
 
-export const Bar = ({ children, className, fixed, ...props }) => (
+export const Nav = ({ children, className, fixed, ...props }) => (
   <Fragment>
-    <nav
+    <Container
+      fluid={true}
+      as={"nav"}
       className={jstr(styles.nav, fixed ? styles.navFixed : "", className)}
       {...props}
     >
-      <div className={styles.container}>{children}</div>
-    </nav>
+      <Container className={styles.container}>{children}</Container>
+    </Container>
     <div className={styles.placeholder} />
   </Fragment>
 );
 
-export const Link = ({ children, className, ...props }) => (
-  <RouterLink className={jstr(styles.link, className)} {...props}>
-    {children}
-  </RouterLink>
-);
-
-export const Logo = ({ children, className, ...props }) => (
-  <RouterLink className={jstr(styles.logo, className)} {...props}>
-    {children}
-  </RouterLink>
-);
-/*
-export const LinkButton = ({ onClick, children, className, ...props }) => (
-  <a
-    href="#"
-    role="button"
-    onClick={e => {
-      e.preventDefault();
-      onClick();
-    }}
-    className={jstr(styles.link, className)}
-    {...props}
-  >
-    {children}
-  </a>
-);*/
-
-export const Button = ({ onClick, children, className, ...props }) => (
-  <button
-    type="button"
-    onClick={e => {
-      onClick();
-    }}
-    className={jstr(styles.button, className)}
-    {...props}
-  >
-    {children}
-  </button>
-);
+export const Link = attachClassName(styles.link)(LinkButton);
+export const Logo = attachClassName(styles.logo)(LinkButton);
 
 export default {
-  Bar,
+  Nav,
   Link,
-  Logo,
-  Button
+  Logo
 };

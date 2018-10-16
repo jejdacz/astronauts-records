@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { loadAstronautsIfNeeded } from "../../astronautActions.js";
 import AstronautList from "./AstronautList/AstronautList.js";
 import AstronautTable from "./AstronautTable/AstronautTable.js";
-import Nav from "../Nav/Nav.js";
+import { Nav, Link, Logo } from "../Nav/Nav.js";
 import Hero from "./Hero/Hero.js";
 import SectionDatabase from "./SectionDatabase/SectionDatabase.js";
 import widthMonitor from "../widthMonitor/widthMonitor.js";
@@ -37,11 +37,13 @@ class PageAstronauts extends Component {
   renderContent = content => (
     <Fragment>
       <header>
-        <Nav.Bar fixed={true}>
-          <Nav.Logo to="/">ar</Nav.Logo>
-          <Nav.Link to="/astronauts/new/">link</Nav.Link>
-          <Nav.Button onClick={() => false}>+add</Nav.Button>
-        </Nav.Bar>
+        <Nav fixed={true}>
+          <Logo to="/">ar</Logo>
+          <Link to="/astronauts/new/">link</Link>
+          <Link disabled={true} onClick={() => false}>
+            +add
+          </Link>
+        </Nav>
         <Hero />
       </header>
       <main>

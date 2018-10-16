@@ -5,7 +5,7 @@ import styles from "./AstronautList.module.css";
 
 const AstronautList = ({ astronauts, updated }) => (
   <Fragment>
-    <h4 className={styles.subHeading}>Astronauts</h4>
+    <h3 className={styles.subHeading}>Astronauts</h3>
     <small className={styles.small}>{`updated: ${updated}`}</small>
     <ul className={styles.list}>
       {astronauts.map(a => (
@@ -20,7 +20,8 @@ const AstronautList = ({ astronauts, updated }) => (
 );
 
 AstronautList.propTypes = {
-  astronauts: PropTypes.array.isRequired
+  astronauts: PropTypes.array.isRequired,
+  updated: PropTypes.string
 };
 
 export default AstronautList;

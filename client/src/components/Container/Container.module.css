@@ -1,0 +1,48 @@
+@value urem from "../../styles/index.module.css";
+@value dev-sm, dev-md, dev-lg, dev-xl, dev-xxl from "../../styles/breakpoints.module.css";
+
+.container {
+  width: 100%;
+  padding-right: urem;
+  padding-left: urem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.container-fluid {
+  width: 100%;
+  padding-right: urem;
+  padding-left: urem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (dev-sm) {
+  .container {
+    max-width: 540px;
+  }
+}
+
+@media (dev-md) {
+  .container {
+    max-width: 720px;
+  }
+}
+
+@media (dev-lg) {
+  .container {
+    max-width: 960px;
+  }
+}
+
+@media (dev-xl) {
+  .container {
+    max-width: 1140px;
+  }
+}
+
+@media (dev-xxl) {
+  .container {
+    max-width: 1280px;
+  }
+}

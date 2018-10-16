@@ -1,15 +1,18 @@
 import React from "react";
-import attachClassName from "../../utils/attachClassName.js";
-import styles from "../../styles/containers.module.css";
+import { joinToStringBySpace as jstr } from "../../utils/joinToString.js";
+import styles from "./Container.module.css";
 
-export const Container = attachClassName(styles.container)("div");
-
-export const ContainerFluid = attachClassName(styles["container-fluid"])("div");
-
-export const toContainer = BaseComponent =>
-  attachClassName(styles.container)(BaseComponent);
-
-export const toContainerFluid = BaseComponent =>
-  attachClassName(styles["container-fluid"])(BaseComponent);
+export const Container = ({ as: Component, className, fluid, ...props }) => {
+  Component = Component || "div";
+  return (
+    <Component
+      className={jstr(
+        fluid ? styles["container-fluid"] : styles.container,
+        className
+      )}
+      {...props}
+    />
+  );
+};
 
 export default Container;

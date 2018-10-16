@@ -1,0 +1,34 @@
+@value text-link, text-disabled from "../../styles/colors.module.css";
+
+.button {
+  display: inline-block;
+  color: text-link;
+  padding: 0;
+  line-height: 1.5;
+  user-select: none;
+  text-align: center;
+  cursor: pointer;
+  background-color: transparent;
+  vertical-align: baseline;
+  border: none;
+  font-weight: inherit;
+}
+
+.button:hover {
+  color: text-link;
+  text-decoration: none;
+}
+
+.button:active {
+  color: text-link;
+}
+
+.button:focus {
+  outline: none;
+}
+
+.button:disabled,
+.disabled {
+  cursor: default;
+  color: text-disabled;
+}
