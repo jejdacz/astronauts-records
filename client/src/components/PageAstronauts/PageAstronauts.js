@@ -28,7 +28,7 @@ class PageAstronauts extends Component {
   }
 
   componentDidMount() {
-    //this.props.dispatch(loadAstronautsIfNeeded);
+    this.props.dispatch(loadAstronautsIfNeeded);
   }
 
   componentWillUnmount() {}

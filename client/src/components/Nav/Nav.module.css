@@ -32,6 +32,7 @@
 .link {
   letter-spacing: 0.15rem;
   text-transform: uppercase;
+  /*font-weight: 500;*/
   padding: sm;
 }
 

@@ -158,7 +158,7 @@ const editorReducer = (state, action) => {
   }
 };
 */
-const rootReducer = (state = stubState, action) => ({
+const rootReducer = (state = initialState, action) => ({
   astronauts: astronautsReducer(state.astronauts, action),
   newAstronaut: newAstronautReducer(state.newAstronaut, action)
 });

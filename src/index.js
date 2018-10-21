@@ -51,6 +51,7 @@ astronautSchema.post("remove", () => (lastUpdated = Date.now()));
 
 const Astronaut = mongoose.model("Astronaut", astronautSchema);
 
+// lastUpdated is set to type of String, beacause graphQL Int is only 32bit
 const schema = buildSchema(`
   type Query {
     astronaut(id: String!): Astronaut
