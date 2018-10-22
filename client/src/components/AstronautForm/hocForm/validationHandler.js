@@ -1,4 +1,4 @@
-import { withStateHandlers, withProps } from "recompose";
+import { withProps } from "recompose";
 
 const validationHandler = validate =>
   withProps(({ values }) => ({

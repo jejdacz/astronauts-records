@@ -28,6 +28,11 @@
   text-transform: uppercase;
 }
 
+.paragraph {
+  max-width: 60em;
+  letter-spacing: 0.1em;
+}
+
 .group {
   margin: 0;
 }
@@ -36,10 +41,13 @@
   margin-top: xl;
 }
 
-.paragraph {
-  max-width: 60em;
-  letter-spacing: 0.1em;
-  margin-bottom: md;
+.group > * {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.group > * + * {
+  margin-top: md;
 }
 
 @media (dev-lg) {
@@ -49,19 +57,11 @@
     text-align: left;
   }
 
-  .group {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    align-items: center;
+  .paragraph {
+    font-size: 1.2rem;
   }
 
-  .group > * {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-
-  .group > * + * {
-    margin-left: lg;
+  .button {
+    font-size: 1.2rem;
   }
 }

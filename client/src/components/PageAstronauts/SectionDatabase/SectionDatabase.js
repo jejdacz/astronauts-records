@@ -1,6 +1,12 @@
 import React from "react";
-import { Section, Container, Heading, Paragraph, Group } from "../Main/Main.js";
-import Button from "../../Button/Button.js";
+import {
+  Section,
+  Container,
+  Heading,
+  Paragraph,
+  Group,
+  Button
+} from "../Main/Main.js";
 
 const SectionDatabase = ({ children }) => (
   <Section id="database">

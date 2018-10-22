@@ -1,5 +1,4 @@
 import React from "react";
-import { joinToStringBySpace as jst } from "../../utils/joinToString.js";
 import withClassName from "../../utils/withClassName.js";
 import Btn from "../Button/Button.js";
 import ReactModal from "react-modal";
@@ -22,5 +21,7 @@ export const Button = compose(
 )(Btn);
 
 export const Controls = withClassName(styles.controls)("div");
+export const Message = withClassName(styles.message)("p");
+export const Heading = withClassName(styles.heading)("h5");
 
 export default Modal;

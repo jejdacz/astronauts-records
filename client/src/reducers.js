@@ -7,7 +7,8 @@ import {
   ADD_ASTRONAUT_FAILURE,
   DELETE_ASTRONAUT_REQUEST,
   DELETE_ASTRONAUT_SUCCESS,
-  DELETE_ASTRONAUT_FAILURE
+  DELETE_ASTRONAUT_FAILURE,
+  DELETE_ASTRONAUT_RESET
 } from "./astronautActions.js";
 
 const initialState = {
@@ -65,7 +66,8 @@ const newAstronautReducer = (state, action) => {
         ...state,
         saving: true,
         error: null,
-        astronaut: action.astronaut
+        astronaut: action.astronaut,
+        response: null
       };
     case ADD_ASTRONAUT_SUCCESS:
       return {
@@ -92,7 +94,8 @@ const deletedAstronautReducer = (state, action) => {
         ...state,
         pending: true,
         error: null,
-        id: action.id
+        id: action.id,
+        response: null
       };
     case DELETE_ASTRONAUT_SUCCESS:
       return {
@@ -106,6 +109,14 @@ const deletedAstronautReducer = (state, action) => {
         ...state,
         pending: false,
         error: action.error
+      };
+    case DELETE_ASTRONAUT_RESET:
+      return {
+        ...state,
+        pending: false,
+        error: null,
+        id: null,
+        response: null
       };
     default:
       return state;

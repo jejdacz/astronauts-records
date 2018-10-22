@@ -1,5 +1,5 @@
 @value dev-lg from "../../styles/breakpoints.module.css";
-@value md from "../../styles/scale.module.css";
+@value sm, md from "../../styles/scale.module.css";
 
 .controls {
   text-align: right;
@@ -36,11 +36,25 @@
   align-items: center;
   padding: md;
   z-index: 10000;
-  cursor: pointer;
+}
+
+.heading {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-bottom: sm;
+  padding: 0;
+}
+
+.message {
+  margin-bottom: md;
 }
 
 @media (dev-lg) {
   .modal {
     max-width: 30rem;
+  }
+
+  .heading {
+    font-size: 1.4rem;
   }
 }

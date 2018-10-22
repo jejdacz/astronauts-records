@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import Container from "../Container/Container.js";
 import styles from "./Footer.module.css";
 

@@ -1,12 +1,17 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import { loadAstronautsIfNeeded } from "../../astronautActions.js";
+import {
+  loadAstronautsIfNeeded,
+  deleteAstronaut
+} from "../../astronautActions.js";
 import AstronautList from "./AstronautList/AstronautList.js";
 import AstronautTable from "./AstronautTable/AstronautTable.js";
 import { Nav, Link, Logo } from "../Nav/Nav.js";
 import Hero from "./Hero/Hero.js";
 import SectionDatabase from "./SectionDatabase/SectionDatabase.js";
 import Footer from "../Footer/Footer.js";
+import Button from "../Button/Button.js";
+import { Modal, Button as ModalButton, Controls } from "../Modal/Modal.js";
 import DeleteAstronautModal from "../DeleteAstronautModal/DeleteAstronautModal.js";
 import widthMonitor from "../widthMonitor/widthMonitor.js";
 import breakpoints from "../../styles/breakpoints.module.css";
@@ -19,7 +24,7 @@ class PageAstronauts extends Component {
     this.breakpointLarge = breakpoints["bp-lg"].replace("px", "");
 
     this.state = {
-      deleteModalIsOpen: false,
+      modalIsOpen: false,
       idToDelete: null
     };
 
@@ -29,11 +34,11 @@ class PageAstronauts extends Component {
   }
 
   openModal() {
-    this.setState({ deleteModalIsOpen: true });
+    this.setState({ modalIsOpen: true });
   }
 
   closeModal() {
-    this.setState({ deleteModalIsOpen: false });
+    this.setState({ modalIsOpen: false });
   }
 
   isLargeScreenDevice() {
@@ -74,13 +79,11 @@ class PageAstronauts extends Component {
         <SectionDatabase>{content}</SectionDatabase>
       </main>
       <Footer />
-      {this.state.deleteModalIsOpen && (
-        <DeleteAstronautModal
-          isOpen={this.state.deleteModalIsOpen}
-          closeModal={this.closeModal}
-          idToDelete={this.state.idToDelete}
-        />
-      )}
+      <DeleteAstronautModal
+        isOpen={this.state.modalIsOpen}
+        closeModal={this.closeModal}
+        idToDelete={this.state.idToDelete}
+      />
     </Fragment>
   );
 
@@ -108,6 +111,8 @@ class PageAstronauts extends Component {
   }
 }
 
-const mapStateToProps = state => ({ ...state.astronauts });
+const mapStateToProps = state => ({
+  ...state.astronauts
+});
 
 export default connect(mapStateToProps)(widthMonitor()(PageAstronauts));

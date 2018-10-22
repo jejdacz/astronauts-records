@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 
 const traceProps = (id = "") => BaseComponent => props => {
   console.group(`Props: (${id})`);

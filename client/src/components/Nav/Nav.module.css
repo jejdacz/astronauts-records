@@ -34,6 +34,7 @@
   text-transform: uppercase;
   /*font-weight: 500;*/
   padding: sm;
+  font-size: 1.2rem;
 }
 
 .link:hover:not(:disabled),

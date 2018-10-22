@@ -45,6 +45,7 @@ addAstronautAction.failure = error => ({
 export const DELETE_ASTRONAUT_REQUEST = "DELETE_ASTRONAUT_REQUEST";
 export const DELETE_ASTRONAUT_SUCCESS = "DELETE_ASTRONAUT_SUCCESS";
 export const DELETE_ASTRONAUT_FAILURE = "DELETE_ASTRONAUT_FAILURE";
+export const DELETE_ASTRONAUT_RESET = "DELETE_ASTRONAUT_RESET";
 
 export const deleteAstronautAction = {};
 
@@ -61,6 +62,10 @@ deleteAstronautAction.success = data => ({
 deleteAstronautAction.failure = error => ({
   type: DELETE_ASTRONAUT_FAILURE,
   error
+});
+
+deleteAstronautAction.reset = () => ({
+  type: DELETE_ASTRONAUT_RESET
 });
 
 export const apiCall = (
@@ -103,8 +108,13 @@ export const updateAstronaut = astronaut => (dispatch, getState) => {
 
 export const deleteAstronaut = id => (dispatch, getState) => {
   dispatch(deleteAstronautAction.request(id));
-  setTimeout(() => dispatch(deleteAstronautAction.success("deleted")), 1500);
+  setTimeout(
+    () => dispatch(deleteAstronautAction.failure("not-deleted")),
+    1500
+  );
 };
+
+export const resetDeletedAstronaut = deleteAstronautAction.reset();
 
 export const shouldLoadAstronauts = (state, lastUpdated) => {
   if (state.astronauts.items.length === 0) {

@@ -45,4 +45,8 @@ const AstronautTable = ({ astronauts, updated, onDeleteClick }) => (
   </table>
 );
 
+AstronautTable.propTypes = {
+  astronauts: PropTypes.arrayOf(PropTypes.object)
+};
+
 export default AstronautTable;
