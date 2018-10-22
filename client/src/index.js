@@ -6,9 +6,11 @@ import { createStore, applyMiddleware } from "redux";
 import thunkMiddleware from "redux-thunk";
 import rootReducer from "./reducers.js";
 import App from "./components/App/App.js";
+import Modal from "react-modal";
 import registerServiceWorker from "./registerServiceWorker";
-
 import "./styles/index.module.css";
+
+Modal.setAppElement("#root");
 
 const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 

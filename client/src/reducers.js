@@ -4,7 +4,10 @@ import {
   LOAD_ASTRONAUTS_FAILURE,
   ADD_ASTRONAUT_REQUEST,
   ADD_ASTRONAUT_SUCCESS,
-  ADD_ASTRONAUT_FAILURE
+  ADD_ASTRONAUT_FAILURE,
+  DELETE_ASTRONAUT_REQUEST,
+  DELETE_ASTRONAUT_SUCCESS,
+  DELETE_ASTRONAUT_FAILURE
 } from "./astronautActions.js";
 
 const initialState = {
@@ -19,36 +22,12 @@ const initialState = {
     error: null,
     items: [],
     receivedAt: 0
-  }
-};
-
-const stubState = {
-  newAstronaut: {
-    saving: false,
-    error: null,
-    astronaut: {},
-    response: null
   },
-  astronauts: {
-    loading: false,
+  deletedAstronaut: {
+    pending: false,
     error: null,
-    items: [
-      {
-        id: "0",
-        firstName: "Neil",
-        lastName: "Armstrong",
-        birth: "1930-05-08",
-        superpower: "MegaStrength"
-      },
-      {
-        id: "1",
-        firstName: "Neil",
-        lastName: "Armstrong",
-        birth: "1930-05-08",
-        superpower: "MegaStrength"
-      }
-    ],
-    receivedAt: 0
+    id: null,
+    response: null
   }
 };
 
@@ -99,6 +78,33 @@ const newAstronautReducer = (state, action) => {
       return {
         ...state,
         saving: false,
+        error: action.error
+      };
+    default:
+      return state;
+  }
+};
+
+const deletedAstronautReducer = (state, action) => {
+  switch (action.type) {
+    case DELETE_ASTRONAUT_REQUEST:
+      return {
+        ...state,
+        pending: true,
+        error: null,
+        id: action.id
+      };
+    case DELETE_ASTRONAUT_SUCCESS:
+      return {
+        ...state,
+        pending: false,
+        error: null,
+        response: action.response
+      };
+    case DELETE_ASTRONAUT_FAILURE:
+      return {
+        ...state,
+        pending: false,
         error: action.error
       };
     default:
@@ -160,7 +166,8 @@ const editorReducer = (state, action) => {
 */
 const rootReducer = (state = initialState, action) => ({
   astronauts: astronautsReducer(state.astronauts, action),
-  newAstronaut: newAstronautReducer(state.newAstronaut, action)
+  newAstronaut: newAstronautReducer(state.newAstronaut, action),
+  deletedAstronaut: deletedAstronautReducer(state.deletedAstronaut, action)
 });
 
 export default rootReducer;

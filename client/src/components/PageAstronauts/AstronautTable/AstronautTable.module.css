@@ -1,4 +1,4 @@
-@value text-link from "../../../styles/colors.module.css";
+@value text-link, text-theme-light from "../../../styles/colors.module.css";
 
 .table {
   max-width: 100%;
@@ -37,12 +37,20 @@
 .control {
 }
 
-.link {
-}
-
 .control + .control {
   margin-left: 3rem;
 }
 
-.button {
+.control:hover:not(:disabled),
+.control:active {
+  color: text-theme-light;
+}
+
+.control:focus {
+  outline: none;
+  border-bottom: 2px dotted text-link;
+}
+
+.control:hover:focus {
+  border-color: text-theme-light;
 }

@@ -25,10 +25,6 @@
   color: text-link;
 }
 
-.button:focus {
-  outline: none;
-}
-
 .button:disabled,
 .disabled {
   cursor: default;

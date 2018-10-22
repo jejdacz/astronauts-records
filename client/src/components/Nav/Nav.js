@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { joinToStringBySpace as jstr } from "../../utils/joinToString.js";
-import attachClassName from "../../utils/attachClassName.js";
+import withClassName from "../../utils/withClassName.js";
 import LinkButton from "../LinkButton/LinkButton.js";
 import Container from "../Container/Container.js";
 import styles from "./Nav.module.css";
@@ -19,8 +19,8 @@ export const Nav = ({ children, className, fixed, ...props }) => (
   </Fragment>
 );
 
-export const Link = attachClassName(styles.link)(LinkButton);
-export const Logo = attachClassName(styles.logo)(LinkButton);
+export const Link = withClassName(styles.link)(LinkButton);
+export const Logo = withClassName(styles.logo)(LinkButton);
 
 export default {
   Nav,

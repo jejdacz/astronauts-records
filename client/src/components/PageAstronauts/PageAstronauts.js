@@ -1,12 +1,18 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import { loadAstronautsIfNeeded } from "../../astronautActions.js";
+import {
+  loadAstronautsIfNeeded,
+  deleteAstronaut
+} from "../../astronautActions.js";
 import AstronautList from "./AstronautList/AstronautList.js";
 import AstronautTable from "./AstronautTable/AstronautTable.js";
 import { Nav, Link, Logo } from "../Nav/Nav.js";
 import Hero from "./Hero/Hero.js";
 import SectionDatabase from "./SectionDatabase/SectionDatabase.js";
 import Footer from "../Footer/Footer.js";
+import Button from "../Button/Button.js";
+import { Modal, Button as ModalButton, Controls } from "../Modal/Modal.js";
+import DeleteAstronaut from "../DeleteAstronaut/DeleteAstronaut.js";
 import widthMonitor from "../widthMonitor/widthMonitor.js";
 import breakpoints from "../../styles/breakpoints.module.css";
 import styles from "./PageAstronauts.module.css";
@@ -14,8 +20,25 @@ import styles from "./PageAstronauts.module.css";
 class PageAstronauts extends Component {
   constructor(props) {
     super(props);
+
     this.breakpointLarge = breakpoints["bp-lg"].replace("px", "");
+
+    this.state = {
+      modalIsOpen: false,
+      modal: null
+    };
+
     this.handleDeleteClick = this.handleDeleteClick.bind(this);
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+  }
+
+  openModal() {
+    this.setState({ modalIsOpen: true });
+  }
+
+  closeModal() {
+    this.setState({ modalIsOpen: false });
   }
 
   isLargeScreenDevice() {
@@ -23,8 +46,14 @@ class PageAstronauts extends Component {
   }
 
   handleDeleteClick(id) {
-    // open modal window
-    // pass operation delete and  close modal
+    this.setState({
+      modal: <DeleteAstronaut closeModal={this.closeModal} id={id} />
+    });
+    this.openModal();
+  }
+
+  deleteAstronaut(id) {
+    this.props.dispatch(deleteAstronaut(id));
   }
 
   componentDidMount() {
@@ -54,6 +83,9 @@ class PageAstronauts extends Component {
         <SectionDatabase>{content}</SectionDatabase>
       </main>
       <Footer />
+      <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal}>
+        {this.state.modal}
+      </Modal>
     </Fragment>
   );
 
@@ -82,6 +114,8 @@ class PageAstronauts extends Component {
   }
 }
 
-const mapStateToProps = state => ({ ...state.astronauts });
+const mapStateToProps = state => ({
+  ...state.astronauts
+});
 
 export default connect(mapStateToProps)(widthMonitor()(PageAstronauts));

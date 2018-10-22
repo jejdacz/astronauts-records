@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Route, Switch } from "react-router-dom";
 import PageAstronauts from "../PageAstronauts/PageAstronauts.js";
 import PageNewAstronaut from "../PageNewAstronaut/PageNewAstronaut.js";
@@ -7,13 +7,13 @@ import PageNotFound from "../PageNotFound/PageNotFound.js";
 
 const App = () => {
   return (
-    <div className="App">
+    <Fragment>
       <Switch>
         <Route exact={true} path="/" component={PageAstronauts} />
         <Route path="/astronauts/new" component={PageNewAstronaut} />
         <Route component={PageNotFound} />
       </Switch>
-    </div>
+    </Fragment>
   );
 };
 

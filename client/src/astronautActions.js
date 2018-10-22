@@ -42,6 +42,27 @@ addAstronautAction.failure = error => ({
   error
 });
 
+export const DELETE_ASTRONAUT_REQUEST = "DELETE_ASTRONAUT_REQUEST";
+export const DELETE_ASTRONAUT_SUCCESS = "DELETE_ASTRONAUT_SUCCESS";
+export const DELETE_ASTRONAUT_FAILURE = "DELETE_ASTRONAUT_FAILURE";
+
+export const deleteAstronautAction = {};
+
+deleteAstronautAction.request = id => ({
+  type: DELETE_ASTRONAUT_REQUEST,
+  id
+});
+
+deleteAstronautAction.success = data => ({
+  type: DELETE_ASTRONAUT_SUCCESS,
+  response: data
+});
+
+deleteAstronautAction.failure = error => ({
+  type: DELETE_ASTRONAUT_FAILURE,
+  error
+});
+
 export const apiCall = (
   apiCallFunc,
   { request, success, failure }
@@ -78,6 +99,11 @@ export const updateAstronaut = astronaut => (dispatch, getState) => {
     .updateAstronaut(astronaut)
     .then(data => dispatch(updateAstronautSuccess(data)))
     .catch(err => dispatch(updateAstronautFailure(err.message)));*/
+};
+
+export const deleteAstronaut = id => (dispatch, getState) => {
+  dispatch(deleteAstronautAction.request(id));
+  setTimeout(() => dispatch(deleteAstronautAction.success("deleted")), 1500);
 };
 
 export const shouldLoadAstronauts = (state, lastUpdated) => {

@@ -1,20 +1,20 @@
-import attachClassName from "../../../utils/attachClassName.js";
+import withClassName from "../../../utils/withClassName.js";
 import Cont from "../../Container/Container.js";
 import styles from "./Main.module.css";
 
-export const Container = attachClassName(styles.container)(Cont);
+export const Container = withClassName(styles.container)(Cont);
 
-export const Section = attachClassName(styles.section)("section");
+export const Section = withClassName(styles.section)("section");
 
-export const SectionSecondary = attachClassName(styles.sectionSecondary)(
+export const SectionSecondary = withClassName(styles.sectionSecondary)(
   "section"
 );
 
-export const Heading = attachClassName(styles.heading)("h2");
+export const Heading = withClassName(styles.heading)("h2");
 
-export const Group = attachClassName(styles.group)("div");
+export const Group = withClassName(styles.group)("div");
 
-export const Paragraph = attachClassName(styles.paragraph)("p");
+export const Paragraph = withClassName(styles.paragraph)("p");
 
 export default {
   Container,

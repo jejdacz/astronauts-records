@@ -7,9 +7,7 @@ import styles from "./AstronautList.module.css";
 const AstronautList = ({ astronauts, updated }) => (
   <Fragment>
     <h3 className={styles.subHeading}>Astronauts</h3>
-    <small className={styles.small}>{`updated: ${new Date(
-      updated
-    ).toString()}`}</small>
+    <small className={styles.small}>{`updated: ${formatDate(updated)}`}</small>
     <ul className={styles.list}>
       {astronauts.map(a => (
         <li className={styles.item} key={a.id}>
