@@ -106,13 +106,10 @@ export const updateAstronaut = astronaut => (dispatch, getState) => {
     .catch(err => dispatch(updateAstronautFailure(err.message)));*/
 };
 
-export const deleteAstronaut = id => (dispatch, getState) => {
-  dispatch(deleteAstronautAction.request(id));
-  setTimeout(
-    () => dispatch(deleteAstronautAction.failure("not-deleted")),
-    1500
-  );
-};
+export const deleteAstronaut = apiCall(
+  api.deleteAstronaut,
+  deleteAstronautAction
+);
 
 export const resetDeletedAstronaut = deleteAstronautAction.reset();
 

@@ -6,6 +6,7 @@ class PromptDialog extends Component {
   constructor(props) {
     super(props);
     this.closeModal = this.closeModal.bind(this);
+    this.handleAction = this.handleAction.bind(this);
   }
 
   static propTypes = {
@@ -15,22 +16,20 @@ class PromptDialog extends Component {
     action: PropTypes.func.isRequired
   };
 
+  handleAction() {
+    this.props.action();
+    this.props.closeModal();
+  }
+
   render() {
-    const { text, isOpen, closeModal, action } = this.props;
+    const { text, isOpen, closeModal } = this.props;
 
     return (
       <Modal isOpen={isOpen} onRequestClose={closeModal}>
         <p>{text}</p>
         <Controls>
           <Button onClick={closeModal}>cancel</Button>
-          <Button
-            onClick={() => {
-              action();
-              closeModal();
-            }}
-          >
-            ok
-          </Button>
+          <Button onClick={this.handleAction}>ok</Button>
         </Controls>
       </Modal>
     );

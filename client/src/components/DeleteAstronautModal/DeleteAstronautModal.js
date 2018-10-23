@@ -1,22 +1,32 @@
-import React, { Component } from "react";
+import React, { PureComponent, Fragment } from "react";
 import PropTypes from "prop-types";
+import { astronautType } from "../../types.js";
 import { connect } from "react-redux";
 import {
   deleteAstronaut,
   resetDeletedAstronaut
 } from "../../astronautActions.js";
-import { Modal, Button, Controls, Heading, Message } from "../Modal/Modal.js";
+import {
+  Modal,
+  Button,
+  Controls,
+  Heading,
+  Message,
+  Block
+} from "../Modal/Modal.js";
+import Spinner from "../Spinner/Spinner.js";
 
-class DeleteAstronautModal extends Component {
+class DeleteAstronautModal extends PureComponent {
   constructor(props) {
     super(props);
     this.closeModal = this.closeModal.bind(this);
+    this.handleDeleteClick = this.handleDeleteClick.bind(this);
   }
 
   static propTypes = {
     isOpen: PropTypes.bool.isRequired,
     closeModal: PropTypes.func.isRequired,
-    astronaut: PropTypes.object.isRequired,
+    astronaut: astronautType.isRequired,
     pending: PropTypes.bool.isRequired,
     idToDelete: PropTypes.string.isRequired
   };
@@ -25,9 +35,17 @@ class DeleteAstronautModal extends Component {
     this.props.dispatch(resetDeletedAstronaut);
   }
 
+  componentWillUnmount() {
+    this.props.dispatch(resetDeletedAstronaut);
+  }
+
   closeModal() {
     this.props.dispatch(resetDeletedAstronaut);
     this.props.closeModal();
+  }
+
+  handleDeleteClick() {
+    this.props.dispatch(deleteAstronaut(this.props.idToDelete));
   }
 
   render() {
@@ -36,6 +54,7 @@ class DeleteAstronautModal extends Component {
       pending,
       response,
       idToDelete,
+      isOpen,
       dispatch,
       astronaut
     } = this.props;
@@ -51,8 +70,10 @@ class DeleteAstronautModal extends Component {
     if (pending) {
       return (
         <ConfiguredModal shouldCloseOnOverlayClick={false}>
-          <Heading>Pending</Heading>
-          <Message>...spinner...</Message>
+          <Heading>Deleteing...</Heading>
+          <Block>
+            <Spinner center={true} />
+          </Block>
         </ConfiguredModal>
       );
     }
@@ -61,7 +82,9 @@ class DeleteAstronautModal extends Component {
       return (
         <ConfiguredModal>
           <Heading>Error</Heading>
-          <Message>{error}</Message>
+          <Message>
+            An error occured during the operation, please try again later.
+          </Message>
           <Controls>
             <Button onClick={this.closeModal}>ok</Button>
           </Controls>
@@ -73,7 +96,7 @@ class DeleteAstronautModal extends Component {
       return (
         <ConfiguredModal>
           <Heading>Success</Heading>
-          <Message>{response}</Message>
+          <Message>The astronaut has been removed.</Message>
           <Controls>
             <Button onClick={this.closeModal}>ok</Button>
           </Controls>
@@ -91,9 +114,7 @@ class DeleteAstronautModal extends Component {
         </Message>
         <Controls>
           <Button onClick={this.closeModal}>cancel</Button>
-          <Button onClick={() => dispatch(deleteAstronaut(idToDelete))}>
-            ok
-          </Button>
+          <Button onClick={this.handleDeleteClick}>ok</Button>
         </Controls>
       </ConfiguredModal>
     );

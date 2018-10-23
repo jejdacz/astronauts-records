@@ -7,10 +7,10 @@ const wait2s = wait(2000);
 
 const astronauts = variables => wait2s(astronautsData);
 
-const astronaut = () => {};
-const addAstronaut = () => {};
-const updateAstronaut = () => {};
-const deleteAstronaut = () => {};
+const astronaut = variables => wait2s(astronautsData[0]);
+const addAstronaut = variables => wait2s("added");
+const updateAstronaut = variables => wait2s("updated");
+const deleteAstronaut = variables => wait2s("deleted");
 const lastUpdated = () => wait2s(Date.now());
 
 export default {

@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loadAstronautsIfNeeded } from "../../astronautActions.js";
 import AstronautList from "./AstronautList/AstronautList.js";
@@ -8,6 +9,7 @@ import Hero from "./Hero/Hero.js";
 import SectionDatabase from "./SectionDatabase/SectionDatabase.js";
 import Footer from "../Footer/Footer.js";
 import DeleteAstronautModal from "../DeleteAstronautModal/DeleteAstronautModal.js";
+import Spinner from "../Spinner/Spinner.js";
 import widthMonitor from "../widthMonitor/widthMonitor.js";
 import breakpoints from "../../styles/breakpoints.module.css";
 import styles from "./PageAstronauts.module.css";
@@ -23,42 +25,30 @@ class PageAstronauts extends Component {
       idToDelete: null
     };
 
-    this.handleDeleteClick = this.handleDeleteClick.bind(this);
-    this.openModal = this.openModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
+    this.openDeleteModal = this.openDeleteModal.bind(this);
+    this.closeDeleteModal = this.closeDeleteModal.bind(this);
   }
 
-  openModal() {
-    this.setState({ deleteModalIsOpen: true });
+  static propTypes = {
+    loading: PropTypes.bool.isRequired,
+    receivedAt: PropTypes.number.isRequired,
+    items: PropTypes.array.isRequired
+  };
+
+  openDeleteModal(id) {
+    this.setState({ deleteModalIsOpen: true, idToDelete: id });
   }
 
-  closeModal() {
-    this.setState({ deleteModalIsOpen: false });
+  closeDeleteModal() {
+    this.setState({ deleteModalIsOpen: false, idToDelete: null });
   }
 
   isLargeScreenDevice() {
     return this.props.width >= this.breakpointLarge;
   }
 
-  handleDeleteClick(id) {
-    this.setState({
-      idToDelete: id
-    });
-    this.openModal();
-  }
-
   componentDidMount() {
     this.props.dispatch(loadAstronautsIfNeeded);
-  }
-
-  componentWillUnmount() {}
-
-  renderError(error) {
-    return <h4>{error.message}</h4>;
-  }
-
-  renderLoading() {
-    return <h4>loading...</h4>;
   }
 
   renderContent = content => (
@@ -77,7 +67,7 @@ class PageAstronauts extends Component {
       {this.state.deleteModalIsOpen && (
         <DeleteAstronautModal
           isOpen={this.state.deleteModalIsOpen}
-          closeModal={this.closeModal}
+          closeModal={this.closeDeleteModal}
           idToDelete={this.state.idToDelete}
         />
       )}
@@ -88,17 +78,20 @@ class PageAstronauts extends Component {
     const { loading, error, items } = this.props;
 
     if (error) {
-      return this.renderContent(this.renderError(error));
+      return this.renderContent("Error: Loading of records failed!");
     }
     if (loading) {
-      return this.renderContent(this.renderLoading());
+      return this.renderContent(<Spinner center={true} />);
+    }
+    if (items.length === 0) {
+      return this.renderContent("No records");
     }
     if (this.isLargeScreenDevice()) {
       return this.renderContent(
         <AstronautTable
           astronauts={items}
           updated={this.props.receivedAt}
-          onDeleteClick={this.handleDeleteClick}
+          onDeleteClick={this.openDeleteModal}
         />
       );
     }

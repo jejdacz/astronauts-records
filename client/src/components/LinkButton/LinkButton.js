@@ -4,28 +4,31 @@ import { Link } from "react-router-dom";
 import { joinToStringBySpace as jstr } from "../../utils/joinToString.js";
 import styles from "./LinkButton.module.css";
 
-const LinkButton = ({ type, className, children, ...props }) => {
+const LinkButton = ({ type, className, ...props }) => {
   let Comp;
 
   if (props.to && !props.disabled) {
     Comp = Link;
+  } else if (props.href && !props.disabled) {
+    Comp = "a";
   } else {
     Comp = "button";
     type = type || "button";
     props = { ...props, type };
   }
 
-  return (
-    <Comp {...props} className={jstr(styles.button, className)}>
-      {children}
-    </Comp>
-  );
+  return <Comp {...props} className={jstr(styles.button, className)} />;
 };
 
 LinkButton.propTypes = {
   to: PropTypes.string,
   type: PropTypes.string,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  href: PropTypes.string,
+  className: PropTypes.string,
+  children: PropTypes.node,
+  onClick: PropTypes.func,
+  style: PropTypes.object
 };
 
 export default LinkButton;

@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import formatDate from "../../../utils/formatDate.js";
 import PropTypes from "prop-types";
+import { astronautType } from "../../../types.js";
 import styles from "./AstronautList.module.css";
 
 const AstronautList = ({ astronauts, updated }) => (
@@ -21,8 +22,8 @@ const AstronautList = ({ astronauts, updated }) => (
 );
 
 AstronautList.propTypes = {
-  astronauts: PropTypes.array.isRequired,
-  updated: PropTypes.number
+  astronauts: PropTypes.arrayOf(astronautType.isRequired).isRequired,
+  updated: PropTypes.number.isRequired
 };
 
 export default AstronautList;

@@ -1,9 +1,9 @@
 @value dev-lg from "../../styles/breakpoints.module.css";
-@value sm, md from "../../styles/scale.module.css";
+@value sm, md, lg from "../../styles/scale.module.css";
 
 .controls {
   text-align: right;
-  margin-top: md;
+  margin-top: auto;
 }
 
 .button {
@@ -14,8 +14,11 @@
 }
 
 .modal {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 100%;
+  min-height: 15rem;
   padding: md;
   background-color: white;
   box-shadow: 0 0.2rem 1rem 0 #00000080;
@@ -46,6 +49,11 @@
 }
 
 .message {
+  margin-bottom: md;
+}
+
+.block {
+  margin-top: md;
   margin-bottom: md;
 }
 

@@ -23,5 +23,6 @@ export const Button = compose(
 export const Controls = withClassName(styles.controls)("div");
 export const Message = withClassName(styles.message)("p");
 export const Heading = withClassName(styles.heading)("h5");
+export const Block = withClassName(styles.block)("div");
 
 export default Modal;
