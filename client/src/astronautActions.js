@@ -68,6 +68,27 @@ deleteAstronautAction.reset = () => ({
   type: DELETE_ASTRONAUT_RESET
 });
 
+export const LOAD_ASTRONAUT_REQUEST = "LOAD_ASTRONAUT_REQUEST";
+export const LOAD_ASTRONAUT_SUCCESS = "LOAD_ASTRONAUT_SUCCESS";
+export const LOAD_ASTRONAUT_FAILURE = "LOAD_ASTRONAUT_FAILURE";
+
+export const loadAstronautAction = {};
+
+loadAstronautAction.request = id => ({
+  type: LOAD_ASTRONAUT_REQUEST,
+  id
+});
+
+loadAstronautAction.success = data => ({
+  type: LOAD_ASTRONAUT_SUCCESS,
+  astronaut: data
+});
+
+loadAstronautAction.failure = error => ({
+  type: LOAD_ASTRONAUT_FAILURE,
+  error
+});
+
 export const apiCall = (
   apiCallFunc,
   { request, success, failure }
@@ -80,38 +101,14 @@ export const apiCall = (
 
 export const loadAstronauts = apiCall(api.astronauts, loadAstronautsAction);
 export const addAstronaut = apiCall(api.addAstronaut, addAstronautAction);
-
-/*
-export const loadAstronauts = (dispatch, getState) => {
-  dispatch(loadAstronautsRequest());
-  return api
-    .astronauts()
-    .then(data => dispatch(loadAstronautsSuccess(data)))
-    .catch(err => dispatch(loadAstronautsFailure(err)));
-};*/
-
-export const loadAstronaut = astronaut => (dispatch, getState) => {
-  /*dispatch(requestAddAstronaut());
-  return api
-    .addAstronaut(astronaut)
-    .then(data => dispatch(receiveAddAstronaut(data)))
-    .catch(err => console.warn(err.message));*/
-};
-
-export const updateAstronaut = astronaut => (dispatch, getState) => {
-  /*dispatch(updateAstronautPending());
-  return api
-    .updateAstronaut(astronaut)
-    .then(data => dispatch(updateAstronautSuccess(data)))
-    .catch(err => dispatch(updateAstronautFailure(err.message)));*/
-};
-
 export const deleteAstronaut = apiCall(
   api.deleteAstronaut,
   deleteAstronautAction
 );
-
 export const resetDeletedAstronaut = deleteAstronautAction.reset();
+export const loadAstronaut = apiCall(api.astronaut, loadAstronautAction);
+
+export const updateAstronaut = astronaut => (dispatch, getState) => {};
 
 export const shouldLoadAstronauts = (state, lastUpdated) => {
   if (state.astronauts.items.length === 0) {
@@ -132,36 +129,3 @@ export const loadAstronautsIfNeeded = (dispatch, getState) =>
   shouldLoadAstronauts(getState(), api.lastUpdated)
     .then(res => (res ? dispatch(loadAstronauts()) : Promise.resolve()))
     .catch(err => dispatch(loadAstronautsAction.failure(err)));
-/*
-export const loadAstronautsIfNeeded = (dispatch, getState) => {
-  if (getState().astronauts.items.length === 0) {
-    return dispatch(loadAstronauts());
-  } else if (getState().astronauts.loading) {
-    return Promise.resolve();
-  } else {
-    return api
-      .lastUpdated()
-      .then(
-        lastUpdated =>
-          lastUpdated > getState().astronauts.receivedAt
-            ? dispatch(loadAstronauts())
-            : Promise.resolve()
-      )
-      .catch(err => dispatch(loadAstronautsAction.failure(err)));
-  }
-};*/
-
-/*
-export const openEditor = astronaut => ({
-  type: OPEN_EDITOR,
-  astronaut
-});
-
-export const updateEditor = field => ({
-  type: UPDATE_EDITOR,
-  field
-});
-
-export const closeEditor = () => ({
-  type: CLOSE_EDITOR
-});*/

@@ -16,7 +16,7 @@ import {
 } from "../Modal/Modal.js";
 import Spinner from "../Spinner/Spinner.js";
 
-class DeleteAstronautModal extends PureComponent {
+class DeleteAstronautDialog extends PureComponent {
   constructor(props) {
     super(props);
     this.closeModal = this.closeModal.bind(this);
@@ -28,7 +28,8 @@ class DeleteAstronautModal extends PureComponent {
     closeModal: PropTypes.func.isRequired,
     astronaut: astronautType.isRequired,
     pending: PropTypes.bool.isRequired,
-    idToDelete: PropTypes.string.isRequired
+    onError: PropTypes.func,
+    onSuccess: PropTypes.func
   };
 
   componentDidMount() {
@@ -40,12 +41,17 @@ class DeleteAstronautModal extends PureComponent {
   }
 
   closeModal() {
+    if (this.props.error) {
+      this.props.onError();
+    } else if (this.props.response) {
+      this.props.onSuccess();
+    }
     this.props.dispatch(resetDeletedAstronaut);
     this.props.closeModal();
   }
 
   handleDeleteClick() {
-    this.props.dispatch(deleteAstronaut(this.props.idToDelete));
+    this.props.dispatch(deleteAstronaut({ id: this.props.astronaut.id }));
   }
 
   render() {
@@ -53,7 +59,6 @@ class DeleteAstronautModal extends PureComponent {
       error,
       pending,
       response,
-      idToDelete,
       isOpen,
       dispatch,
       astronaut
@@ -62,7 +67,7 @@ class DeleteAstronautModal extends PureComponent {
     const ConfiguredModal = props => (
       <Modal
         isOpen={this.props.isOpen}
-        onRequestClose={this.props.closeModal}
+        onRequestClose={this.closeModal}
         {...props}
       />
     );
@@ -122,8 +127,7 @@ class DeleteAstronautModal extends PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  ...state.deletedAstronaut,
-  astronaut: state.astronauts.items.find(a => a.id === ownProps.idToDelete)
+  ...state.deletedAstronaut
 });
 
-export default connect(mapStateToProps)(DeleteAstronautModal);
+export default connect(mapStateToProps)(DeleteAstronautDialog);

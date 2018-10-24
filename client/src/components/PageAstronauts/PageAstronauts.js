@@ -8,7 +8,7 @@ import { Nav, Link, Logo } from "../Nav/Nav.js";
 import Hero from "./Hero/Hero.js";
 import SectionDatabase from "./SectionDatabase/SectionDatabase.js";
 import Footer from "../Footer/Footer.js";
-import DeleteAstronautModal from "../DeleteAstronautModal/DeleteAstronautModal.js";
+import DeleteAstronautDialog from "../DeleteAstronautDialog/DeleteAstronautDialog.js";
 import Spinner from "../Spinner/Spinner.js";
 import widthMonitor from "../widthMonitor/widthMonitor.js";
 import breakpoints from "../../styles/breakpoints.module.css";
@@ -21,12 +21,12 @@ class PageAstronauts extends Component {
     this.breakpointLarge = breakpoints["bp-lg"].replace("px", "");
 
     this.state = {
-      deleteModalIsOpen: false,
-      idToDelete: null
+      deleteDialogIsOpen: false,
+      astronautToDelete: {}
     };
 
-    this.openDeleteModal = this.openDeleteModal.bind(this);
-    this.closeDeleteModal = this.closeDeleteModal.bind(this);
+    this.openDeleteDialog = this.openDeleteDialog.bind(this);
+    this.closeDeleteDialog = this.closeDeleteDialog.bind(this);
   }
 
   static propTypes = {
@@ -35,12 +35,15 @@ class PageAstronauts extends Component {
     items: PropTypes.array.isRequired
   };
 
-  openDeleteModal(id) {
-    this.setState({ deleteModalIsOpen: true, idToDelete: id });
+  openDeleteDialog(index) {
+    this.setState({
+      deleteDialogIsOpen: true,
+      astronautToDelete: this.props.items[index]
+    });
   }
 
-  closeDeleteModal() {
-    this.setState({ deleteModalIsOpen: false, idToDelete: null });
+  closeDeleteDialog() {
+    this.setState({ deleteDialogIsOpen: false, astronautToDelete: {} });
   }
 
   isLargeScreenDevice() {
@@ -64,11 +67,11 @@ class PageAstronauts extends Component {
         <SectionDatabase>{content}</SectionDatabase>
       </main>
       <Footer />
-      {this.state.deleteModalIsOpen && (
-        <DeleteAstronautModal
-          isOpen={this.state.deleteModalIsOpen}
-          closeModal={this.closeDeleteModal}
-          idToDelete={this.state.idToDelete}
+      {this.state.deleteDialogIsOpen && (
+        <DeleteAstronautDialog
+          isOpen={this.state.deleteDialogIsOpen}
+          closeModal={this.closeDeleteDialog}
+          astronaut={this.state.astronautToDelete}
         />
       )}
     </Fragment>
@@ -91,7 +94,7 @@ class PageAstronauts extends Component {
         <AstronautTable
           astronauts={items}
           updated={this.props.receivedAt}
-          onDeleteClick={this.openDeleteModal}
+          onDeleteClick={this.openDeleteDialog}
         />
       );
     }

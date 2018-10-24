@@ -7,7 +7,8 @@ const wait2s = wait(2000);
 
 const astronauts = variables => wait2s(astronautsData);
 
-const astronaut = variables => wait2s(astronautsData[0]);
+const astronaut = variables =>
+  wait2s(astronautsData.find(a => a.id === variables.id));
 const addAstronaut = variables => wait2s("added");
 const updateAstronaut = variables => wait2s("updated");
 const deleteAstronaut = variables => wait2s("deleted");

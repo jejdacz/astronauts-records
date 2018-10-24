@@ -5,47 +5,52 @@ import formatDate from "../../../utils/formatDate.js";
 import LinkButton from "../../LinkButton/LinkButton.js";
 import styles from "./AstronautTable.module.css";
 
-const renderRow = ({ astronaut, onDeleteClick }) => {
-  const handleClick = () => onDeleteClick(astronaut.id);
+const AstronautTableRow = ({ astronaut, onDeleteClick }) => (
+  <tr className={styles.row}>
+    <td>{`${astronaut.firstName} ${astronaut.lastName}`}</td>
+    <td>{astronaut.birth}</td>
+    <td>{astronaut.superpower}</td>
+    <td>
+      <LinkButton
+        className={styles.control}
+        to={`/astronauts/${astronaut.id}/edit`}
+      >
+        Edit
+      </LinkButton>
+      <LinkButton className={styles.control} onClick={onDeleteClick}>
+        Delete
+      </LinkButton>
+    </td>
+  </tr>
+);
 
+const AstronautTable = ({ astronauts, updated, onDeleteClick }) => {
+  const handleDeleteClick = index => () => onDeleteClick(index);
   return (
-    <tr key={astronaut.id} className={styles.row}>
-      <td>{`${astronaut.firstName} ${astronaut.lastName}`}</td>
-      <td>{astronaut.birth}</td>
-      <td>{astronaut.superpower}</td>
-      <td>
-        <LinkButton
-          className={styles.control}
-          to={`/astronauts/${astronaut.id}/edit`}
-        >
-          Edit
-        </LinkButton>
-        <LinkButton className={styles.control} onClick={handleClick}>
-          Delete
-        </LinkButton>
-      </td>
-    </tr>
+    <table className={styles.table}>
+      <tbody>
+        <tr className={styles.header}>
+          <th>Name</th>
+          <th>Birth</th>
+          <th>Superpower</th>
+          <th>Controls</th>
+        </tr>
+        <tr className={styles.small}>
+          <td colSpan="4">
+            <small>{`updated: ${formatDate(updated)}`}</small>
+          </td>
+        </tr>
+        {astronauts.map((astronaut, index) => (
+          <AstronautTableRow
+            key={astronaut.id}
+            astronaut={astronaut}
+            onDeleteClick={handleDeleteClick(index)}
+          />
+        ))}
+      </tbody>
+    </table>
   );
 };
-
-const AstronautTable = ({ astronauts, updated, onDeleteClick }) => (
-  <table className={styles.table}>
-    <tbody>
-      <tr className={styles.header}>
-        <th>Name</th>
-        <th>Birth</th>
-        <th>Superpower</th>
-        <th>Controls</th>
-      </tr>
-      <tr className={styles.small}>
-        <td colSpan="4">
-          <small>{`updated: ${formatDate(updated)}`}</small>
-        </td>
-      </tr>
-      {astronauts.map(astronaut => renderRow({ astronaut, onDeleteClick }))}
-    </tbody>
-  </table>
-);
 
 AstronautTable.propTypes = {
   astronauts: PropTypes.arrayOf(astronautType.isRequired).isRequired,
