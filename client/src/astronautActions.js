@@ -1,102 +1,110 @@
 //import api from "./utils/astronautsApi.js";
-import api from "./fakeApi.js";
+import api from "./utils/fakeApi.js";
 
 export const LOAD_ASTRONAUTS_REQUEST = "LOAD_ASTRONAUTS_REQUEST";
 export const LOAD_ASTRONAUTS_SUCCESS = "LOAD_ASTRONAUTS_SUCCESS";
-export const LOAD_ASTRONAUTS_FAILURE = "LOAD_ASTRONAUTS_FAILURE";
+export const LOAD_ASTRONAUTS_ERROR = "LOAD_ASTRONAUTS_ERROR";
 
 export const loadAstronautsAction = {};
 
-loadAstronautsAction.request = () => ({
-  type: LOAD_ASTRONAUTS_REQUEST
+loadAstronautsAction.request = request => ({
+  type: LOAD_ASTRONAUTS_REQUEST,
+  request
 });
 
-loadAstronautsAction.success = data => ({
+loadAstronautsAction.success = success => ({
   type: LOAD_ASTRONAUTS_SUCCESS,
-  astronauts: data
+  success
 });
 
-loadAstronautsAction.failure = error => ({
-  type: LOAD_ASTRONAUTS_FAILURE,
+loadAstronautsAction.error = error => ({
+  type: LOAD_ASTRONAUTS_ERROR,
   error
 });
 
+export const ADD_ASTRONAUT_RESET = "ADD_ASTRONAUT_RESET";
 export const ADD_ASTRONAUT_REQUEST = "ADD_ASTRONAUT_REQUEST";
 export const ADD_ASTRONAUT_SUCCESS = "ADD_ASTRONAUT_SUCCESS";
-export const ADD_ASTRONAUT_FAILURE = "ADD_ASTRONAUT_FAILURE";
+export const ADD_ASTRONAUT_ERROR = "ADD_ASTRONAUT_ERROR";
 
 export const addAstronautAction = {};
 
-addAstronautAction.request = astronaut => ({
+addAstronautAction.reset = reset => ({
+  type: ADD_ASTRONAUT_RESET,
+  reset
+});
+
+addAstronautAction.request = request => ({
   type: ADD_ASTRONAUT_REQUEST,
-  astronaut
+  request
 });
 
-addAstronautAction.success = data => ({
+addAstronautAction.success = success => ({
   type: ADD_ASTRONAUT_SUCCESS,
-  response: data
+  success
 });
 
-addAstronautAction.failure = error => ({
-  type: ADD_ASTRONAUT_FAILURE,
+addAstronautAction.error = error => ({
+  type: ADD_ASTRONAUT_ERROR,
   error
 });
 
 export const DELETE_ASTRONAUT_REQUEST = "DELETE_ASTRONAUT_REQUEST";
 export const DELETE_ASTRONAUT_SUCCESS = "DELETE_ASTRONAUT_SUCCESS";
-export const DELETE_ASTRONAUT_FAILURE = "DELETE_ASTRONAUT_FAILURE";
-export const DELETE_ASTRONAUT_RESET = "DELETE_ASTRONAUT_RESET";
+export const DELETE_ASTRONAUT_ERROR = "DELETE_ASTRONAUT_ERROR";
 
 export const deleteAstronautAction = {};
 
-deleteAstronautAction.request = id => ({
+deleteAstronautAction.request = request => ({
   type: DELETE_ASTRONAUT_REQUEST,
-  id
+  request
 });
 
-deleteAstronautAction.success = data => ({
+deleteAstronautAction.success = success => ({
   type: DELETE_ASTRONAUT_SUCCESS,
-  response: data
+  success
 });
 
-deleteAstronautAction.failure = error => ({
-  type: DELETE_ASTRONAUT_FAILURE,
+deleteAstronautAction.error = error => ({
+  type: DELETE_ASTRONAUT_ERROR,
   error
 });
 
-deleteAstronautAction.reset = () => ({
-  type: DELETE_ASTRONAUT_RESET
+export const RESET_ASTRONAUT = "RESET_ASTRONAUT";
+
+export const resetAstronautAction = () => ({
+  type: RESET_ASTRONAUT
 });
 
 export const LOAD_ASTRONAUT_REQUEST = "LOAD_ASTRONAUT_REQUEST";
 export const LOAD_ASTRONAUT_SUCCESS = "LOAD_ASTRONAUT_SUCCESS";
-export const LOAD_ASTRONAUT_FAILURE = "LOAD_ASTRONAUT_FAILURE";
+export const LOAD_ASTRONAUT_ERROR = "LOAD_ASTRONAUT_ERROR";
 
 export const loadAstronautAction = {};
 
-loadAstronautAction.request = id => ({
+loadAstronautAction.request = request => ({
   type: LOAD_ASTRONAUT_REQUEST,
-  id
+  request
 });
 
-loadAstronautAction.success = data => ({
+loadAstronautAction.success = success => ({
   type: LOAD_ASTRONAUT_SUCCESS,
-  astronaut: data
+  success
 });
 
-loadAstronautAction.failure = error => ({
-  type: LOAD_ASTRONAUT_FAILURE,
+loadAstronautAction.error = error => ({
+  type: LOAD_ASTRONAUT_ERROR,
   error
 });
 
 export const apiCall = (
   apiCallFunc,
-  { request, success, failure }
+  { request, success, error }
 ) => apiCallArgs => (dispatch, getState) => {
   dispatch(request(apiCallArgs));
   return apiCallFunc(apiCallArgs)
     .then(data => dispatch(success(data)))
-    .catch(err => dispatch(failure(err)));
+    .catch(err => dispatch(error(err)));
 };
 
 export const loadAstronauts = apiCall(api.astronauts, loadAstronautsAction);
@@ -105,8 +113,16 @@ export const deleteAstronaut = apiCall(
   api.deleteAstronaut,
   deleteAstronautAction
 );
-export const resetDeletedAstronaut = deleteAstronautAction.reset();
+export const resetAstronaut = resetAstronautAction();
+
 export const loadAstronaut = apiCall(api.astronaut, loadAstronautAction);
+/*
+export const loadAstronautFromStore = ({ id }) => (dispatch, getState) => {
+  const astronaut = getState().astronauts.items.find(a => a.id === id);
+  astronaut
+    ? dispatch(loadAstronautAction.success(astronaut))
+    : dispatch(loadAstronautAction.error({ message: "Not found" }));
+};*/
 
 export const updateAstronaut = astronaut => (dispatch, getState) => {};
 

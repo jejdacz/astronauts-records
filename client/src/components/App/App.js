@@ -4,6 +4,7 @@ import PageAstronauts from "../PageAstronauts/PageAstronauts.js";
 import PageNewAstronaut from "../PageNewAstronaut/PageNewAstronaut.js";
 import PageAstronaut from "../PageAstronaut/PageAstronaut.js";
 import PageNotFound from "../PageNotFound/PageNotFound.js";
+import DeleteAstronautDialog from "../DeleteAstronautDialog/DeleteAstronautDialog.js";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <Route path="/astronauts/:id" component={PageAstronaut} />
         <Route component={PageNotFound} />
       </Switch>
+      <DeleteAstronautDialog />
     </Fragment>
   );
 };

@@ -1,4 +1,4 @@
-import astronautsData from "./astronauts.json";
+import astronautsData from "../astronauts.json";
 
 const wait = delay => data =>
   new Promise((res, err) => setTimeout(() => res(data), delay));
