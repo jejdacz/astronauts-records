@@ -22,33 +22,6 @@ loadAstronautsAction.error = error => ({
   error
 });
 
-export const ADD_ASTRONAUT_RESET = "ADD_ASTRONAUT_RESET";
-export const ADD_ASTRONAUT_REQUEST = "ADD_ASTRONAUT_REQUEST";
-export const ADD_ASTRONAUT_SUCCESS = "ADD_ASTRONAUT_SUCCESS";
-export const ADD_ASTRONAUT_ERROR = "ADD_ASTRONAUT_ERROR";
-
-export const addAstronautAction = {};
-
-addAstronautAction.reset = reset => ({
-  type: ADD_ASTRONAUT_RESET,
-  reset
-});
-
-addAstronautAction.request = request => ({
-  type: ADD_ASTRONAUT_REQUEST,
-  request
-});
-
-addAstronautAction.success = success => ({
-  type: ADD_ASTRONAUT_SUCCESS,
-  success
-});
-
-addAstronautAction.error = error => ({
-  type: ADD_ASTRONAUT_ERROR,
-  error
-});
-
 export const DELETE_ASTRONAUT_REQUEST = "DELETE_ASTRONAUT_REQUEST";
 export const DELETE_ASTRONAUT_SUCCESS = "DELETE_ASTRONAUT_SUCCESS";
 export const DELETE_ASTRONAUT_ERROR = "DELETE_ASTRONAUT_ERROR";
@@ -97,6 +70,58 @@ loadAstronautAction.error = error => ({
   error
 });
 
+export const UPDATE_ASTRONAUT_REQUEST = "UPDATE_ASTRONAUT_REQUEST";
+export const UPDATE_ASTRONAUT_SUCCESS = "UPDATE_ASTRONAUT_SUCCESS";
+export const UPDATE_ASTRONAUT_ERROR = "UPDATE_ASTRONAUT_ERROR";
+export const UPDATE_ASTRONAUT_CLEAR = "UPDATE_ASTRONAUT_CLEAR";
+
+export const updateAstronautAction = {};
+
+updateAstronautAction.request = request => ({
+  type: UPDATE_ASTRONAUT_REQUEST,
+  request
+});
+
+updateAstronautAction.success = success => ({
+  type: UPDATE_ASTRONAUT_SUCCESS,
+  success
+});
+
+updateAstronautAction.error = error => ({
+  type: UPDATE_ASTRONAUT_ERROR,
+  error
+});
+
+export const clearUpdateAstronautAction = () => ({
+  type: UPDATE_ASTRONAUT_CLEAR
+});
+
+export const ADD_ASTRONAUT_REQUEST = "ADD_ASTRONAUT_REQUEST";
+export const ADD_ASTRONAUT_SUCCESS = "ADD_ASTRONAUT_SUCCESS";
+export const ADD_ASTRONAUT_ERROR = "ADD_ASTRONAUT_ERROR";
+export const ADD_ASTRONAUT_CLEAR = "ADD_ASTRONAUT_CLEAR";
+
+export const addAstronautAction = {};
+
+addAstronautAction.request = request => ({
+  type: ADD_ASTRONAUT_REQUEST,
+  request
+});
+
+addAstronautAction.success = success => ({
+  type: ADD_ASTRONAUT_SUCCESS,
+  success
+});
+
+addAstronautAction.error = error => ({
+  type: ADD_ASTRONAUT_ERROR,
+  error
+});
+
+export const clearAddAstronautAction = () => ({
+  type: ADD_ASTRONAUT_CLEAR
+});
+
 export const apiCall = (
   apiCallFunc,
   { request, success, error }
@@ -113,7 +138,6 @@ export const deleteAstronaut = apiCall(
   api.deleteAstronaut,
   deleteAstronautAction
 );
-export const resetAstronaut = resetAstronautAction();
 
 export const loadAstronaut = apiCall(api.astronaut, loadAstronautAction);
 /*
@@ -124,7 +148,10 @@ export const loadAstronautFromStore = ({ id }) => (dispatch, getState) => {
     : dispatch(loadAstronautAction.error({ message: "Not found" }));
 };*/
 
-export const updateAstronaut = astronaut => (dispatch, getState) => {};
+export const updateAstronaut = apiCall(
+  api.updateAstronaut,
+  updateAstronautAction
+);
 
 export const shouldLoadAstronauts = (state, lastUpdated) => {
   if (state.astronauts.items.length === 0) {

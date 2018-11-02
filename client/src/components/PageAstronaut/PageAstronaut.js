@@ -27,6 +27,7 @@ class PageAstronaut extends Component {
 
   componentDidMount() {
     this.props.dispatch(loadAstronaut({ id: this.props.match.params.id }));
+
     /*this.props.dispatch(
       loadAstronautFromStore({ id: this.props.match.params.id })
     );*/
@@ -37,10 +38,16 @@ class PageAstronaut extends Component {
     this.props.dispatch(resetAstronautAction());
   }
 
+  componentDidUpdate() {
+    if (this.props.deleteAstronaut && this.props.deleteAstronaut.success) {
+      this.props.dispatch(closeDeleteDialogAction());
+      this.props.dispatch(resetAstronautAction());
+      this.props.history.push("/");
+    }
+  }
+
   openDeleteDialog() {
-    this.props.dispatch(
-      openDeleteDialogAction(this.props.loadAstronaut.astronaut)
-    );
+    this.props.dispatch(openDeleteDialogAction(this.props.astronaut));
   }
 
   renderContent = content => (
@@ -48,7 +55,9 @@ class PageAstronaut extends Component {
       <header>
         <Nav fixed={true}>
           <Logo to="/">ar</Logo>
-          <Link to={`/astronaut/edit/${this.props.match.params.id}`}>EDIT</Link>
+          <Link to={`/astronauts/edit/${this.props.match.params.id}`}>
+            EDIT
+          </Link>
           <Link onClick={this.openDeleteDialog}>DELETE</Link>
         </Nav>
       </header>
@@ -58,21 +67,18 @@ class PageAstronaut extends Component {
   );
 
   render() {
-    const { astronaut, action: loadAstronaut } = this.props.loadAstronaut;
-    const { action: deleteAstronaut } = this.props.deleteAstronaut;
-
-    if (deleteAstronaut && deleteAstronaut.success) {
-      return <Redirect to="/" />;
-    }
+    const { loadAstronaut, deleteAstronaut, astronaut } = this.props;
 
     if (!loadAstronaut) return null;
+
+    if (loadAstronaut.request) {
+      return this.renderContent(<Spinner center={true} />);
+    }
 
     if (loadAstronaut.error) {
       return this.renderContent("Error: Loading of astronaut failed!");
     }
-    if (loadAstronaut.request) {
-      return this.renderContent(<Spinner center={true} />);
-    }
+
     if (loadAstronaut.success) {
       return this.renderContent(
         <Container className={styles.container}>
@@ -85,7 +91,7 @@ class PageAstronaut extends Component {
           <h4 className={styles.data}>{astronaut.superpower}</h4>
           <div className={styles.controls}>
             <Button
-              to={`/astronaut/edit/${this.props.match.params.id}`}
+              to={`/astronauts/edit/${this.props.match.params.id}`}
               noBorder={true}
             >
               EDIT
@@ -102,7 +108,8 @@ class PageAstronaut extends Component {
 
 const mapStateToProps = state => ({
   loadAstronaut: state.loadAstronaut,
-  deleteAstronaut: state.deleteAstronaut
+  deleteAstronaut: state.deleteAstronaut,
+  astronaut: state.activeAstronaut
 });
 
 export default connect(mapStateToProps)(PageAstronaut);

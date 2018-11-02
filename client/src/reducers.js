@@ -5,13 +5,18 @@ import {
   ADD_ASTRONAUT_REQUEST,
   ADD_ASTRONAUT_SUCCESS,
   ADD_ASTRONAUT_ERROR,
+  ADD_ASTRONAUT_CLEAR,
   DELETE_ASTRONAUT_REQUEST,
   DELETE_ASTRONAUT_SUCCESS,
   DELETE_ASTRONAUT_ERROR,
   RESET_ASTRONAUT,
   LOAD_ASTRONAUT_REQUEST,
   LOAD_ASTRONAUT_SUCCESS,
-  LOAD_ASTRONAUT_ERROR
+  LOAD_ASTRONAUT_ERROR,
+  UPDATE_ASTRONAUT_REQUEST,
+  UPDATE_ASTRONAUT_SUCCESS,
+  UPDATE_ASTRONAUT_ERROR,
+  UPDATE_ASTRONAUT_CLEAR
 } from "./astronautActions.js";
 import {
   OPEN_DELETE_DIALOG,
@@ -30,13 +35,11 @@ const initialState = {
     receivedAt: 0,
     shouldRefresh: true
   },
-  loadAstronaut: {
-    action: null,
-    astronaut: {}
-  },
-  deleteAstronaut: {
-    action: null
-  }
+  loadAstronaut: null,
+  deleteAstronaut: null,
+  updateAstronaut: null,
+  addAstronaut: null,
+  activeAstronaut: null
 };
 
 const astronautsReducer = (state, action) => {
@@ -53,13 +56,38 @@ const astronautsReducer = (state, action) => {
         loading: false,
         error: null,
         items: action.success,
-        receivedAt: Date.now()
+        receivedAt: Date.now(),
+        shouldRefresh: false
       };
     case LOAD_ASTRONAUTS_ERROR:
       return {
         ...state,
         loading: false,
         error: action.error
+      };
+    case DELETE_ASTRONAUT_SUCCESS:
+      return {
+        ...state,
+        items: state.items.filter(i => i.id !== action.success.id),
+        shouldRefresh: true
+      };
+    case UPDATE_ASTRONAUT_SUCCESS:
+      return {
+        ...state,
+        items: state.items.map(i => {
+          if (i.id === action.success.id) {
+            return action.success;
+          } else {
+            return i;
+          }
+        }),
+        shouldRefresh: true
+      };
+    case ADD_ASTRONAUT_SUCCESS:
+      return {
+        ...state,
+        items: [...state.items, action.success],
+        shouldRefresh: true
       };
     default:
       return state;
@@ -71,22 +99,11 @@ const loadAstronautReducer = (state, action) => {
     action.type // LOAD_ASTRONAUT_RESET
   ) {
     case RESET_ASTRONAUT:
-      return {
-        action: null,
-        astronaut: {}
-      };
+      return null;
     case LOAD_ASTRONAUT_REQUEST:
     case LOAD_ASTRONAUT_ERROR:
-      return {
-        ...state,
-        action
-      };
     case LOAD_ASTRONAUT_SUCCESS:
-      return {
-        ...state,
-        action,
-        astronaut: action.success
-      };
+      return action;
     default:
       return state;
   }
@@ -95,16 +112,39 @@ const loadAstronautReducer = (state, action) => {
 const deleteAstronautReducer = (state, action) => {
   switch (action.type) {
     case RESET_ASTRONAUT:
-      return {
-        action: null
-      };
+      return null;
     case DELETE_ASTRONAUT_REQUEST:
     case DELETE_ASTRONAUT_ERROR:
     case DELETE_ASTRONAUT_SUCCESS:
-      return {
-        ...state,
-        action
-      };
+      return action;
+    default:
+      return state;
+  }
+};
+
+const updateAstronautReducer = (state, action) => {
+  switch (action.type) {
+    case RESET_ASTRONAUT:
+    case UPDATE_ASTRONAUT_CLEAR:
+      return null;
+    case UPDATE_ASTRONAUT_REQUEST:
+    case UPDATE_ASTRONAUT_ERROR:
+    case UPDATE_ASTRONAUT_SUCCESS:
+      return action;
+    default:
+      return state;
+  }
+};
+
+const addAstronautReducer = (state, action) => {
+  switch (action.type) {
+    case RESET_ASTRONAUT:
+    case ADD_ASTRONAUT_CLEAR:
+      return null;
+    case ADD_ASTRONAUT_REQUEST:
+    case ADD_ASTRONAUT_ERROR:
+    case ADD_ASTRONAUT_SUCCESS:
+      return action;
     default:
       return state;
   }
@@ -114,107 +154,33 @@ const deleteDialogReducer = (state, action) => {
   switch (action.type) {
     case OPEN_DELETE_DIALOG:
       return {
-        ...state,
         isOpen: true,
         astronaut: action.astronaut
       };
     case CLOSE_DELETE_DIALOG:
       return {
-        ...state,
-        isOpen: false
+        isOpen: false,
+        astronaut: null
       };
     default:
       return state;
   }
 };
 
-/*
 const activeAstronautReducer = (state, action) => {
   switch (action.type) {
-    case LOAD_ASTRONAUT_REQUEST:
-      return {
-        action: action.type,
-        pending: true,
-        error: null,
-        response: null,
-        astronaut: {}
-      };
+    case RESET_ASTRONAUT:
+      //case DELETE_ASTRONAUT_SUCCESS:
+      return null;
     case LOAD_ASTRONAUT_SUCCESS:
-      return {
-        action: action.type,
-        pending: false,
-        error: null,
-        response: null,
-        astronaut: action.astronaut
-      };
-    case LOAD_ASTRONAUT_ERROR:
-      return {
-        action: action.type,
-        pending: false,
-        error: action.error,
-        response: null,
-        astronaut: {}
-      };
+      return action.success;
+    case UPDATE_ASTRONAUT_REQUEST:
     case ADD_ASTRONAUT_REQUEST:
-      return {
-        action: action.type,
-        pending: true,
-        error: null,
-        response: null,
-        astronaut: action.astronaut
-      };
-    case ADD_ASTRONAUT_SUCCESS:
-      return {
-        action: action.type,
-        pending: false,
-        error: null,
-        response: action.response,
-        astronaut: {}
-      };
-    case ADD_ASTRONAUT_ERROR:
-      return {
-        ...state,
-        action: action.type,
-        pending: false,
-        error: action.error,
-        response: null
-      };
-    case DELETE_ASTRONAUT_REQUEST:
-      return {
-        action: action.type,
-        pending: true,
-        error: null,
-        astronaut: { id: action.id },
-        response: null
-      };
-    case DELETE_ASTRONAUT_SUCCESS:
-      return {
-        ...state,
-        action: action.type,
-        pending: false,
-        error: null,
-        response: action.response
-      };
-    case DELETE_ASTRONAUT_ERROR:
-      return {
-        ...state,
-        action: action.type,
-        pending: false,
-        error: action.error,
-        response: null
-      };
-    case ASTRONAUT_RESET:
-      return {
-        action: null,
-        pending: false,
-        error: null,
-        response: null,
-        astronaut: {}
-      };
+      return action.request;
     default:
       return state;
   }
-};*/
+};
 
 const rootReducer = (state = initialState, action) => ({
   astronauts: astronautsReducer(state.astronauts, action),
@@ -222,7 +188,10 @@ const rootReducer = (state = initialState, action) => ({
   //deletedAstronaut: deletedAstronautReducer(state.deletedAstronaut, action),
   loadAstronaut: loadAstronautReducer(state.loadAstronaut, action),
   deleteAstronaut: deleteAstronautReducer(state.deleteAstronaut, action),
-  deleteDialog: deleteDialogReducer(state.deleteDialog, action)
+  updateAstronaut: updateAstronautReducer(state.updateAstronaut, action),
+  addAstronaut: addAstronautReducer(state.addAstronaut, action),
+  deleteDialog: deleteDialogReducer(state.deleteDialog, action),
+  activeAstronaut: activeAstronautReducer(state.activeAstronaut, action)
 });
 
 export default rootReducer;

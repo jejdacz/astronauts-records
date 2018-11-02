@@ -1,70 +1,113 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import { addAstronaut } from "../../astronautActions.js";
-import { Nav, Link, Logo } from "../Nav/Nav.js";
-import Container from "../Container/Container.js";
-import AstronautForm from "../AstronautForm/AstronautForm.js";
+import {
+  addAstronaut,
+  resetAstronautAction,
+  clearUpdateAstronautAction
+} from "../../astronautActions.js";
+import Spinner from "../Spinner/Spinner";
+import { Nav, Logo, Link } from "../Nav/Nav";
+import Footer from "../Footer/Footer";
+import Container from "../Container/Container";
+import Button from "../Button/Button";
+import AstronautForm from "../AstronautForm/AstronautForm";
 import styles from "./PageNewAstronaut.module.css";
 
 class PageNewAstronaut extends Component {
   constructor(props) {
     super(props);
+    this.handleSaveClick = this.handleSaveClick.bind(this);
+    this.handleBackClick = this.handleBackClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.restore = this.restore.bind(this);
   }
 
-  componentDidMount() {
-    //reset form
+  restore() {
+    this.props.dispatch(clearUpdateAstronautAction());
+  }
+
+  handleSaveClick() {}
+
+  handleBackClick() {
+    this.props.history.goBack();
   }
 
   handleSubmit(values) {
     this.props.dispatch(addAstronaut(values));
   }
 
-  renderContent() {
-    const { saving, error, response } = this.props;
+  componentDidMount() {}
 
-    if (saving) {
-      return <h4>saving...</h4>;
-    } else if (response) {
-      return (
-        <h4>
-          {`Astronaut ${response.firstName} ${response.lastName} was added.`}
-        </h4>
-      );
-    } else {
-      return (
-        <Fragment>
-          <AstronautForm onSubmit={this.handleSubmit} submitting={saving} />
-          {error && <h4>{error.message}</h4>}
-        </Fragment>
-      );
+  componentWillUnmount() {
+    this.props.dispatch(resetAstronautAction());
+  }
+
+  componentDidUpdate() {
+    if (this.props.addAstronaut && this.props.addAstronaut.success) {
+      this.props.dispatch(resetAstronautAction());
+      this.props.history.push("/");
     }
   }
 
-  render() {
-    const header = (
-      <Fragment>
-        <Link to="/">back</Link>
-      </Fragment>
-    );
-
-    return (
-      <Fragment>
+  renderContent = content => (
+    <Fragment>
+      <header>
         <Nav fixed={true}>
           <Logo to="/">ar</Logo>
-          <Link to="/">save</Link>
-          <Link to="/">cancel</Link>
+          <Link onClick={this.handleBackClick}>BACK</Link>
+          <Link onClick={this.handleSaveClick}>ADD</Link>
         </Nav>
-        <main className={styles.main}>
-          <Container className={styles.container}>
-            {this.renderContent()}
-          </Container>
-        </main>
+      </header>
+      <main className={styles.main}>
+        <Container className={styles.container}>{content}</Container>
+      </main>
+      <Footer />
+    </Fragment>
+  );
+
+  render() {
+    const { addAstronaut, astronaut } = this.props;
+    const saving = addAstronaut && addAstronaut.request ? true : false;
+
+    if (addAstronaut) {
+      if (addAstronaut.request) {
+        return this.renderContent(<Spinner center={true} />);
+      }
+      if (addAstronaut.error) {
+        return this.renderContent(
+          <Fragment>
+            <h4>"Error: Adding of astronaut failed!"</h4>
+            <Button onClick={this.restore} noBorder={true}>
+              OK
+            </Button>
+          </Fragment>
+        );
+      }
+    }
+
+    return this.renderContent(
+      <Fragment>
+        <AstronautForm
+          values={astronaut}
+          onSubmit={this.handleSubmit}
+          submitting={saving}
+        />
+        <div className={styles.controls}>
+          <Button onClick={this.handleBackClick} noBorder={true}>
+            BACK
+          </Button>
+          <Button onClick={this.handleSaveClick} noBorder={true}>
+            ADD
+          </Button>
+        </div>
       </Fragment>
     );
   }
 }
 
-const mapStateToProps = state => ({ ...state.newAstronaut });
+const mapStateToProps = state => ({
+  addAstronaut: state.addAstronaut,
+  astronaut: state.activeAstronaut
+});
 
 export default connect(mapStateToProps)(PageNewAstronaut);

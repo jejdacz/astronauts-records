@@ -1,14 +1,20 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { loadAstronautsIfNeeded } from "../../astronautActions.js";
+import {
+  loadAstronautsIfNeeded,
+  resetAstronautAction
+} from "../../astronautActions.js";
+import {
+  openDeleteDialogAction,
+  closeDeleteDialogAction
+} from "../../deleteDialogActions";
 import AstronautList from "./AstronautList/AstronautList.js";
 import AstronautTable from "./AstronautTable/AstronautTable.js";
 import { Nav, Link, Logo } from "../Nav/Nav.js";
 import Hero from "./Hero/Hero.js";
 import SectionDatabase from "./SectionDatabase/SectionDatabase.js";
 import Footer from "../Footer/Footer.js";
-import DeleteAstronautDialog from "../DeleteAstronautDialog/DeleteAstronautDialog.js";
 import Spinner from "../Spinner/Spinner.js";
 import widthMonitor from "../widthMonitor/widthMonitor.js";
 import breakpoints from "../../styles/breakpoints.module.css";
@@ -19,14 +25,7 @@ class PageAstronauts extends Component {
     super(props);
 
     this.breakpointLarge = breakpoints["bp-lg"].replace("px", "");
-
-    this.state = {
-      deleteDialogIsOpen: false,
-      astronautToDelete: {}
-    };
-
-    this.openDeleteDialog = this.openDeleteDialog.bind(this);
-    this.closeDeleteDialog = this.closeDeleteDialog.bind(this);
+    this.handleDeleteClick = this.handleDeleteClick.bind(this);
   }
 
   static propTypes = {
@@ -35,23 +34,28 @@ class PageAstronauts extends Component {
     items: PropTypes.array.isRequired
   };
 
-  openDeleteDialog(index) {
-    this.setState({
-      deleteDialogIsOpen: true,
-      astronautToDelete: this.props.items[index]
-    });
-  }
-
-  closeDeleteDialog() {
-    this.setState({ deleteDialogIsOpen: false, astronautToDelete: {} });
-  }
-
   isLargeScreenDevice() {
     return this.props.width >= this.breakpointLarge;
   }
 
+  handleDeleteClick(astronaut) {
+    this.props.dispatch(openDeleteDialogAction(astronaut));
+  }
+
   componentDidMount() {
     this.props.dispatch(loadAstronautsIfNeeded);
+  }
+
+  componentDidUpdate() {
+    if (this.props.shouldRefresh) {
+      //this.props.dispatch(loadAstronautsIfNeeded);
+    }
+
+    if (this.props.deleteAstronaut && this.props.deleteAstronaut.success) {
+      this.props.dispatch(closeDeleteDialogAction());
+      this.props.dispatch(resetAstronautAction());
+      // update list of astronauts
+    }
   }
 
   renderContent = content => (
@@ -67,13 +71,6 @@ class PageAstronauts extends Component {
         <SectionDatabase>{content}</SectionDatabase>
       </main>
       <Footer />
-      {this.state.deleteDialogIsOpen && (
-        <DeleteAstronautDialog
-          isOpen={this.state.deleteDialogIsOpen}
-          closeModal={this.closeDeleteDialog}
-          astronaut={this.state.astronautToDelete}
-        />
-      )}
     </Fragment>
   );
 
@@ -94,7 +91,7 @@ class PageAstronauts extends Component {
         <AstronautTable
           astronauts={items}
           updated={this.props.receivedAt}
-          onDeleteClick={this.openDeleteDialog}
+          onDeleteClick={this.handleDeleteClick}
         />
       );
     }
@@ -104,6 +101,9 @@ class PageAstronauts extends Component {
   }
 }
 
-const mapStateToProps = state => ({ ...state.astronauts });
+const mapStateToProps = state => ({
+  ...state.astronauts,
+  deleteAstronaut: state.deleteAstronaut
+});
 
 export default connect(mapStateToProps)(widthMonitor()(PageAstronauts));

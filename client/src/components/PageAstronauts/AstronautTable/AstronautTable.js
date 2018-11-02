@@ -13,7 +13,7 @@ const AstronautTableRow = ({ astronaut, onDeleteClick }) => (
     <td>
       <LinkButton
         className={styles.control}
-        to={`/astronauts/${astronaut.id}/edit`}
+        to={`/astronauts/edit/${astronaut.id}`}
       >
         Edit
       </LinkButton>
@@ -25,7 +25,7 @@ const AstronautTableRow = ({ astronaut, onDeleteClick }) => (
 );
 
 const AstronautTable = ({ astronauts, updated, onDeleteClick }) => {
-  const handleDeleteClick = index => () => onDeleteClick(index);
+  const handleDeleteClick = astronaut => () => onDeleteClick(astronaut);
   return (
     <table className={styles.table}>
       <tbody>
@@ -44,7 +44,7 @@ const AstronautTable = ({ astronauts, updated, onDeleteClick }) => {
           <AstronautTableRow
             key={astronaut.id}
             astronaut={astronaut}
-            onDeleteClick={handleDeleteClick(index)}
+            onDeleteClick={handleDeleteClick(astronaut)}
           />
         ))}
       </tbody>

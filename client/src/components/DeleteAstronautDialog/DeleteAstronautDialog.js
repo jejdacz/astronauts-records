@@ -37,7 +37,7 @@ class DeleteAstronautDialog extends PureComponent {
   }
 
   render() {
-    const { action, isOpen, dispatch, astronaut } = this.props;
+    const { request, error, success, isOpen, dispatch, astronaut } = this.props;
 
     if (!isOpen) return null;
 
@@ -45,24 +45,7 @@ class DeleteAstronautDialog extends PureComponent {
       <Modal isOpen={isOpen} onRequestClose={this.closeDialog} {...props} />
     );
 
-    if (!action) {
-      return (
-        <ConfiguredModal>
-          <Heading>Delete this astronaut?</Heading>
-          <Message>
-            {`Astronaut ${astronaut.firstName} ${
-              astronaut.lastName
-            } will be removed from database.`}
-          </Message>
-          <Controls>
-            <Button onClick={this.closeDialog}>cancel</Button>
-            <Button onClick={this.handleDeleteClick}>ok</Button>
-          </Controls>
-        </ConfiguredModal>
-      );
-    }
-
-    if (action.request) {
+    if (request) {
       return (
         <ConfiguredModal shouldCloseOnOverlayClick={false}>
           <Heading>Deleteing...</Heading>
@@ -73,7 +56,7 @@ class DeleteAstronautDialog extends PureComponent {
       );
     }
 
-    if (action.error) {
+    if (error) {
       return (
         <ConfiguredModal>
           <Heading>Error</Heading>
@@ -87,7 +70,7 @@ class DeleteAstronautDialog extends PureComponent {
       );
     }
 
-    if (action.success) {
+    if (success) {
       return (
         <ConfiguredModal>
           <Heading>Success</Heading>
@@ -98,6 +81,21 @@ class DeleteAstronautDialog extends PureComponent {
         </ConfiguredModal>
       );
     }
+
+    return (
+      <ConfiguredModal>
+        <Heading>Delete this astronaut?</Heading>
+        <Message>
+          {`Astronaut ${astronaut.firstName} ${
+            astronaut.lastName
+          } will be removed from database.`}
+        </Message>
+        <Controls>
+          <Button onClick={this.closeDialog}>cancel</Button>
+          <Button onClick={this.handleDeleteClick}>ok</Button>
+        </Controls>
+      </ConfiguredModal>
+    );
   }
 }
 

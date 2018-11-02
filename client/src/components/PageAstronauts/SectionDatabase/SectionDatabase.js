@@ -20,7 +20,7 @@ const SectionDatabase = ({ children }) => (
           elit. Maecenas libero. Integer malesuada. Cum sociis natoque penatibus
           et magnis dis parturient montes.
         </Paragraph>
-        <Button>add astronaut</Button>
+        <Button to={"/astronauts/new"}>add astronaut</Button>
       </Group>
       <Group>{children}</Group>
     </Container>
