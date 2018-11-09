@@ -1,4 +1,4 @@
-@value text-dark from "../../styles/colors.module.css";
+@value text-dark, bg-light from "../../styles/colors.module.css";
 
 .lds-roller {
   display: inline-block;
@@ -20,6 +20,14 @@
   background: text-dark;
   margin: -3px 0 0 -3px;
 }
+
+.light {
+}
+
+.light div:after {
+  background: bg-light;
+}
+
 .lds-roller div:nth-child(1) {
   animation-delay: -0.036s;
 }

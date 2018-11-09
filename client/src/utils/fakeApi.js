@@ -9,7 +9,16 @@ const waitErr = delay => data =>
 const wait2s = wait(2000);
 const waitErr2s = waitErr(2000);
 
-const astronauts = variables => wait2s(astronautsData);
+const funcSwitch = (fa, fb) => {
+  let sw = false;
+  return () => {
+    sw = !sw;
+    return sw ? fa : fb;
+  };
+};
+
+//const astronautsSuccess = variables => wait2s(astronautsData);
+const astronauts = variables => waitErr2s("load error");
 
 const astronaut = variables =>
   wait2s(astronautsData.find(a => a.id === variables.id));

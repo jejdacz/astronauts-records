@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { joinToStringBySpace as jstr } from "../../utils/joinToString.js";
-import withClassName from "../../utils/withClassName.js";
+import withClassName from "../withClassName/withClassName.js";
 import LinkButton from "../LinkButton/LinkButton.js";
 import Container from "../Container/Container.js";
 import styles from "./Nav.module.css";

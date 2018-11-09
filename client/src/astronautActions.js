@@ -153,6 +153,9 @@ lastUpdatedAction.clear = () => ({
   type: LAST_UPDATED_CLEAR
 });
 
+export const CLEAR_ERROR = "CLEAR_ERROR";
+export const clearErrorAction = () => ({ type: CLEAR_ERROR });
+
 export const apiCall = (
   apiCallFunc,
   { request, success, error }
@@ -187,15 +190,15 @@ export const updateAstronaut = apiCall(
 
 export const shouldLoadAstronauts = (state, lastUpdated, dispatch) => {
   dispatch(lastUpdatedAction.request());
-  if (state.astronauts.items.length === 0) {
+  if (state.astronauts.allIds.length === 0) {
     return Promise.resolve(true);
-  } else if (state.astronauts.loading) {
+  } else if (state.pending) {
     return Promise.resolve(false);
   } else {
     return lastUpdated()
       .then(val => {
         dispatch(lastUpdatedAction.success());
-        return val > state.astronauts.receivedAt
+        return val > state.lastUpdated
           ? Promise.resolve(true)
           : Promise.resolve(false);
       })

@@ -1,21 +1,13 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import {
-  loadAstronautsIfNeeded,
-  resetAstronautAction
-} from "../../astronautActions.js";
-import {
-  openDeleteDialogAction,
-  closeDeleteDialogAction
-} from "../../deleteDialogActions";
+import { deleteAstronaut } from "../../astronautActions.js";
 import AstronautList from "./AstronautList/AstronautList.js";
 import AstronautTable from "./AstronautTable/AstronautTable.js";
 import { Nav, Link, Logo } from "../Nav/Nav.js";
 import Hero from "./Hero/Hero.js";
 import SectionDatabase from "./SectionDatabase/SectionDatabase.js";
 import Footer from "../Footer/Footer.js";
-import Spinner from "../Spinner/Spinner.js";
 import widthMonitor from "../widthMonitor/widthMonitor.js";
 import breakpoints from "../../styles/breakpoints.module.css";
 import styles from "./PageAstronauts.module.css";
@@ -29,32 +21,16 @@ class PageAstronauts extends Component {
   }
 
   static propTypes = {
-    loading: PropTypes.bool.isRequired,
-    receivedAt: PropTypes.number.isRequired,
-    items: PropTypes.array.isRequired
+    lastUpdated: PropTypes.number.isRequired,
+    astronauts: PropTypes.array.isRequired
   };
 
   isLargeScreenDevice() {
     return this.props.width >= this.breakpointLarge;
   }
 
-  handleDeleteClick(astronaut) {
-    this.props.dispatch(openDeleteDialogAction(astronaut));
-  }
-
-  componentDidMount() {
-    this.props.dispatch(loadAstronautsIfNeeded);
-  }
-
-  componentDidUpdate() {
-    if (this.props.shouldRefresh) {
-      this.props.dispatch(loadAstronautsIfNeeded);
-    }
-
-    if (this.props.deleteAstronaut && this.props.deleteAstronaut.success) {
-      this.props.dispatch(closeDeleteDialogAction());
-      this.props.dispatch(resetAstronautAction());
-    }
+  handleDeleteClick(id) {
+    this.props.dispatch(deleteAstronaut({ id }));
   }
 
   renderContent = content => (
@@ -74,35 +50,29 @@ class PageAstronauts extends Component {
   );
 
   render() {
-    const { loading, error, items } = this.props;
+    const { astronauts, lastUpdated } = this.props;
 
-    if (error) {
-      return this.renderContent("Error: Loading of records failed!");
-    }
-    if (loading) {
-      return this.renderContent(<Spinner center={true} />);
-    }
-    if (items.length === 0) {
+    if (astronauts.length === 0) {
       return this.renderContent("No records");
     }
     if (this.isLargeScreenDevice()) {
       return this.renderContent(
         <AstronautTable
-          astronauts={items}
-          updated={this.props.receivedAt}
+          astronauts={astronauts}
+          updated={lastUpdated}
           onDeleteClick={this.handleDeleteClick}
         />
       );
     }
     return this.renderContent(
-      <AstronautList astronauts={items} updated={this.props.receivedAt} />
+      <AstronautList astronauts={astronauts} updated={lastUpdated} />
     );
   }
 }
 
 const mapStateToProps = state => ({
-  ...state.astronauts,
-  deleteAstronaut: state.deleteAstronaut
+  astronauts: state.astronauts.allIds.map(id => state.astronauts.byId[id]),
+  lastUpdated: state.lastUpdated
 });
 
 export default connect(mapStateToProps)(widthMonitor()(PageAstronauts));

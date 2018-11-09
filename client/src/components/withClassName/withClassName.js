@@ -1,5 +1,5 @@
 import React from "react";
-import { joinToStringBySpace as jstr } from "./joinToString.js";
+import { joinToStringBySpace as jstr } from "../../utils/joinToString.js";
 
 const withClassName = styleClass => BaseComponent => ({
   className,

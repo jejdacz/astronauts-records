@@ -1,4 +1,4 @@
-import withClassName from "../../../utils/withClassName.js";
+import withClassName from "../../withClassName/withClassName.js";
 import Cont from "../../Container/Container.js";
 import Btn from "../../Button/Button.js";
 import styles from "./Main.module.css";

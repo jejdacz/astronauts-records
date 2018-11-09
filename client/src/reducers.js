@@ -1,3 +1,4 @@
+import { combineReducers } from "react-redux";
 import {
   LOAD_ASTRONAUTS_REQUEST,
   LOAD_ASTRONAUTS_SUCCESS,
@@ -21,7 +22,8 @@ import {
   LAST_UPDATED_CLEAR,
   LAST_UPDATED_REQUEST,
   LAST_UPDATED_ERROR,
-  LAST_UPDATED_SUCCESS
+  LAST_UPDATED_SUCCESS,
+  CLEAR_ERROR
 } from "./astronautActions.js";
 import {
   OPEN_DELETE_DIALOG,
@@ -29,24 +31,11 @@ import {
 } from "./deleteDialogActions.js";
 
 const initialState = {
-  deleteDialog: {
-    isOpen: false,
-    astronaut: {}
-  },
-  astronauts: {
-    loading: false,
-    error: null,
-    items: [],
-    receivedAt: 0,
-    shouldRefresh: true
-  },
-  loadAstronauts: null,
-  loadAstronaut: null,
-  deleteAstronaut: null,
-  updateAstronaut: null,
-  addAstronaut: null,
-  lastUpdated: null,
-  activeAstronaut: null
+  pending: false,
+  error: null,
+  changed: false,
+  astronauts: { byId: {}, allIds: [] },
+  lastUpdated: 0
 };
 
 const astronautsReducer = (state, action) => {
@@ -121,36 +110,6 @@ const lastUpdatedReducer = (state, action) => {
   }
 };
 
-const loadAstronautsReducer = (state, action) => {
-  switch (
-    action.type // LOAD_ASTRONAUT_RESET
-  ) {
-    case LOAD_ASTRONAUTS_CLEAR:
-      return null;
-    case LOAD_ASTRONAUTS_REQUEST:
-    case LOAD_ASTRONAUTS_ERROR:
-    case LOAD_ASTRONAUTS_SUCCESS:
-      return action;
-    default:
-      return state;
-  }
-};
-
-const loadAstronautReducer = (state, action) => {
-  switch (
-    action.type // LOAD_ASTRONAUT_RESET
-  ) {
-    case RESET_ASTRONAUT:
-      return null;
-    case LOAD_ASTRONAUT_REQUEST:
-    case LOAD_ASTRONAUT_ERROR:
-    case LOAD_ASTRONAUT_SUCCESS:
-      return action;
-    default:
-      return state;
-  }
-};
-
 const deleteAstronautReducer = (state, action) => {
   switch (action.type) {
     case RESET_ASTRONAUT:
@@ -192,50 +151,33 @@ const addAstronautReducer = (state, action) => {
   }
 };
 
-const deleteDialogReducer = (state, action) => {
-  switch (action.type) {
-    case OPEN_DELETE_DIALOG:
-      return {
-        isOpen: true,
-        astronaut: action.astronaut
-      };
-    case CLOSE_DELETE_DIALOG:
-      return {
-        isOpen: false,
-        astronaut: null
-      };
-    default:
-      return state;
-  }
-};
-
-const activeAstronautReducer = (state, action) => {
-  switch (action.type) {
-    case RESET_ASTRONAUT:
-      //case DELETE_ASTRONAUT_SUCCESS:
-      return null;
-    case LOAD_ASTRONAUT_SUCCESS:
-      return action.success;
-    case UPDATE_ASTRONAUT_REQUEST:
-    case ADD_ASTRONAUT_REQUEST:
-      return action.request;
-    default:
-      return state;
-  }
-};
-
-const rootReducer = (state = initialState, action) => ({
-  astronauts: astronautsReducer(state.astronauts, action),
-  loadAstronauts: loadAstronautsReducer(state.loadAstronauts, action),
-  lastUpdated: lastUpdatedReducer(state.lastUpdated, action),
-  //newAstronaut: newAstronautReducer(state.newAstronaut, action),
-  //deletedAstronaut: deletedAstronautReducer(state.deletedAstronaut, action),
-  loadAstronaut: loadAstronautReducer(state.loadAstronaut, action),
-  deleteAstronaut: deleteAstronautReducer(state.deleteAstronaut, action),
-  updateAstronaut: updateAstronautReducer(state.updateAstronaut, action),
-  addAstronaut: addAstronautReducer(state.addAstronaut, action),
-  deleteDialog: deleteDialogReducer(state.deleteDialog, action),
-  activeAstronaut: activeAstronautReducer(state.activeAstronaut, action)
+const storeAstronauts = items => ({
+  byId: items.reduce((acc, item) => ({ ...acc, [item.id]: item }), {}),
+  allIds: items.map(item => item.id)
 });
+
+const rootReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case CLEAR_ERROR:
+      return { ...state, error: null };
+    case LOAD_ASTRONAUTS_REQUEST:
+      return { ...state, pending: true };
+    case LOAD_ASTRONAUTS_ERROR:
+      return {
+        ...state,
+        pending: false,
+        error: "Loading of astronauts failed. Please try reload the page later."
+      };
+    case LOAD_ASTRONAUTS_SUCCESS:
+      return {
+        ...state,
+        pending: false,
+        astronauts: storeAstronauts(action.success),
+        lastUpdated: Date.now()
+      };
+    default:
+      return state;
+  }
+};
 
 export default rootReducer;

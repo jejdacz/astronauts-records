@@ -1,14 +1,20 @@
 import React from "react";
-import withClassName from "../../utils/withClassName.js";
+import withClassName from "../withClassName/withClassName.js";
 import Btn from "../Button/Button.js";
 import ReactModal from "react-modal";
+import { joinToStringBySpace as jstr } from "../../utils/joinToString.js";
 import { compose, withProps } from "recompose";
 import styles from "./Modal.module.css";
 
-export const Modal = props => (
+export const Modal = ({ boxed = true, transparent, isOpen, ...props }) => (
   <ReactModal
-    className={styles.modal}
-    overlayClassName={styles.overlay}
+    className={boxed ? styles.modal : styles.modalClear}
+    overlayClassName={jstr(
+      styles.overlay,
+      transparent ? styles.transparent : "",
+      isOpen ? styles.open : ""
+    )}
+    isOpen={isOpen}
     {...props}
   />
 );
