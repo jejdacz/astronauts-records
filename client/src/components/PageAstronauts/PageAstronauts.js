@@ -48,13 +48,12 @@ class PageAstronauts extends Component {
 
   componentDidUpdate() {
     if (this.props.shouldRefresh) {
-      //this.props.dispatch(loadAstronautsIfNeeded);
+      this.props.dispatch(loadAstronautsIfNeeded);
     }
 
     if (this.props.deleteAstronaut && this.props.deleteAstronaut.success) {
       this.props.dispatch(closeDeleteDialogAction());
       this.props.dispatch(resetAstronautAction());
-      // update list of astronauts
     }
   }
 

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import {
   addAstronaut,
   resetAstronautAction,
-  clearUpdateAstronautAction
+  updateAstronautAction
 } from "../../astronautActions.js";
 import Spinner from "../Spinner/Spinner";
 import { Nav, Logo, Link } from "../Nav/Nav";
@@ -23,7 +23,7 @@ class PageNewAstronaut extends Component {
   }
 
   restore() {
-    this.props.dispatch(clearUpdateAstronautAction());
+    this.props.dispatch(updateAstronautAction.clear());
   }
 
   handleSaveClick() {}

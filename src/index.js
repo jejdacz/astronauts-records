@@ -113,7 +113,7 @@ const getAstronaut = (args, context) => {
 
 const getAstronauts = (args, context) => {
   return new Promise((resolve, reject) => {
-    Astronaut.find((err, res) => {
+    Astronaut.find({}, null, { sort: "lastName" }, (err, res) => {
       err ? context.next(err) : resolve(res);
     });
   });

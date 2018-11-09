@@ -4,12 +4,13 @@ import api from "./utils/fakeApi.js";
 export const LOAD_ASTRONAUTS_REQUEST = "LOAD_ASTRONAUTS_REQUEST";
 export const LOAD_ASTRONAUTS_SUCCESS = "LOAD_ASTRONAUTS_SUCCESS";
 export const LOAD_ASTRONAUTS_ERROR = "LOAD_ASTRONAUTS_ERROR";
+export const LOAD_ASTRONAUTS_CLEAR = "LOAD_ASTRONAUTS_ERROR";
 
 export const loadAstronautsAction = {};
 
-loadAstronautsAction.request = request => ({
+loadAstronautsAction.request = () => ({
   type: LOAD_ASTRONAUTS_REQUEST,
-  request
+  request: true
 });
 
 loadAstronautsAction.success = success => ({
@@ -20,6 +21,10 @@ loadAstronautsAction.success = success => ({
 loadAstronautsAction.error = error => ({
   type: LOAD_ASTRONAUTS_ERROR,
   error
+});
+
+loadAstronautsAction.clear = () => ({
+  type: LOAD_ASTRONAUTS_CLEAR
 });
 
 export const DELETE_ASTRONAUT_REQUEST = "DELETE_ASTRONAUT_REQUEST";
@@ -92,7 +97,7 @@ updateAstronautAction.error = error => ({
   error
 });
 
-export const clearUpdateAstronautAction = () => ({
+updateAstronautAction.clear = () => ({
   type: UPDATE_ASTRONAUT_CLEAR
 });
 
@@ -118,8 +123,34 @@ addAstronautAction.error = error => ({
   error
 });
 
-export const clearAddAstronautAction = () => ({
+addAstronautAction.clear = () => ({
   type: ADD_ASTRONAUT_CLEAR
+});
+
+export const lastUpdatedAction = {};
+
+export const LAST_UPDATED_REQUEST = "LAST_UPDATED_REQUEST";
+export const LAST_UPDATED_ERROR = "LAST_UPDATED_ERROR";
+export const LAST_UPDATED_SUCCESS = "LAST_UPDATED_SUCCESS";
+export const LAST_UPDATED_CLEAR = "LAST_UPDATED_SUCCESS";
+
+lastUpdatedAction.request = () => ({
+  type: LAST_UPDATED_REQUEST,
+  request: true
+});
+
+lastUpdatedAction.error = error => ({
+  type: LAST_UPDATED_ERROR,
+  error
+});
+
+lastUpdatedAction.success = success => ({
+  type: LAST_UPDATED_SUCCESS,
+  success
+});
+
+lastUpdatedAction.clear = () => ({
+  type: LAST_UPDATED_CLEAR
 });
 
 export const apiCall = (
@@ -140,6 +171,7 @@ export const deleteAstronaut = apiCall(
 );
 
 export const loadAstronaut = apiCall(api.astronaut, loadAstronautAction);
+
 /*
 export const loadAstronautFromStore = ({ id }) => (dispatch, getState) => {
   const astronaut = getState().astronauts.items.find(a => a.id === id);
@@ -153,22 +185,25 @@ export const updateAstronaut = apiCall(
   updateAstronautAction
 );
 
-export const shouldLoadAstronauts = (state, lastUpdated) => {
+export const shouldLoadAstronauts = (state, lastUpdated, dispatch) => {
+  dispatch(lastUpdatedAction.request());
   if (state.astronauts.items.length === 0) {
     return Promise.resolve(true);
   } else if (state.astronauts.loading) {
     return Promise.resolve(false);
   } else {
-    return lastUpdated().then(
-      val =>
-        val > state.astronauts.receivedAt
+    return lastUpdated()
+      .then(val => {
+        dispatch(lastUpdatedAction.success());
+        return val > state.astronauts.receivedAt
           ? Promise.resolve(true)
-          : Promise.resolve(false)
-    );
+          : Promise.resolve(false);
+      })
+      .catch(err => dispatch(lastUpdatedAction.error(err)));
   }
 };
 
 export const loadAstronautsIfNeeded = (dispatch, getState) =>
-  shouldLoadAstronauts(getState(), api.lastUpdated)
-    .then(res => (res ? dispatch(loadAstronauts()) : Promise.resolve()))
-    .catch(err => dispatch(loadAstronautsAction.failure(err)));
+  shouldLoadAstronauts(getState(), api.lastUpdated, dispatch).then(
+    res => (res ? dispatch(loadAstronauts()) : Promise.resolve())
+  );

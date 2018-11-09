@@ -2,6 +2,7 @@ import {
   LOAD_ASTRONAUTS_REQUEST,
   LOAD_ASTRONAUTS_SUCCESS,
   LOAD_ASTRONAUTS_ERROR,
+  LOAD_ASTRONAUTS_CLEAR,
   ADD_ASTRONAUT_REQUEST,
   ADD_ASTRONAUT_SUCCESS,
   ADD_ASTRONAUT_ERROR,
@@ -16,7 +17,11 @@ import {
   UPDATE_ASTRONAUT_REQUEST,
   UPDATE_ASTRONAUT_SUCCESS,
   UPDATE_ASTRONAUT_ERROR,
-  UPDATE_ASTRONAUT_CLEAR
+  UPDATE_ASTRONAUT_CLEAR,
+  LAST_UPDATED_CLEAR,
+  LAST_UPDATED_REQUEST,
+  LAST_UPDATED_ERROR,
+  LAST_UPDATED_SUCCESS
 } from "./astronautActions.js";
 import {
   OPEN_DELETE_DIALOG,
@@ -35,10 +40,12 @@ const initialState = {
     receivedAt: 0,
     shouldRefresh: true
   },
+  loadAstronauts: null,
   loadAstronaut: null,
   deleteAstronaut: null,
   updateAstronaut: null,
   addAstronaut: null,
+  lastUpdated: null,
   activeAstronaut: null
 };
 
@@ -65,30 +72,65 @@ const astronautsReducer = (state, action) => {
         loading: false,
         error: action.error
       };
+    case LOAD_ASTRONAUT_SUCCESS:
+      return {
+        ...state,
+        items: { ...state.items, ...action.success }
+      };
     case DELETE_ASTRONAUT_SUCCESS:
       return {
         ...state,
-        items: state.items.filter(i => i.id !== action.success.id),
+        //items: state.items.filter(i => i.id !== action.success.id),
         shouldRefresh: true
       };
     case UPDATE_ASTRONAUT_SUCCESS:
       return {
         ...state,
-        items: state.items.map(i => {
+        /*      items: state.items.map(i => {
           if (i.id === action.success.id) {
             return action.success;
           } else {
             return i;
           }
-        }),
+        }),*/
         shouldRefresh: true
       };
     case ADD_ASTRONAUT_SUCCESS:
       return {
         ...state,
-        items: [...state.items, action.success],
+        //  items: [...state.items, action.success],
         shouldRefresh: true
       };
+    default:
+      return state;
+  }
+};
+
+const lastUpdatedReducer = (state, action) => {
+  switch (
+    action.type // LOAD_ASTRONAUT_RESET
+  ) {
+    case LAST_UPDATED_CLEAR:
+      return null;
+    case LAST_UPDATED_REQUEST:
+    case LAST_UPDATED_ERROR:
+    case LAST_UPDATED_SUCCESS:
+      return action;
+    default:
+      return state;
+  }
+};
+
+const loadAstronautsReducer = (state, action) => {
+  switch (
+    action.type // LOAD_ASTRONAUT_RESET
+  ) {
+    case LOAD_ASTRONAUTS_CLEAR:
+      return null;
+    case LOAD_ASTRONAUTS_REQUEST:
+    case LOAD_ASTRONAUTS_ERROR:
+    case LOAD_ASTRONAUTS_SUCCESS:
+      return action;
     default:
       return state;
   }
@@ -184,6 +226,8 @@ const activeAstronautReducer = (state, action) => {
 
 const rootReducer = (state = initialState, action) => ({
   astronauts: astronautsReducer(state.astronauts, action),
+  loadAstronauts: loadAstronautsReducer(state.loadAstronauts, action),
+  lastUpdated: lastUpdatedReducer(state.lastUpdated, action),
   //newAstronaut: newAstronautReducer(state.newAstronaut, action),
   //deletedAstronaut: deletedAstronautReducer(state.deletedAstronaut, action),
   loadAstronaut: loadAstronautReducer(state.loadAstronaut, action),

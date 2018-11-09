@@ -4,7 +4,7 @@ import {
   loadAstronaut,
   updateAstronaut,
   resetAstronautAction,
-  clearUpdateAstronautAction
+  updateAstronautAction
 } from "../../astronautActions.js";
 import Spinner from "../Spinner/Spinner";
 import { Nav, Logo, Link } from "../Nav/Nav";
@@ -24,7 +24,7 @@ class PageEditAstronaut extends Component {
   }
 
   restore() {
-    this.props.dispatch(clearUpdateAstronautAction());
+    this.props.dispatch(updateAstronautAction.clear());
   }
 
   handleSaveClick() {}
