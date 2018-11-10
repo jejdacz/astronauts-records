@@ -17,8 +17,8 @@ const funcSwitch = (fa, fb) => {
   };
 };
 
-//const astronautsSuccess = variables => wait2s(astronautsData);
-const astronauts = variables => waitErr2s("load error");
+const astronauts = variables => wait2s(astronautsData);
+//const astronauts = variables => waitErr2s("load error");
 
 const astronaut = variables =>
   wait2s(astronautsData.find(a => a.id === variables.id));

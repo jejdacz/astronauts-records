@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import { compose, lifecycle } from "recompose";
@@ -39,6 +40,13 @@ const App = props => {
     </Fragment>
   );
 };
+
+App.propTypes = {
+  pending: PropTypes.bool,
+  error: PropTypes.any,
+  clearError: PropTypes.func.isRequired,
+  loadAstronauts: PropTypes.func.isRequired
+};
 /*
 
 <Route
@@ -63,7 +71,7 @@ const mapDispatchToProps = dispatch => ({
   clearError: () => dispatch(clearErrorAction())
 });
 
-export default compose(
+const AppDecorated = compose(
   connect(
     mapStateToProps,
     mapDispatchToProps
@@ -74,3 +82,5 @@ export default compose(
     }
   })
 )(App);
+
+export default AppDecorated;

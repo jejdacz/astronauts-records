@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { astronautType } from "../../../types.js";
 import formatDate from "../../../utils/formatDate.js";
 import LinkButton from "../../LinkButton/LinkButton.js";
+import ConfirmButton from "../../ConfirmButton/ConfirmButton";
 import styles from "./AstronautTable.module.css";
 
 const AstronautTableRow = ({ astronaut, onDeleteClick }) => (
@@ -17,15 +18,15 @@ const AstronautTableRow = ({ astronaut, onDeleteClick }) => (
       >
         Edit
       </LinkButton>
-      <LinkButton className={styles.control} onClick={onDeleteClick}>
+      <ConfirmButton className={styles.control} onClick={onDeleteClick}>
         Delete
-      </LinkButton>
+      </ConfirmButton>
     </td>
   </tr>
 );
 
 const AstronautTable = ({ astronauts, updated, onDeleteClick }) => {
-  const handleDeleteClick = astronaut => () => onDeleteClick(astronaut);
+  const handleDeleteClick = id => () => onDeleteClick(id);
   return (
     <table className={styles.table}>
       <tbody>
@@ -44,7 +45,7 @@ const AstronautTable = ({ astronauts, updated, onDeleteClick }) => {
           <AstronautTableRow
             key={astronaut.id}
             astronaut={astronaut}
-            onDeleteClick={handleDeleteClick(astronaut)}
+            onDeleteClick={handleDeleteClick(astronaut.id)}
           />
         ))}
       </tbody>

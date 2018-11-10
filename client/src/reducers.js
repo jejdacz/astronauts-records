@@ -3,32 +3,17 @@ import {
   LOAD_ASTRONAUTS_REQUEST,
   LOAD_ASTRONAUTS_SUCCESS,
   LOAD_ASTRONAUTS_ERROR,
-  LOAD_ASTRONAUTS_CLEAR,
   ADD_ASTRONAUT_REQUEST,
   ADD_ASTRONAUT_SUCCESS,
   ADD_ASTRONAUT_ERROR,
-  ADD_ASTRONAUT_CLEAR,
   DELETE_ASTRONAUT_REQUEST,
   DELETE_ASTRONAUT_SUCCESS,
   DELETE_ASTRONAUT_ERROR,
-  RESET_ASTRONAUT,
-  LOAD_ASTRONAUT_REQUEST,
-  LOAD_ASTRONAUT_SUCCESS,
-  LOAD_ASTRONAUT_ERROR,
   UPDATE_ASTRONAUT_REQUEST,
   UPDATE_ASTRONAUT_SUCCESS,
   UPDATE_ASTRONAUT_ERROR,
-  UPDATE_ASTRONAUT_CLEAR,
-  LAST_UPDATED_CLEAR,
-  LAST_UPDATED_REQUEST,
-  LAST_UPDATED_ERROR,
-  LAST_UPDATED_SUCCESS,
   CLEAR_ERROR
 } from "./astronautActions.js";
-import {
-  OPEN_DELETE_DIALOG,
-  CLOSE_DELETE_DIALOG
-} from "./deleteDialogActions.js";
 
 const initialState = {
   pending: false,
@@ -37,7 +22,7 @@ const initialState = {
   astronauts: { byId: {}, allIds: [] },
   lastUpdated: 0
 };
-
+/*
 const astronautsReducer = (state, action) => {
   switch (action.type) {
     case LOAD_ASTRONAUTS_REQUEST:
@@ -75,13 +60,13 @@ const astronautsReducer = (state, action) => {
     case UPDATE_ASTRONAUT_SUCCESS:
       return {
         ...state,
-        /*      items: state.items.map(i => {
+              items: state.items.map(i => {
           if (i.id === action.success.id) {
             return action.success;
           } else {
             return i;
           }
-        }),*/
+        }),
         shouldRefresh: true
       };
     case ADD_ASTRONAUT_SUCCESS:
@@ -149,7 +134,7 @@ const addAstronautReducer = (state, action) => {
     default:
       return state;
   }
-};
+};*/
 
 const storeAstronauts = items => ({
   byId: items.reduce((acc, item) => ({ ...acc, [item.id]: item }), {}),
@@ -161,6 +146,7 @@ const rootReducer = (state = initialState, action) => {
     case CLEAR_ERROR:
       return { ...state, error: null };
     case LOAD_ASTRONAUTS_REQUEST:
+    case DELETE_ASTRONAUT_REQUEST:
       return { ...state, pending: true };
     case LOAD_ASTRONAUTS_ERROR:
       return {
@@ -174,6 +160,23 @@ const rootReducer = (state = initialState, action) => {
         pending: false,
         astronauts: storeAstronauts(action.success),
         lastUpdated: Date.now()
+      };
+
+    case DELETE_ASTRONAUT_ERROR:
+      return {
+        ...state,
+        pending: false,
+        error: "Deleting of astronauts failed."
+      };
+    case DELETE_ASTRONAUT_SUCCESS:
+      return {
+        ...state,
+        pending: false,
+        astronauts: storeAstronauts(
+          state.astronauts.allIds
+            .map(id => state.astronauts.byId[id])
+            .filter(a => a.id !== action.success.id)
+        )
       };
     default:
       return state;

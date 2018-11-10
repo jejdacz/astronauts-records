@@ -75,4 +75,8 @@ const mapStateToProps = state => ({
   lastUpdated: state.lastUpdated
 });
 
-export default connect(mapStateToProps)(widthMonitor()(PageAstronauts));
+const PageAstronautsDecorated = connect(mapStateToProps)(
+  widthMonitor()(PageAstronauts)
+);
+
+export default PageAstronautsDecorated;

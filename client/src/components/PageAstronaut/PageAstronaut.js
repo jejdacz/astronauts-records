@@ -1,71 +1,12 @@
 import React, { Component, Fragment } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import {
-  loadAstronautsIfNeeded,
-  loadAstronautsAction,
-  updateAstronaut,
-  resetAstronautAction,
-  lastUpdatedAction
-} from "../../astronautActions.js";
-import {
-  openDeleteDialogAction,
-  closeDeleteDialogAction
-} from "../../deleteDialogActions.js";
-import Spinner from "../Spinner/Spinner";
+import { deleteAstronaut, updateAstronaut } from "../../astronautActions.js";
 import { Nav, Logo, Link } from "../Nav/Nav";
 import Footer from "../Footer/Footer";
 import Container from "../Container/Container";
 import Button from "../Button/Button";
-import DeleteAstronautDialog from "../DeleteAstronautDialog/DeleteAstronautDialog";
 import styles from "./PageAstronaut.module.css";
-
-import {
-  AsyncData,
-  OnSuccess,
-  OnRequest,
-  OnError,
-  OnFallback
-} from "../AsyncData/AsyncData";
-
-import { lifecycle } from "recompose";
-import AstroLoader from "../AstronautsLoader/AstronautsLoader";
-
-const withLifeCycle = ({ onMount, onUpdate, onUnmount }) => BaseComponent =>
-  class extends Component {
-    constructor(props) {
-      super(props);
-    }
-    componentDidMount() {
-      onMount && onMount(this.props);
-      this.props.onMount && this.props.onMount(this.props);
-    }
-    componentDidUpdate(prevProps, prevState) {
-      onUpdate && onUpdate(this.props);
-      this.props.onUpdate && this.props.onUpdate(prevProps, prevState);
-    }
-    componentWillUnmountMount() {
-      onUnmount && onUnmount(this.props);
-      this.props.onUnmount && this.props.onUnmount(this.props);
-    }
-    render() {
-      const { onMount, onUpdate, onUnmount, ...props } = this.props;
-      return <BaseComponent {...props} />;
-    }
-  };
-
-const astronautsLoaderProps = state => ({ ...state.loadAstronauts });
-
-const AstronautsLoader = connect(astronautsLoaderProps)(
-  lifecycle({
-    componentDidMount() {
-      console.log("mount");
-    },
-    componentDidUpdate() {
-      console.log("update");
-    }
-  })(AsyncData)
-);
 
 class PageAstronaut extends Component {
   constructor(props) {

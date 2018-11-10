@@ -19,7 +19,8 @@ const Spinner = ({ light, center }) => (
 );
 
 Spinner.propTypes = {
-  center: PropTypes.bool
+  center: PropTypes.bool,
+  light: PropTypes.bool
 };
 
 export default Spinner;
