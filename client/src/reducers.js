@@ -1,4 +1,3 @@
-import { combineReducers } from "react-redux";
 import {
   LOAD_ASTRONAUTS_REQUEST,
   LOAD_ASTRONAUTS_SUCCESS,
@@ -12,7 +11,8 @@ import {
   UPDATE_ASTRONAUT_REQUEST,
   UPDATE_ASTRONAUT_SUCCESS,
   UPDATE_ASTRONAUT_ERROR,
-  CLEAR_ERROR
+  CLEAR_ERROR,
+  CLEAR_CHANGED
 } from "./astronautActions.js";
 
 const initialState = {
@@ -22,119 +22,6 @@ const initialState = {
   astronauts: { byId: {}, allIds: [] },
   lastUpdated: 0
 };
-/*
-const astronautsReducer = (state, action) => {
-  switch (action.type) {
-    case LOAD_ASTRONAUTS_REQUEST:
-      return {
-        ...state,
-        loading: true,
-        error: null
-      };
-    case LOAD_ASTRONAUTS_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        error: null,
-        items: action.success,
-        receivedAt: Date.now(),
-        shouldRefresh: false
-      };
-    case LOAD_ASTRONAUTS_ERROR:
-      return {
-        ...state,
-        loading: false,
-        error: action.error
-      };
-    case LOAD_ASTRONAUT_SUCCESS:
-      return {
-        ...state,
-        items: { ...state.items, ...action.success }
-      };
-    case DELETE_ASTRONAUT_SUCCESS:
-      return {
-        ...state,
-        //items: state.items.filter(i => i.id !== action.success.id),
-        shouldRefresh: true
-      };
-    case UPDATE_ASTRONAUT_SUCCESS:
-      return {
-        ...state,
-              items: state.items.map(i => {
-          if (i.id === action.success.id) {
-            return action.success;
-          } else {
-            return i;
-          }
-        }),
-        shouldRefresh: true
-      };
-    case ADD_ASTRONAUT_SUCCESS:
-      return {
-        ...state,
-        //  items: [...state.items, action.success],
-        shouldRefresh: true
-      };
-    default:
-      return state;
-  }
-};
-
-const lastUpdatedReducer = (state, action) => {
-  switch (
-    action.type // LOAD_ASTRONAUT_RESET
-  ) {
-    case LAST_UPDATED_CLEAR:
-      return null;
-    case LAST_UPDATED_REQUEST:
-    case LAST_UPDATED_ERROR:
-    case LAST_UPDATED_SUCCESS:
-      return action;
-    default:
-      return state;
-  }
-};
-
-const deleteAstronautReducer = (state, action) => {
-  switch (action.type) {
-    case RESET_ASTRONAUT:
-      return null;
-    case DELETE_ASTRONAUT_REQUEST:
-    case DELETE_ASTRONAUT_ERROR:
-    case DELETE_ASTRONAUT_SUCCESS:
-      return action;
-    default:
-      return state;
-  }
-};
-
-const updateAstronautReducer = (state, action) => {
-  switch (action.type) {
-    case RESET_ASTRONAUT:
-    case UPDATE_ASTRONAUT_CLEAR:
-      return null;
-    case UPDATE_ASTRONAUT_REQUEST:
-    case UPDATE_ASTRONAUT_ERROR:
-    case UPDATE_ASTRONAUT_SUCCESS:
-      return action;
-    default:
-      return state;
-  }
-};
-
-const addAstronautReducer = (state, action) => {
-  switch (action.type) {
-    case RESET_ASTRONAUT:
-    case ADD_ASTRONAUT_CLEAR:
-      return null;
-    case ADD_ASTRONAUT_REQUEST:
-    case ADD_ASTRONAUT_ERROR:
-    case ADD_ASTRONAUT_SUCCESS:
-      return action;
-    default:
-      return state;
-  }
-};*/
 
 const storeAstronauts = items => ({
   byId: items.reduce((acc, item) => ({ ...acc, [item.id]: item }), {}),
@@ -145,6 +32,10 @@ const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case CLEAR_ERROR:
       return { ...state, error: null };
+    case CLEAR_CHANGED:
+      return { ...state, changed: false };
+    case UPDATE_ASTRONAUT_REQUEST:
+    case ADD_ASTRONAUT_REQUEST:
     case LOAD_ASTRONAUTS_REQUEST:
     case DELETE_ASTRONAUT_REQUEST:
       return { ...state, pending: true };
@@ -172,11 +63,53 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         pending: false,
+        changed: true,
+        lastUpdated: Date.now(),
         astronauts: storeAstronauts(
           state.astronauts.allIds
             .map(id => state.astronauts.byId[id])
             .filter(a => a.id !== action.success.id)
         )
+      };
+    case ADD_ASTRONAUT_ERROR:
+      return {
+        ...state,
+        pending: false,
+        error: "Adding of astronaut failed."
+      };
+    case ADD_ASTRONAUT_SUCCESS:
+      return {
+        ...state,
+        pending: false,
+        changed: true,
+        lastUpdated: Date.now(),
+        astronauts: {
+          byId: {
+            [action.success.id]: action.success,
+            ...state.astronauts.byId
+          },
+          allIds: [action.success.id, ...state.astronauts.allIds]
+        }
+      };
+    case UPDATE_ASTRONAUT_ERROR:
+      return {
+        ...state,
+        pending: false,
+        error: "Updating of astronaut failed."
+      };
+    case UPDATE_ASTRONAUT_SUCCESS:
+      return {
+        ...state,
+        pending: false,
+        changed: true,
+        lastUpdated: Date.now(),
+        astronauts: {
+          byId: {
+            ...state.astronauts.byId,
+            [action.success.id]: action.success
+          },
+          allIds: state.astronauts.allIds
+        }
       };
     default:
       return state;

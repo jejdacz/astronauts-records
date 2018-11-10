@@ -76,6 +76,9 @@ export const lastUpdatedAction = buildAsyncAction(
 export const CLEAR_ERROR = "CLEAR_ERROR";
 export const clearErrorAction = () => ({ type: CLEAR_ERROR });
 
+export const CLEAR_CHANGED = "CLEAR_CHANGED";
+export const clearChangedAction = () => ({ type: CLEAR_CHANGED });
+
 export const apiCall = (
   apiCallFunc,
   { request, success, error }

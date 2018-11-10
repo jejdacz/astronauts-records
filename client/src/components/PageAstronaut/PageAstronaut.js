@@ -1,8 +1,15 @@
 import React, { Component, Fragment } from "react";
-import { Redirect } from "react-router-dom";
+import PropTypes from "prop-types";
+import { astronautType } from "../../types.js";
 import { connect } from "react-redux";
-import { deleteAstronaut, updateAstronaut } from "../../astronautActions.js";
+import {
+  addAstronaut,
+  deleteAstronaut,
+  updateAstronaut,
+  clearChangedAction
+} from "../../astronautActions.js";
 import { Nav, Logo, Link } from "../Nav/Nav";
+import AstronautForm from "../AstronautForm/AstronautForm";
 import Footer from "../Footer/Footer";
 import Container from "../Container/Container";
 import Button from "../Button/Button";
@@ -11,51 +18,44 @@ import styles from "./PageAstronaut.module.css";
 class PageAstronaut extends Component {
   constructor(props) {
     super(props);
-    this.openDeleteDialog = this.openDeleteDialog.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleDeleteClick = this.handleDeleteClick.bind(this);
   }
 
-  componentDidMount() {
-    //this.props.dispatch(loadAstronaut({ id: this.props.match.params.id }));
-    this.props.dispatch(loadAstronautsIfNeeded);
-    /*this.props.dispatch(
-      loadAstronautFromStore({ id: this.props.match.params.id })
-    );*/
-    // store is cleared when refreshing the page ...
+  static propTypes = {
+    pending: PropTypes.bool.isRequired,
+    changed: PropTypes.bool.isRequired,
+    astronaut: astronautType,
+    editing: PropTypes.bool,
+    isNew: PropTypes.bool
+  };
+
+  handleAdd(values) {
+    this.props.dispatch(addAstronaut(values));
   }
 
-  componentWillUnmount() {
-    this.props.dispatch(resetAstronautAction());
+  handleUpdate(values) {
+    this.props.dispatch(updateAstronaut(values));
+  }
+
+  handleDeleteClick() {
+    this.props.dispatch(deleteAstronaut({ id: this.props.match.params.id }));
   }
 
   componentDidUpdate() {
-    if (this.props.deleteAstronaut && this.props.deleteAstronaut.success) {
-      this.props.dispatch(closeDeleteDialogAction());
-      this.props.dispatch(resetAstronautAction());
+    if (this.props.changed) {
+      this.props.dispatch(clearChangedAction());
       this.props.history.push("/");
     }
-    /**
-    if (this.props.update && this.props.update.success) {
-      this.props.dispatch(lastUpdatedAction.clear());
-    }*/
-    /*
-    if (this.props.loadAstronauts && this.props.loadAstronauts.success) {
-      this.props.dispatch(clearLoadAstronautsAction());
-    }*/
   }
 
-  openDeleteDialog() {
-    this.props.dispatch(openDeleteDialogAction(this.props.astronaut));
-  }
-
-  renderContent = content => (
+  renderPage = (links, content) => (
     <Fragment>
       <header>
         <Nav fixed={true}>
           <Logo to="/">ar</Logo>
-          <Link to={`/astronauts/edit/${this.props.match.params.id}`}>
-            EDIT
-          </Link>
-          <Link onClick={this.openDeleteDialog}>DELETE</Link>
+          {links}
         </Nav>
       </header>
       <main className={styles.main}>{content}</main>
@@ -64,117 +64,86 @@ class PageAstronaut extends Component {
   );
 
   render() {
-    const { update, loadAstronauts, deleteAstronaut, astronaut } = this.props;
-    return (
-      <Fragment>
-        <header>
-          <Nav fixed={true}>
-            <Logo to="/">ar</Logo>
-            <Link to={`/astronauts/edit/${this.props.match.params.id}`}>
-              EDIT
-            </Link>
-            <Link onClick={this.openDeleteDialog}>DELETE</Link>
-          </Nav>
-        </header>
-        <main className={styles.main}>
-          <AsyncData {...loadAstronauts}>
-            <OnFallback>
-              <AsyncData {...update}>
-                <OnError>"update error"</OnError>
-                <OnRequest>
-                  <Spinner center={true} />
-                </OnRequest>
-                <OnSuccess>
-                  <Spinner center={true} />
-                </OnSuccess>
-              </AsyncData>
-            </OnFallback>
-            <OnRequest>
-              <Spinner center={true} />
-            </OnRequest>
-            <OnError>
-              <Container className={styles.container}>"error"</Container>
-            </OnError>
-            <OnSuccess>
-              <Container className={styles.container}>
-                <h1 className={styles.heading}>{`${astronaut.firstName} ${
-                  astronaut.lastName
-                }`}</h1>
-                <small className={styles.label}>BIRTH:</small>
-                <h4 className={styles.data}>{astronaut.birth}</h4>
-                <small className={styles.label}>SUPERPOWER:</small>
-                <h4 className={styles.data}>{astronaut.superpower}</h4>
-                <div className={styles.controls}>
-                  <Button
-                    to={`/astronauts/edit/${this.props.match.params.id}`}
-                    noBorder={true}
-                  >
-                    EDIT
-                  </Button>
-                  <Button onClick={this.openDeleteDialog} noBorder={true}>
-                    DELETE
-                  </Button>
-                </div>
-              </Container>
-            </OnSuccess>
-          </AsyncData>
-        </main>
-        <Footer />
-      </Fragment>
-    );
+    const { pending, editing, isNew, astronaut } = this.props;
 
-    if (
-      (update && update.request) ||
-      (loadAstronauts && loadAstronauts.request)
-    ) {
-      return this.renderContent(<Spinner center={true} />);
+    if (isNew) {
+      return this.renderPage(
+        <Fragment>
+          <Link to={"/"}>back</Link>
+        </Fragment>,
+        <Fragment>
+          <AstronautForm onSubmit={this.handleAdd} submitting={pending} />
+        </Fragment>
+      );
     }
 
-    if (loadAstronauts && loadAstronauts.error) {
-      return this.renderContent("Error: Loading of astronauts failed!");
-    }
-
-    if (loadAstronauts && loadAstronauts.success && !astronaut) {
-      return this.renderContent("Error: Loading of astronaut failed!");
+    if (editing) {
+      if (!astronaut) {
+        return this.renderPage(null, null);
+      }
+      return this.renderPage(
+        <Fragment>
+          <Link to={"/"}>back</Link>
+        </Fragment>,
+        <Fragment>
+          <AstronautForm
+            values={astronaut}
+            onSubmit={this.handleUpdate}
+            submitting={pending}
+          />
+        </Fragment>
+      );
     }
 
     if (!astronaut) {
-      return null;
-    }
-
-    if (astronaut) {
-      return this.renderContent(
+      if (pending) {
+        return this.renderPage(null, null);
+      }
+      return this.renderPage(
+        <Fragment>
+          <Link to={"/"}>back</Link>
+        </Fragment>,
         <Container className={styles.container}>
-          <h1 className={styles.heading}>{`${astronaut.firstName} ${
-            astronaut.lastName
-          }`}</h1>
-          <small className={styles.label}>BIRTH:</small>
-          <h4 className={styles.data}>{astronaut.birth}</h4>
-          <small className={styles.label}>SUPERPOWER:</small>
-          <h4 className={styles.data}>{astronaut.superpower}</h4>
-          <div className={styles.controls}>
-            <Button
-              to={`/astronauts/edit/${this.props.match.params.id}`}
-              noBorder={true}
-            >
-              EDIT
-            </Button>
-            <Button onClick={this.openDeleteDialog} noBorder={true}>
-              DELETE
-            </Button>
-          </div>
+          <h1 className={styles.heading}>No record</h1>
         </Container>
       );
     }
+
+    return this.renderPage(
+      <Fragment>
+        <Link to={`/astronauts/edit/${this.props.match.params.id}`}>EDIT</Link>
+        <Link onClick={this.handleDeleteClick}>DELETE</Link>
+      </Fragment>,
+      <Container className={styles.container}>
+        <h1 className={styles.heading}>{`${astronaut.firstName} ${
+          astronaut.lastName
+        }`}</h1>
+        <small className={styles.label}>BIRTH:</small>
+        <h4 className={styles.data}>{astronaut.birth}</h4>
+        <small className={styles.label}>SUPERPOWER:</small>
+        <h4 className={styles.data}>{astronaut.superpower}</h4>
+        <div className={styles.controls}>
+          <Button
+            to={`/astronauts/edit/${this.props.match.params.id}`}
+            noBorder={true}
+          >
+            EDIT
+          </Button>
+          <Button onClick={this.handleDeleteClick} noBorder={true}>
+            DELETE
+          </Button>
+        </div>
+      </Container>
+    );
   }
 }
 
 const mapStateToProps = (state, props) => ({
-  update: state.lastUpdated,
-  loadAstronauts: state.loadAstronauts,
-  deleteAstronaut: state.deleteAstronaut,
-  astronaut: state.astronauts.items.find(a => a.id === props.match.params.id)
-  //astronaut: state.activeAstronaut
+  pending: state.pending,
+  changed: state.changed,
+  astronaut: props.match.params.id
+    ? state.astronauts.byId[props.match.params.id]
+    : null
 });
 
 export default connect(mapStateToProps)(PageAstronaut);

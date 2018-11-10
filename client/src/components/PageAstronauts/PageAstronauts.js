@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { deleteAstronaut } from "../../astronautActions.js";
+import { deleteAstronaut, clearChangedAction } from "../../astronautActions.js";
 import AstronautList from "./AstronautList/AstronautList.js";
 import AstronautTable from "./AstronautTable/AstronautTable.js";
 import { Nav, Link, Logo } from "../Nav/Nav.js";
@@ -12,7 +12,7 @@ import widthMonitor from "../widthMonitor/widthMonitor.js";
 import breakpoints from "../../styles/breakpoints.module.css";
 import styles from "./PageAstronauts.module.css";
 
-class PageAstronauts extends Component {
+export class PageAstronauts extends Component {
   constructor(props) {
     super(props);
 
@@ -21,9 +21,17 @@ class PageAstronauts extends Component {
   }
 
   static propTypes = {
+    pending: PropTypes.bool.isRequired,
+    changed: PropTypes.bool.isRequired,
     lastUpdated: PropTypes.number.isRequired,
     astronauts: PropTypes.array.isRequired
   };
+
+  componentDidUpdate() {
+    if (this.props.changed) {
+      this.props.dispatch(clearChangedAction());
+    }
+  }
 
   isLargeScreenDevice() {
     return this.props.width >= this.breakpointLarge;
@@ -50,9 +58,12 @@ class PageAstronauts extends Component {
   );
 
   render() {
-    const { astronauts, lastUpdated } = this.props;
+    const { pending, astronauts, lastUpdated } = this.props;
 
     if (astronauts.length === 0) {
+      if (pending) {
+        return this.renderContent(null);
+      }
       return this.renderContent("No records");
     }
     if (this.isLargeScreenDevice()) {
@@ -71,12 +82,10 @@ class PageAstronauts extends Component {
 }
 
 const mapStateToProps = state => ({
+  pending: state.pending,
+  changed: state.changed,
   astronauts: state.astronauts.allIds.map(id => state.astronauts.byId[id]),
   lastUpdated: state.lastUpdated
 });
 
-const PageAstronautsDecorated = connect(mapStateToProps)(
-  widthMonitor()(PageAstronauts)
-);
-
-export default PageAstronautsDecorated;
+export default connect(mapStateToProps)(widthMonitor()(PageAstronauts));

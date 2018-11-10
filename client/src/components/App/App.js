@@ -1,11 +1,11 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Route, Switch } from "react-router-dom";
+import { withRouter, Route, Switch } from "react-router-dom";
 import { compose, lifecycle } from "recompose";
 import { loadAstronauts, clearErrorAction } from "../../astronautActions.js";
 import PageAstronauts from "../PageAstronauts/PageAstronauts.js";
-//import PageAstronaut from "../PageAstronaut/PageAstronaut.js";
+import PageAstronaut from "../PageAstronaut/PageAstronaut.js";
 import PageNotFound from "../PageNotFound/PageNotFound.js";
 import { Modal, Button, Controls, Heading, Message } from "../Modal/Modal.js";
 import withDelayedRender from "../withDelayedRender/withDelayedRender.js";
@@ -13,12 +13,22 @@ import Spinner from "../Spinner/Spinner.js";
 
 const DelayedModal = withDelayedRender(500)(Modal);
 
-const App = props => {
+export const App = props => {
   return (
     <Fragment>
       <Switch>
         <Route exact={true} path="/" component={PageAstronauts} />
-
+        <Route
+          exact={true}
+          path="/astronauts/new"
+          render={props => <PageAstronaut {...props} isNew={true} />}
+        />
+        <Route
+          exact={true}
+          path="/astronauts/edit/:id"
+          render={props => <PageAstronaut {...props} editing={true} />}
+        />
+        <Route exact={true} path="/astronauts/:id" component={PageAstronaut} />
         <Route component={PageNotFound} />
       </Switch>
 
@@ -49,17 +59,7 @@ App.propTypes = {
 };
 /*
 
-<Route
-  exact={true}
-  path="/astronauts/new"
-  component={PageAstronaut}
-  isNew={true}
-/>
-<Route exact={true} path="/astronauts/:id" component={PageAstronaut} />
-<Route
-  path="/astronauts/edit/:id"
-  render={props => <PageEditAstronaut {...props} editing={true} />}
-/>*/
+*/
 
 const mapStateToProps = state => ({
   pending: state.pending,
@@ -71,7 +71,8 @@ const mapDispatchToProps = dispatch => ({
   clearError: () => dispatch(clearErrorAction())
 });
 
-const AppDecorated = compose(
+export default compose(
+  withRouter,
   connect(
     mapStateToProps,
     mapDispatchToProps
@@ -82,5 +83,3 @@ const AppDecorated = compose(
     }
   })
 )(App);
-
-export default AppDecorated;
