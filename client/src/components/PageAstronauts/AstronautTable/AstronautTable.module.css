@@ -40,17 +40,20 @@
 .control + .control {
   margin-left: 3rem;
 }
-
-.control:hover:not(:disabled),
-.control:active {
+/*
+.control:hover:not(:disabled) {
   color: text-theme-light;
-}
-
-.control:focus {
-  outline: none;
-  border-bottom: 2px dotted text-link;
-}
-
-.control:hover:focus {
   border-color: text-theme-light;
+}*/
+
+.control:active:not(:disabled),
+.control:focus:active:not(:disabled) {
+  color: text-theme-light;
+  border-color: text-theme-light;
+}
+
+.control:focus:not(:disabled) {
+  outline: none;
+  color: text-link;
+  border-bottom: 2px dotted text-link;
 }

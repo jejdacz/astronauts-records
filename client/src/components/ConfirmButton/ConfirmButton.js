@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import LinkButton from "../LinkButton/LinkButton";
 import { joinToStringBySpace as jstr } from "../../utils/joinToString.js";
 import { withStateHandlers } from "recompose";
-import styles from "./ConfirmButton.module.css";
 
 const openHandler = withStateHandlers(
   () => ({
@@ -18,29 +17,6 @@ const openHandler = withStateHandlers(
     })
   }
 );
-/*
-const ConfirmButtonBase = ({
-  isOpen,
-  open,
-  close,
-  onClick,
-  children,
-  ...props
-}) =>
-  isOpen ? (
-    <Fragment>
-      <LinkButton {...props} onClick={onClick}>
-        Yes
-      </LinkButton>
-      <LinkButton {...props} onClick={close}>
-        No
-      </LinkButton>
-    </Fragment>
-  ) : (
-    <LinkButton {...props} onClick={open}>
-      {children}
-    </LinkButton>
-  );*/
 
 const ConfirmButtonBase = ({
   isOpen,
@@ -51,14 +27,9 @@ const ConfirmButtonBase = ({
   ...props
 }) =>
   isOpen ? (
-    <div className={jstr(props.className, styles.confirm)}>
-      <LinkButton {...props} onClick={onClick}>
-        Yes
-      </LinkButton>
-      <LinkButton {...props} onClick={close}>
-        No
-      </LinkButton>
-    </div>
+    <LinkButton {...props} onClick={onClick} onBlur={close}>
+      Yes?
+    </LinkButton>
   ) : (
     <LinkButton {...props} onClick={open}>
       {children}
