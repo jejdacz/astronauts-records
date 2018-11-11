@@ -13,6 +13,8 @@ import hasValues from "../../utils/hasValues.js";
 import dateStringToObject from "../../utils/dateStringToObject.js";
 import objectToDateString from "../../utils/objectToDateString.js";
 import { joinToStringBySpace as jstr } from "../../utils/joinToString.js";
+import Button from "../Button/Button";
+import styles from "./AstronautForm.module.css";
 
 const Input = ({
   handleChange,
@@ -23,7 +25,7 @@ const Input = ({
   ...input
 }) => (
   <input
-    className={jstr("form-control", className)}
+    className={jstr(styles.input, className)}
     {...input}
     onChange={handleChange}
     onBlur={handleBlur}
@@ -36,13 +38,24 @@ const InputWithValidation = renderValidation({
 })(Input);
 
 const InputField = ({ label, ...input }) => (
-  <div className="form-group">
-    <label>{label}</label>
+  <div className={styles.field}>
+    <label className={styles.label}>{label}</label>
     <InputWithValidation {...input} />
     {input.touched &&
-      (input.error && (
-        <small className="form-text text-danger">{input.error}</small>
+      (input.error ? (
+        <small className={jstr(styles.small, styles.error)}>
+          {input.error}
+        </small>
+      ) : (
+        <small className={jstr(styles.small, styles.success)}>OK</small>
       ))}
+  </div>
+);
+
+const InlineField = ({ desc, ...props }) => (
+  <div>
+    <InputWithValidation {...props} />
+    {desc && <small className={styles.small}>{desc}</small>}
   </div>
 );
 
@@ -68,43 +81,43 @@ export const AstronautForm = ({
         placeholder="Doe"
         component={InputField}
       />
-      <div className="form-group">
-        <label>Birth:</label>
-        <div className={`form-row`}>
-          <div className="col">
-            <Field
-              name="birthDay"
-              type="number"
-              placeholder="D"
-              min="1"
-              max="31"
-              component={InputWithValidation}
-            />
-          </div>
-          <div className="col">
-            <Field
-              name="birthMonth"
-              type="number"
-              placeholder="M"
-              min="1"
-              max="12"
-              component={InputWithValidation}
-            />
-          </div>
-          <div className="col-5">
-            <Field
-              name="birthYear"
-              type="number"
-              placeholder="Y"
-              min="0"
-              component={InputWithValidation}
-            />
-          </div>
+      <div className={styles.field}>
+        <label className={styles.label}>Birth:</label>
+        <div className={styles.inlineFieldsContainer}>
+          <Field
+            name="birthDay"
+            type="number"
+            desc="day"
+            placeholder="D"
+            min="1"
+            max="31"
+            component={InlineField}
+          />
+          <Field
+            name="birthMonth"
+            type="number"
+            desc="month"
+            placeholder="M"
+            min="1"
+            max="12"
+            component={InlineField}
+          />
+          <Field
+            name="birthYear"
+            type="number"
+            desc="year"
+            placeholder="Y"
+            min="0"
+            component={InlineField}
+          />
         </div>
-        <small className="form-text text-muted">format: Day-Month-Year</small>
         {(touched.birthDay || touched.birthMonth || touched.birthYear) &&
-          (errors.birth && (
-            <small className="form-text text-danger">{errors.birth}</small>
+          (errors.birth ? (
+            <small className={jstr(styles.small, styles.error)}>
+              {errors.birth}
+            </small>
+          ) : (
+            <small className={jstr(styles.small, styles.success)}>OK</small>
           ))}
       </div>
       <Field
@@ -114,13 +127,16 @@ export const AstronautForm = ({
         placeholder="superpower"
         component={InputField}
       />
-      <button
-        type="submit"
-        className="btn"
-        disabled={submitting || hasValues(errors)}
-      >
-        Save
-      </button>
+      <div className={styles.controls}>
+        <Button
+          noBorder={true}
+          type="submit"
+          className={styles.button}
+          disabled={submitting || hasValues(errors)}
+        >
+          Save
+        </Button>
+      </div>
     </form>
   );
 };

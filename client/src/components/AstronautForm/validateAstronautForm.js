@@ -39,7 +39,7 @@ const validateAstronautForm = values => {
     errors.birthYear = "Invalid";
   }
 
-  if (errors.birthDay || errors.birthMonth || errors.birthYear) {
+  if (!values.birthDay || !values.birthMonth || !values.birthYear) {
     errors.birth = "Incomplete";
   } else if (
     !isValidDate(values.birthYear, values.birthMonth, values.birthDay)

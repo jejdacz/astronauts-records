@@ -71,9 +71,9 @@ class PageAstronaut extends Component {
         <Fragment>
           <Link to={"/"}>back</Link>
         </Fragment>,
-        <Fragment>
+        <Container className={styles.container}>
           <AstronautForm onSubmit={this.handleAdd} submitting={pending} />
-        </Fragment>
+        </Container>
       );
     }
 
@@ -85,13 +85,13 @@ class PageAstronaut extends Component {
         <Fragment>
           <Link to={"/"}>back</Link>
         </Fragment>,
-        <Fragment>
+        <Container className={styles.container}>
           <AstronautForm
             values={astronaut}
             onSubmit={this.handleUpdate}
             submitting={pending}
           />
-        </Fragment>
+        </Container>
       );
     }
 

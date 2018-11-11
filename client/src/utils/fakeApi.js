@@ -25,7 +25,7 @@ const astronaut = variables =>
 const addAstronaut = variables => wait2s({ ...variables, id: "dkd411" });
 const updateAstronaut = variables => wait2s(variables);
 const deleteAstronaut = variables =>
-  waitErr2s(astronautsData.find(a => a.id === variables.id));
+  wait2s(astronautsData.find(a => a.id === variables.id));
 const lastUpdated = () => wait2s(1);
 
 export default {
