@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import withClassName from "../withClassName/withClassName.js";
 import Btn from "../Button/Button.js";
 import ReactModal from "react-modal";
@@ -18,6 +19,12 @@ export const Modal = ({ boxed = true, transparent, isOpen, ...props }) => (
     {...props}
   />
 );
+
+Modal.propTypes = {
+  boxed: PropTypes.bool,
+  transparent: PropTypes.bool,
+  isOpen: PropTypes.bool.isRequired
+};
 
 export const Button = compose(
   withClassName(styles.button),

@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import LinkButton from "../LinkButton/LinkButton";
-import { joinToStringBySpace as jstr } from "../../utils/joinToString.js";
 import { withStateHandlers } from "recompose";
 
 const openHandler = withStateHandlers(
@@ -22,12 +21,13 @@ const ConfirmButtonBase = ({
   isOpen,
   open,
   close,
-  onClick,
   children,
+  onClick,
+  to,
   ...props
 }) =>
   isOpen ? (
-    <LinkButton {...props} onClick={onClick} onBlur={close}>
+    <LinkButton {...props} onClick={onClick} to={to} onBlur={close}>
       Yes?
     </LinkButton>
   ) : (
@@ -38,7 +38,8 @@ const ConfirmButtonBase = ({
 
 ConfirmButtonBase.propTypes = {
   isOpen: PropTypes.bool.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
+  to: PropTypes.string,
   children: PropTypes.node.isRequired,
   open: PropTypes.func.isRequired,
   close: PropTypes.func.isRequired

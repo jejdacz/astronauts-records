@@ -141,6 +141,13 @@ export const AstronautForm = ({
   );
 };
 
+AstronautForm.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
+  errors: PropTypes.object,
+  touched: PropTypes.object,
+  submitting: PropTypes.bool
+};
+
 const initValues = values => {
   if (values) {
     const date = dateStringToObject(values.birth);
@@ -186,8 +193,3 @@ export default compose(
   validationHandler(validate),
   contextProvider
 )(AstronautForm);
-/*
-AstronautEditor.propTypes = {
-  save: PropTypes.func.isRequired,
-  cancel: PropTypes.func.isRequired
-};*/
