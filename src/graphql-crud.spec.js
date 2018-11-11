@@ -125,7 +125,7 @@ describe("GraphQL UPDATE operation", () => {
 
     baseRequest.post(options, function(error, response, body) {
       expect(response.statusCode).to.equal(200);
-      expect(JSON.parse(body).data.updateAstronaut.id).to.equal(variables.id);
+      expect(JSON.parse(body).data.updateAstronaut).to.deep.equal(variables);
       done();
     });
   });

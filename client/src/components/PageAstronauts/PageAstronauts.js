@@ -17,7 +17,7 @@ export class PageAstronauts extends Component {
     super(props);
 
     this.breakpointLarge = breakpoints["bp-lg"].replace("px", "");
-    this.handleDeleteClick = this.handleDeleteClick.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   static propTypes = {
@@ -37,7 +37,7 @@ export class PageAstronauts extends Component {
     return this.props.width >= this.breakpointLarge;
   }
 
-  handleDeleteClick(id) {
+  handleDelete(id) {
     this.props.dispatch(deleteAstronaut({ id }));
   }
 
@@ -71,7 +71,7 @@ export class PageAstronauts extends Component {
         <AstronautTable
           astronauts={astronauts}
           updated={lastUpdated}
-          onDeleteClick={this.handleDeleteClick}
+          onDeleteClick={this.handleDelete}
         />
       );
     }

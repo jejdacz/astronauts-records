@@ -10,7 +10,7 @@ import { Modal, Button, Controls, Heading, Message } from "../Modal/Modal.js";
 import withDelayedRender from "../withDelayedRender/withDelayedRender.js";
 import Spinner from "../Spinner/Spinner.js";
 
-const DelayedModal = withDelayedRender(500)(Modal);
+const DelayedModal = withDelayedRender(1500)(Modal);
 
 export const App = props => {
   return (

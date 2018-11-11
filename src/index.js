@@ -79,7 +79,7 @@ const updateAstronaut = (args, context) => {
       if (err) {
         context.next(err);
       } else {
-        res.set({ update });
+        res.set(update);
         res.save((err, res) => (err ? context.next(err) : resolve(res)));
       }
     });

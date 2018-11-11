@@ -20,7 +20,7 @@ class PageAstronaut extends Component {
     super(props);
     this.handleAdd = this.handleAdd.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
-    this.handleDeleteClick = this.handleDeleteClick.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   static propTypes = {
@@ -39,7 +39,7 @@ class PageAstronaut extends Component {
     this.props.dispatch(updateAstronaut(values));
   }
 
-  handleDeleteClick() {
+  handleDelete() {
     this.props.dispatch(deleteAstronaut({ id: this.props.match.params.id }));
   }
 
@@ -112,7 +112,7 @@ class PageAstronaut extends Component {
     return this.renderPage(
       <Fragment>
         <Link to={`/astronauts/edit/${this.props.match.params.id}`}>EDIT</Link>
-        <Link onClick={this.handleDeleteClick}>DELETE</Link>
+        <Link onClick={this.handleDelete}>DELETE</Link>
       </Fragment>,
       <Container className={styles.container}>
         <h1 className={styles.heading}>{`${astronaut.firstName} ${
@@ -129,7 +129,7 @@ class PageAstronaut extends Component {
           >
             EDIT
           </Button>
-          <Button onClick={this.handleDeleteClick} noBorder={true}>
+          <Button onClick={this.handleDelete} noBorder={true}>
             DELETE
           </Button>
         </div>

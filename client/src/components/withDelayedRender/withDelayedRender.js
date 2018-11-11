@@ -7,11 +7,18 @@ const withDelayedRender = ms => BaseComponent =>
       this.state = { render: false };
     }
 
-    componentDidMount() {
-      setTimeout(() => this.setState({ render: true }), ms);
+    componentDidUpdate() {
+      console.log("update");
+      if (this.props.isOpen && !this.state.render) {
+        setTimeout(() => this.setState({ render: true }), ms);
+      }
+      if (this.props.isClose) {
+        this.setState({ render: false });
+      }
     }
 
     render() {
+      console.log("render");
       return this.state.render && <BaseComponent {...this.props} />;
     }
   };
