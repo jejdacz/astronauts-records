@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import {
   Section,
   Container,
@@ -26,5 +27,7 @@ const SectionDatabase = ({ children }) => (
     </Container>
   </Section>
 );
+
+SectionDatabase.propTypes = { children: PropTypes.node };
 
 export default SectionDatabase;

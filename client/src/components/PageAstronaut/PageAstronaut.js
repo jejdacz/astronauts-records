@@ -24,8 +24,8 @@ class PageAstronaut extends Component {
   }
 
   static propTypes = {
-    pending: PropTypes.bool.isRequired,
-    changed: PropTypes.bool.isRequired,
+    pending: PropTypes.bool,
+    changed: PropTypes.bool,
     astronaut: astronautType,
     editing: PropTypes.bool,
     isNew: PropTypes.bool

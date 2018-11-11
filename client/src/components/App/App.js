@@ -1,12 +1,11 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { withRouter, Route, Switch } from "react-router-dom";
+import { withRouter, Route, Switch, Redirect } from "react-router-dom";
 import { compose, lifecycle } from "recompose";
 import { loadAstronauts, clearErrorAction } from "../../astronautActions.js";
 import PageAstronauts from "../PageAstronauts/PageAstronauts.js";
 import PageAstronaut from "../PageAstronaut/PageAstronaut.js";
-import PageNotFound from "../PageNotFound/PageNotFound.js";
 import { Modal, Button, Controls, Heading, Message } from "../Modal/Modal.js";
 import withDelayedRender from "../withDelayedRender/withDelayedRender.js";
 import Spinner from "../Spinner/Spinner.js";
@@ -29,7 +28,7 @@ export const App = props => {
           render={props => <PageAstronaut {...props} editing={true} />}
         />
         <Route exact={true} path="/astronauts/:id" component={PageAstronaut} />
-        <Route component={PageNotFound} />
+        <Route render={props => <Redirect to="/" />} />
       </Switch>
 
       <Modal isOpen={!!props.error} onRequestClose={props.clearError}>
@@ -52,14 +51,11 @@ export const App = props => {
 };
 
 App.propTypes = {
-  pending: PropTypes.bool,
+  pending: PropTypes.bool.isRequired,
   error: PropTypes.any,
   clearError: PropTypes.func.isRequired,
   loadAstronauts: PropTypes.func.isRequired
 };
-/*
-
-*/
 
 const mapStateToProps = state => ({
   pending: state.pending,

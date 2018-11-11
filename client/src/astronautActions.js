@@ -1,5 +1,5 @@
-//import api from "./utils/astronautsApi.js";
-import api from "./utils/fakeApi.js";
+import api from "./utils/astronautsApi.js";
+//import api from "./utils/fakeApi.js";
 
 const buildAsyncAction = (requestName, successName, errorName) => ({
   request(args) {

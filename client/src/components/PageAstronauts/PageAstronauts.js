@@ -21,8 +21,8 @@ export class PageAstronauts extends Component {
   }
 
   static propTypes = {
-    pending: PropTypes.bool.isRequired,
-    changed: PropTypes.bool.isRequired,
+    pending: PropTypes.bool,
+    changed: PropTypes.bool,
     lastUpdated: PropTypes.number.isRequired,
     astronauts: PropTypes.array.isRequired
   };

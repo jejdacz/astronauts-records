@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import PropTypes from "prop-types";
 import { joinToStringBySpace as jstr } from "../../utils/joinToString.js";
 import withClassName from "../withClassName/withClassName.js";
 import LinkButton from "../LinkButton/LinkButton.js";
@@ -18,6 +19,12 @@ export const Nav = ({ children, className, fixed, ...props }) => (
     <div className={styles.placeholder} />
   </Fragment>
 );
+
+Nav.propTypes = {
+  children: PropTypes.node,
+  fixed: PropTypes.bool,
+  className: PropTypes.string
+};
 
 export const Link = withClassName(styles.link)(LinkButton);
 export const Logo = withClassName(styles.logo)(LinkButton);
