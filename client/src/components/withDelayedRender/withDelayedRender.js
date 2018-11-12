@@ -1,25 +1,54 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 const withDelayedRender = ms => BaseComponent =>
   class extends Component {
     constructor(props) {
       super(props);
-      this.state = { render: false };
+      this.state = { countdown: false };
     }
 
-    componentDidUpdate() {
-      console.log("update");
-      if (this.props.isOpen && !this.state.render) {
-        setTimeout(() => this.setState({ render: true }), ms);
+    static defaultProps = {
+      shouldRender: true
+    };
+
+    componentDidMount() {
+      if (this.props.shouldRender) {
+        this.startCountdown();
       }
-      if (this.props.isClose) {
-        this.setState({ render: false });
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+      if (prevProps.shouldRender !== this.props.shouldRender) {
+        if (this.props.shouldRender) {
+          // On open
+          this.startCountdown();
+        } else {
+          // On close
+          if (this.state.countdown) this.stopCountdown();
+        }
       }
+    }
+
+    componentWillUnmount() {
+      if (this.state.countdown) this.stopCountdown();
+    }
+
+    startCountdown() {
+      this.timer = setTimeout(() => this.setState({ countdown: false }), ms);
+      this.setState({ countdown: true });
+    }
+
+    stopCountdown() {
+      clearTimeout(this.timer);
+      this.setState({ countdown: false });
     }
 
     render() {
-      console.log("render");
-      return this.state.render && <BaseComponent {...this.props} />;
+      const { shouldRender, ...props } = this.props;
+      return (
+        !this.state.countdown && shouldRender && <BaseComponent {...props} />
+      );
     }
   };
 

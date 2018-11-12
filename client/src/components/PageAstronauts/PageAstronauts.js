@@ -29,7 +29,7 @@ export class PageAstronauts extends Component {
 
   componentDidUpdate() {
     if (this.props.changed) {
-      this.props.dispatch(clearChangedAction());
+      this.props.clearChanged();
     }
   }
 
@@ -38,7 +38,9 @@ export class PageAstronauts extends Component {
   }
 
   handleDelete(id) {
-    this.props.dispatch(deleteAstronaut({ id }));
+    if (!this.props.pending) {
+      this.props.deleteAstronaut(id);
+    }
   }
 
   renderContent = content => (
@@ -81,6 +83,11 @@ export class PageAstronauts extends Component {
   }
 }
 
+const mapDispatchToProps = dispatch => ({
+  clearChanged: () => dispatch(clearChangedAction()),
+  deleteAstronaut: id => dispatch(deleteAstronaut({ id }))
+});
+
 const mapStateToProps = state => ({
   pending: state.pending,
   changed: state.changed,
@@ -88,4 +95,7 @@ const mapStateToProps = state => ({
   lastUpdated: state.lastUpdated
 });
 
-export default connect(mapStateToProps)(widthMonitor()(PageAstronauts));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(widthMonitor()(PageAstronauts));

@@ -32,20 +32,26 @@ class PageAstronaut extends Component {
   };
 
   handleAdd(values) {
-    this.props.dispatch(addAstronaut(values));
+    if (!this.props.pending) {
+      this.props.addAstronaut(values);
+    }
   }
 
   handleUpdate(values) {
-    this.props.dispatch(updateAstronaut(values));
+    if (!this.props.pending) {
+      this.props.updateAstronaut(values);
+    }
   }
 
   handleDelete() {
-    this.props.dispatch(deleteAstronaut({ id: this.props.match.params.id }));
+    if (!this.props.pending) {
+      this.props.deleteAstronaut();
+    }
   }
 
   componentDidUpdate() {
     if (this.props.changed) {
-      this.props.dispatch(clearChangedAction());
+      this.props.clearChanged();
       this.props.history.push("/");
     }
   }
@@ -138,6 +144,14 @@ class PageAstronaut extends Component {
   }
 }
 
+const mapDispatchToProps = (dispatch, props) => ({
+  clearChanged: () => dispatch(clearChangedAction()),
+  deleteAstronaut: () =>
+    dispatch(deleteAstronaut({ id: props.match.params.id })),
+  addAstronaut: values => dispatch(addAstronaut(values)),
+  updateAstronaut: values => dispatch(updateAstronaut(values))
+});
+
 const mapStateToProps = (state, props) => ({
   pending: state.pending,
   changed: state.changed,
@@ -146,4 +160,7 @@ const mapStateToProps = (state, props) => ({
     : null
 });
 
-export default connect(mapStateToProps)(PageAstronaut);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PageAstronaut);

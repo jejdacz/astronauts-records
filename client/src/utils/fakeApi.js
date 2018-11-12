@@ -9,14 +9,6 @@ const waitErr = delay => data =>
 const wait2s = wait(2000);
 const waitErr2s = waitErr(2000);
 
-const funcSwitch = (fa, fb) => {
-  let sw = false;
-  return () => {
-    sw = !sw;
-    return sw ? fa : fb;
-  };
-};
-
 const astronauts = variables => wait2s(astronautsData);
 //const astronauts = variables => waitErr2s("load error");
 
