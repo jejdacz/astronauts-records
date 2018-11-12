@@ -5,7 +5,7 @@ const withDelayedRender = ms => BaseComponent =>
   class extends Component {
     constructor(props) {
       super(props);
-      this.state = { countdown: false };
+      this.state = { countdown: false, render: false };
     }
 
     static defaultProps = {
@@ -25,7 +25,11 @@ const withDelayedRender = ms => BaseComponent =>
           this.startCountdown();
         } else {
           // On close
-          if (this.state.countdown) this.stopCountdown();
+          if (this.state.countdown) {
+            this.stopCountdown();
+          } else {
+            this.setState({ render: false });
+          }
         }
       }
     }
@@ -35,7 +39,10 @@ const withDelayedRender = ms => BaseComponent =>
     }
 
     startCountdown() {
-      this.timer = setTimeout(() => this.setState({ countdown: false }), ms);
+      this.timer = setTimeout(
+        () => this.setState({ render: true, countdown: false }),
+        ms
+      );
       this.setState({ countdown: true });
     }
 
@@ -46,9 +53,7 @@ const withDelayedRender = ms => BaseComponent =>
 
     render() {
       const { shouldRender, ...props } = this.props;
-      return (
-        !this.state.countdown && shouldRender && <BaseComponent {...props} />
-      );
+      return this.state.render && <BaseComponent {...props} />;
     }
   };
 
