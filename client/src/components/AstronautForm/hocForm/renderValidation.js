@@ -1,5 +1,5 @@
 import React from "react";
-import { joinToStringBySpace as jstr } from "../../../utils/joinToString.js";
+import join from "../../../utils/join.js";
 
 const renderValidation = ({ valid, invalid }) => BaseComponent => ({
   className,
@@ -7,7 +7,7 @@ const renderValidation = ({ valid, invalid }) => BaseComponent => ({
 }) => (
   <BaseComponent
     {...props}
-    className={jstr(className, props.touched && (props.error ? invalid : valid))}
+    className={join(className, props.touched && (props.error ? invalid : valid))}
   />
 );
 

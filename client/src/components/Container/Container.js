@@ -1,13 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { joinToStringBySpace as jstr } from "../../utils/joinToString.js";
+import join from "../../utils/join.js";
 import styles from "./Container.module.css";
 
 export const Container = ({ as: Component, className, fluid, ...props }) => {
   Component = Component || "div";
   return (
     <Component
-      className={jstr(
+      className={join(
         fluid ? styles["container-fluid"] : styles.container,
         className
       )}

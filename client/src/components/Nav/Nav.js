@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import { joinToStringBySpace as jstr } from "../../utils/joinToString.js";
+import join from "../../utils/join.js";
 import withClassName from "../withClassName/withClassName.js";
 import LinkButton from "../LinkButton/LinkButton.js";
 import Container from "../Container/Container.js";
@@ -11,7 +11,7 @@ export const Nav = ({ children, className, fixed, ...props }) => (
     <Container
       fluid={true}
       as={"nav"}
-      className={jstr(styles.nav, fixed ? styles.navFixed : "", className)}
+      className={join(styles.nav, fixed ? styles.navFixed : "", className)}
       {...props}
     >
       <Container className={styles.container}>{children}</Container>

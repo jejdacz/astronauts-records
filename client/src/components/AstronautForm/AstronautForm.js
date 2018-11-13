@@ -12,7 +12,7 @@ import { compose, mapProps } from "recompose";
 import hasValues from "../../utils/hasValues.js";
 import dateStringToObject from "../../utils/dateStringToObject.js";
 import objectToDateString from "../../utils/objectToDateString.js";
-import { joinToStringBySpace as jstr } from "../../utils/joinToString.js";
+import join from "../../utils/join.js";
 import Button from "../Button/Button";
 import styles from "./AstronautForm.module.css";
 
@@ -25,7 +25,7 @@ const Input = ({
   ...input
 }) => (
   <input
-    className={jstr(styles.input, className)}
+    className={join(styles.input, className)}
     {...input}
     onChange={handleChange}
     onBlur={handleBlur}
@@ -43,11 +43,11 @@ const InputField = ({ label, ...input }) => (
     <InputWithValidation {...input} />
     {input.touched &&
       (input.error ? (
-        <small className={jstr(styles.small, styles.error)}>
+        <small className={join(styles.small, styles.error)}>
           {input.error}
         </small>
       ) : (
-        <small className={jstr(styles.small, styles.success)}>OK</small>
+        <small className={join(styles.small, styles.success)}>OK</small>
       ))}
   </div>
 );
@@ -113,11 +113,11 @@ export const AstronautForm = ({
         </div>
         {(touched.birthDay || touched.birthMonth || touched.birthYear) &&
           (errors.birth ? (
-            <small className={jstr(styles.small, styles.error)}>
+            <small className={join(styles.small, styles.error)}>
               {errors.birth}
             </small>
           ) : (
-            <small className={jstr(styles.small, styles.success)}>OK</small>
+            <small className={join(styles.small, styles.success)}>OK</small>
           ))}
       </div>
       <Field

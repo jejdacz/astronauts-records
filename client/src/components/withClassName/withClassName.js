@@ -1,9 +1,9 @@
 import React from "react";
-import { joinToStringBySpace as jstr } from "../../utils/joinToString.js";
+import join from "../../utils/join.js";
 
 const withClassName = styleClass => BaseComponent => ({
   className,
   ...props
-}) => <BaseComponent className={jstr(styleClass, className)} {...props} />;
+}) => <BaseComponent className={join(styleClass, className)} {...props} />;
 
 export default withClassName;

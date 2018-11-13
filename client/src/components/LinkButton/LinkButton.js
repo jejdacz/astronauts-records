@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { joinToStringBySpace as jstr } from "../../utils/joinToString.js";
+import join from "../../utils/join.js";
 import styles from "./LinkButton.module.css";
 
 const LinkButton = ({ type, className, ...props }) => {
@@ -17,7 +17,7 @@ const LinkButton = ({ type, className, ...props }) => {
     props = { ...props, type };
   }
 
-  return <Comp {...props} className={jstr(styles.button, className)} />;
+  return <Comp {...props} className={join(styles.button, className)} />;
 };
 
 LinkButton.propTypes = {
