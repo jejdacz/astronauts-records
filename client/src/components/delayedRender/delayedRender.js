@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-const withDelayedRender = ms => BaseComponent =>
+const delayedRender = ms => BaseComponent =>
   class extends Component {
     constructor(props) {
       super(props);
@@ -10,6 +10,10 @@ const withDelayedRender = ms => BaseComponent =>
 
     static defaultProps = {
       shouldRender: true
+    };
+
+    static propTypes = {
+      shouldRender: PropTypes.bool
     };
 
     componentDidMount() {
@@ -57,4 +61,4 @@ const withDelayedRender = ms => BaseComponent =>
     }
   };
 
-export default withDelayedRender;
+export default delayedRender;

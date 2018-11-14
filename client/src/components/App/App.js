@@ -7,14 +7,30 @@ import { loadAstronauts, clearErrorAction } from "../../astronautActions.js";
 import PageAstronauts from "../PageAstronauts/PageAstronauts.js";
 import PageAstronaut from "../PageAstronaut/PageAstronaut.js";
 import { Modal, Button, Controls, Heading, Message } from "../Modal/Modal.js";
-import withDelayedRender from "../withDelayedRender/withDelayedRender.js";
+import delayedRender from "../delayedRender/delayedRender.js";
 import Spinner from "../Spinner/Spinner.js";
+import ErrorBoundary from "../ErrorBoundary/ErrorBoundary";
 
-const DelayedModal = withDelayedRender(500)(Modal);
+const DelayedModal = delayedRender(800)(Modal);
+
+const AppError = (
+  <h1
+    style={{
+      height: "100%",
+      width: "100%",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      fontSize: "1.5rem"
+    }}
+  >
+    Application encountered an error.
+  </h1>
+);
 
 export const App = props => {
   return (
-    <Fragment>
+    <ErrorBoundary render={AppError}>
       <Switch>
         <Route exact={true} path="/" component={PageAstronauts} />
         <Route
@@ -47,7 +63,7 @@ export const App = props => {
       >
         <Spinner center={true} light={true} />
       </DelayedModal>
-    </Fragment>
+    </ErrorBoundary>
   );
 };
 
@@ -77,6 +93,9 @@ export default compose(
   lifecycle({
     componentDidMount() {
       this.props.loadAstronauts();
+    },
+    componentDidCatch() {
+      console.log("error");
     }
   })
 )(App);
