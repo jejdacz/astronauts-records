@@ -1,4 +1,5 @@
 import express from "express";
+import compression from "compression";
 import graphqlHTTP from "express-graphql";
 import { buildSchema } from "graphql";
 import mongoose from "mongoose";
@@ -129,6 +130,7 @@ const root = {
 };
 
 const app = express();
+app.use(compression());
 
 app.use(express.static(__dirname + "/../client/build"));
 
