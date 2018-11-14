@@ -41,14 +41,19 @@ const InputField = ({ label, ...input }) => (
   <div className={styles.field}>
     <label className={styles.label}>{label}</label>
     <InputWithValidation {...input} />
-    {input.touched &&
-      (input.error ? (
-        <small className={join(styles.small, styles.error)}>
+    {input.touched ? (
+      input.error ? (
+        <small className={join(styles.info, styles.small, styles.error)}>
           {input.error}
         </small>
       ) : (
-        <small className={join(styles.small, styles.success)}>OK</small>
-      ))}
+        <small className={join(styles.info, styles.small, styles.success)}>
+          OK
+        </small>
+      )
+    ) : (
+      <small className={styles.info} />
+    )}
   </div>
 );
 
@@ -111,14 +116,19 @@ export const AstronautForm = ({
             component={InlineField}
           />
         </div>
-        {(touched.birthDay || touched.birthMonth || touched.birthYear) &&
-          (errors.birth ? (
-            <small className={join(styles.small, styles.error)}>
+        {touched.birthDay || touched.birthMonth || touched.birthYear ? (
+          errors.birth ? (
+            <small className={join(styles.info, styles.small, styles.error)}>
               {errors.birth}
             </small>
           ) : (
-            <small className={join(styles.small, styles.success)}>OK</small>
-          ))}
+            <small className={join(styles.info, styles.small, styles.success)}>
+              OK
+            </small>
+          )
+        ) : (
+          <small className={styles.info} />
+        )}
       </div>
       <Field
         name="superpower"

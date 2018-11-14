@@ -41,6 +41,11 @@
   font-weight: 500;
 }
 
+.info {
+  display: block;
+  min-height: calc(md * 0.8);
+}
+
 .error {
   color: text-error;
 }

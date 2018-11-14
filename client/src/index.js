@@ -7,6 +7,7 @@ import thunkMiddleware from "redux-thunk";
 import rootReducer from "./reducers.js";
 import App from "./components/App/App.js";
 import Modal from "react-modal";
+import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import registerServiceWorker from "./registerServiceWorker";
 import "./styles/index.module.css";
 
@@ -17,7 +18,9 @@ const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 render(
   <Provider store={store}>
     <Router>
-      <App />
+      <ScrollToTop>
+        <App />
+      </ScrollToTop>
     </Router>
   </Provider>,
   document.getElementById("root")
