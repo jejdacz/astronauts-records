@@ -1,4 +1,14 @@
-# Astronauts' records
+# Astronauts records
 
-Frontend: react-redux + graphQL
-Backend: node.js + express + Mongoose(MongoDB) + graphQL
+A simple React Redux full stack application for personal records management.
+
+## Build on:
+
+- React
+- Redux
+- Redux Thunk middleware
+- React Router
+- GraphQL
+- Node.js
+- Express
+- Mongoose
