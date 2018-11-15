@@ -1,6 +1,6 @@
 # Astronauts records
 
-A simple React Redux full stack application for personal records management.
+A simple React Redux full stack application for astronauts records management.
 
 ## Build on:
 
