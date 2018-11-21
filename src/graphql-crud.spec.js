@@ -4,7 +4,9 @@ import request from "request";
 let baseRequest = request.defaults({
   headers: {
     "Content-Type": "application/json",
-    Accept: "application/json"
+    Accept: "application/json",
+    Authorization:
+      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYXN0cm9uYXV0IiwiaWF0IjoxNTQyNzk5MjgxLCJleHAiOjE1NDI4ODU2ODF9.ZifP9cyCUtwHyxnHAIQ58HKSjBdS-YqzAMtD0IgxprU"
   },
   url: "http://localhost:5000/graphql",
   method: "POST"

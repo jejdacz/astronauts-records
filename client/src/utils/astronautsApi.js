@@ -1,13 +1,36 @@
 import graphqlRequest from "./graphqlRequest.js";
 
-const lastUpdated = () => {
-  const query = `{ lastUpdated }`;
-  return graphqlRequest(query).then(({ data }) => Number(data.lastUpdated));
+const auth = sessionStorage.getItem("jwt");
+
+const me = variables => {
+  const query = `query me {me{name}}`;
+  return graphqlRequest(query, variables, auth).then(({ data }) => data.me);
 };
 
-const astronauts = () => {
+const logout = () => Promise.resolve(sessionStorage.setItem("jwt", null));
+
+const login = variables => {
+  const query = `mutation login($name: String!) {
+    login(name: $name)
+  }`;
+  return graphqlRequest(query, variables).then(({ data }) => {
+    sessionStorage.setItem("jwt", data.login);
+    return data.login;
+  });
+};
+
+const lastUpdated = variables => {
+  const query = `{ lastUpdated }`;
+  return graphqlRequest(query, variables, auth).then(({ data }) =>
+    Number(data.lastUpdated)
+  );
+};
+
+const astronauts = variables => {
   const query = `{ astronauts {id firstName lastName birth superpower} }`;
-  return graphqlRequest(query).then(({ data }) => data.astronauts);
+  return graphqlRequest(query, variables, auth).then(
+    ({ data }) => data.astronauts
+  );
 };
 
 const astronaut = variables => {
@@ -20,7 +43,9 @@ const astronaut = variables => {
       superpower
     }
   }`;
-  return graphqlRequest(query, variables).then(({ data }) => data.astronaut);
+  return graphqlRequest(query, variables, auth).then(
+    ({ data }) => data.astronaut
+  );
 };
 
 const addAstronaut = variables => {
@@ -33,7 +58,9 @@ const addAstronaut = variables => {
         superpower
       }
     }`;
-  return graphqlRequest(query, variables).then(({ data }) => data.addAstronaut);
+  return graphqlRequest(query, variables, auth).then(
+    ({ data }) => data.addAstronaut
+  );
 };
 
 const updateAstronaut = variables => {
@@ -46,7 +73,7 @@ const updateAstronaut = variables => {
       superpower
     }
   }`;
-  return graphqlRequest(query, variables).then(
+  return graphqlRequest(query, variables, auth).then(
     ({ data }) => data.updateAstronaut
   );
 };
@@ -61,7 +88,7 @@ const deleteAstronaut = variables => {
       superpower
     }
   }`;
-  return graphqlRequest(query, variables).then(
+  return graphqlRequest(query, variables, auth).then(
     ({ data }) => data.deleteAstronaut
   );
 };
@@ -72,5 +99,8 @@ export default {
   addAstronaut,
   updateAstronaut,
   deleteAstronaut,
-  lastUpdated
+  lastUpdated,
+  login,
+  logout,
+  me
 };

@@ -4,6 +4,9 @@ import graphqlHTTP from "express-graphql";
 import { buildSchema } from "graphql";
 import mongoose from "mongoose";
 import { isValidName } from "input-validation";
+import jsonwebtoken from "jsonwebtoken";
+import jwt from "express-jwt";
+import bodyParser from "body-parser";
 
 const mongoDB = process.env.MONGODB_URI;
 mongoose.connect(
@@ -54,11 +57,13 @@ const schema = buildSchema(`
     astronaut(id: String!): Astronaut
     astronauts: [Astronaut]
     lastUpdated: String
+    me: User
   },
   type Mutation {
     updateAstronaut(id: String!, firstName: String!, lastName: String!, birth: String!, superpower: String!): Astronaut
     deleteAstronaut(id: String!): Astronaut
     addAstronaut(firstName: String!, lastName: String!, birth: String!, superpower: String!): Astronaut
+    login(name: String!): String
   },
   type Astronaut {
     id: String
@@ -66,6 +71,9 @@ const schema = buildSchema(`
     lastName: String
     birth: String
     superpower: String
+  }
+  type User {
+    name: String
   }
 `);
 
@@ -116,21 +124,59 @@ const getAstronauts = (args, context) => {
   });
 };
 
-const getLastUpdated = () => {
+const getLastUpdated = (_, context) => {
   return lastUpdated;
 };
 
+/* SIMPLIFIED AUTHENTICATION */
+const USER_NAME = "astronaut";
+
+const login = (args, context) => {
+  if (args.name === USER_NAME) {
+    return jsonwebtoken.sign({ name: USER_NAME }, process.env.JWT_SECRET, {
+      expiresIn: "1d"
+    });
+  }
+  context.next(new Error("Incorrect password"));
+};
+
+const me = (args, context) => {
+  if (context.user.name === USER_NAME) {
+    return { name: USER_NAME };
+  }
+  context.next(new Error("You are not the user!"));
+};
+
+const auth = func => (args, context) => {
+  if (!context.user) {
+    context.next(new Error("You are not authenticated!"));
+  } else {
+    return func(args, context);
+  }
+};
+
 const root = {
-  astronaut: getAstronaut,
-  astronauts: getAstronauts,
-  lastUpdated: getLastUpdated,
-  updateAstronaut: updateAstronaut,
-  deleteAstronaut: deleteAstronaut,
-  addAstronaut: addAstronaut
+  astronaut: auth(getAstronaut),
+  astronauts: auth(getAstronauts),
+  lastUpdated: auth(getLastUpdated),
+  updateAstronaut: auth(updateAstronaut),
+  deleteAstronaut: auth(deleteAstronaut),
+  addAstronaut: auth(addAstronaut),
+  login: login,
+  me: auth(me)
 };
 
 const app = express();
 app.use(compression());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+const jwtAuth = jwt({
+  secret: process.env.JWT_SECRET,
+  credentialsRequired: false
+});
+
+app.use(jwtAuth);
 
 app.use(express.static(__dirname + "/../client/build"));
 
@@ -139,7 +185,7 @@ app.use("/graphql", (req, res, next) =>
     schema: schema,
     rootValue: root,
     graphiql: process.env.NODE_ENV == "development",
-    context: { next }
+    context: { next, user: req.user }
   })(req, res)
 );
 
@@ -163,7 +209,6 @@ app.use(function(err, req, res, next) {
   }
 });
 
-app.listen(
-  process.env.PORT || 5000,
-  err => (err ? console.log(err) : console.log("Http server ready!"))
+app.listen(process.env.PORT || 5000, err =>
+  err ? console.log(err) : console.log("Http server ready!")
 );

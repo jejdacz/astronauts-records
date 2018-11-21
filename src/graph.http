@@ -1,0 +1,55 @@
+POST http://localhost:5000/graphql
+Content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYXN0cm9uYXV0IiwiaWF0IjoxNTQyNzk5MjgxLCJleHAiOjE1NDI4ODU2ODF9.ZifP9cyCUtwHyxnHAIQ58HKSjBdS-YqzAMtD0IgxprU
+
+{"query":"query me {me{name}}"}
+
+---
+
+POST http://localhost:5000/graphql
+Content-type: application/json
+Accept: application/json
+
+{
+  "query":"mutation login($name: String!) {\n  login(name: $name)\n}",
+  "variables":{"name":"astronaut"}
+}
+
+---
+
+POST http://localhost:5000/graphql
+Content-type: application/json
+
+{"query":"{astronauts{id}}"}
+
+---
+
+POST http://localhost:5000/graphql
+Content-type: application/json
+
+{"query":"{lastUpdated}"}
+
+---
+
+POST http://localhost:5000/graphql
+Content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYXN0cm9uYXV0IiwiaWF0IjoxNTQyNzk5MjgxLCJleHAiOjE1NDI4ODU2ODF9.ZifP9cyCUtwHyxnHAIQ58HKSjBdS-YqzAMtD0IgxprU
+
+{"query":"{lastUpdated}"}
+
+---
+
+POST http://localhost:5000/graphql
+Content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYXN0cm9uYXV0IiwiaWF0IjoxNTQyNzk5MjgxLCJleHAiOjE1NDI4ODU2ODF9.ZifP9cyCUtwHyxnHAIQ58HKSjBdS-YqzAMtD0IgxprU
+
+{
+  "query":"query astronaut($id: String!) {\n  astronaut(id: $id) {\n    id\n    firstName\n    lastName\n    birth\n    superpower\n  }\n}",
+"variables":{"id":"5b8c26c31254491899fa7545"}
+}
+
+---
+
+GET http://localhost:5000/
+
+---
