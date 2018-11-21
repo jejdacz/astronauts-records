@@ -93,9 +93,6 @@ export default compose(
   lifecycle({
     componentDidMount() {
       this.props.loadAstronauts();
-    },
-    componentDidCatch() {
-      console.log("error");
     }
   })
 )(App);
