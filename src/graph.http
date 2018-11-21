@@ -20,13 +20,6 @@ Accept: application/json
 POST http://localhost:5000/graphql
 Content-type: application/json
 
-{"query":"{astronauts{id}}"}
-
----
-
-POST http://localhost:5000/graphql
-Content-type: application/json
-
 {"query":"{lastUpdated}"}
 
 ---
@@ -42,6 +35,31 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYXN0cm9uY
 POST http://localhost:5000/graphql
 Content-type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYXN0cm9uYXV0IiwiaWF0IjoxNTQyNzk5MjgxLCJleHAiOjE1NDI4ODU2ODF9.ZifP9cyCUtwHyxnHAIQ58HKSjBdS-YqzAMtD0IgxprU
+
+{
+  "query":"mutation addAstronaut($firstName: String!, $lastName: String!, $birth: String!, $superpower: String!) {\n      addAstronaut(firstName: $firstName, lastName: $lastName, birth: $birth, superpower: $superpower) {\n        id\n        firstName\n        lastName\n        birth\n        superpower\n      }\n    }", "variables":{
+    "firstName": "Neil",
+    "lastName": "Armstrong",
+    "birth": "1930-08-05",
+    "superpower": "healing"
+  }
+}
+
+---
+
+POST http://localhost:5000/graphql
+Content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYXN0cm9uYXV0IiwiaWF0IjoxNTQyNzk5MjgxLCJleHAiOjE1NDI4ODU2ODF9.ZifP9cyCUtwHyxnHAIQ58HKSjBdS-YqzAMtD0IgxprU
+
+{
+  "query":"query astronaut($id: String!) {\n  astronaut(id: $id) {\n    id\n    firstName\n    lastName\n    birth\n    superpower\n  }\n}",
+"variables":{"id":"5b8c26c31254491899fa7545"}
+}
+
+---
+
+POST http://localhost:5000/graphql
+Content-type: application/json
 
 {
   "query":"query astronaut($id: String!) {\n  astronaut(id: $id) {\n    id\n    firstName\n    lastName\n    birth\n    superpower\n  }\n}",

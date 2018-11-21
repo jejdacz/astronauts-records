@@ -132,27 +132,37 @@ const getLastUpdated = (_, context) => {
 const USER_NAME = "astronaut";
 
 const login = (args, context) => {
-  if (args.name === USER_NAME) {
-    return jsonwebtoken.sign({ name: USER_NAME }, process.env.JWT_SECRET, {
-      expiresIn: "1d"
-    });
-  }
-  context.next(new Error("Incorrect password"));
+  return new Promise((resolve, reject) => {
+    if (args.name === USER_NAME) {
+      resolve(
+        jsonwebtoken.sign({ name: USER_NAME }, process.env.JWT_SECRET, {
+          expiresIn: "1d"
+        })
+      );
+    } else {
+      context.next(new Error("Incorrect password"));
+    }
+  });
 };
 
 const me = (args, context) => {
-  if (context.user.name === USER_NAME) {
-    return { name: USER_NAME };
-  }
-  context.next(new Error("You are not the user!"));
+  return new Promise((resolve, reject) => {
+    if (context.user.name === USER_NAME) {
+      resolve({ name: USER_NAME });
+    } else {
+      context.next(new Error("You are not a valid user!"));
+    }
+  });
 };
 
 const auth = func => (args, context) => {
-  if (!context.user) {
-    context.next(new Error("You are not authenticated!"));
-  } else {
-    return func(args, context);
-  }
+  return new Promise((resolve, reject) => {
+    if (!context.user) {
+      context.next(new Error("You are not authenticated!"));
+    } else {
+      resolve(func(args, context));
+    }
+  });
 };
 
 const root = {
