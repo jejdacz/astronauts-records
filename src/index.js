@@ -63,7 +63,7 @@ const schema = buildSchema(`
     updateAstronaut(id: String!, firstName: String!, lastName: String!, birth: String!, superpower: String!): Astronaut
     deleteAstronaut(id: String!): Astronaut
     addAstronaut(firstName: String!, lastName: String!, birth: String!, superpower: String!): Astronaut
-    login(name: String!): String
+    login(name: String!, password: String!): String
   },
   type Astronaut {
     id: String
@@ -73,6 +73,7 @@ const schema = buildSchema(`
     superpower: String
   }
   type User {
+    id: String
     name: String
   }
 `);
@@ -129,15 +130,21 @@ const getLastUpdated = (_, context) => {
 };
 
 /* SIMPLIFIED AUTHENTICATION */
+const USER_ID = "1234";
 const USER_NAME = "astronaut";
+const USER_PASSWORD = "universe";
 
 const login = (args, context) => {
   return new Promise((resolve, reject) => {
-    if (args.name === USER_NAME) {
+    if (args.name === USER_NAME && args.password === USER_PASSWORD) {
       resolve(
-        jsonwebtoken.sign({ name: USER_NAME }, process.env.JWT_SECRET, {
-          expiresIn: "1d"
-        })
+        jsonwebtoken.sign(
+          { id: USER_ID, name: USER_NAME },
+          process.env.JWT_SECRET,
+          {
+            expiresIn: "1d"
+          }
+        )
       );
     } else {
       context.next(new Error("Incorrect password"));
@@ -147,8 +154,8 @@ const login = (args, context) => {
 
 const me = (args, context) => {
   return new Promise((resolve, reject) => {
-    if (context.user.name === USER_NAME) {
-      resolve({ name: USER_NAME });
+    if (context.user.id === USER_ID) {
+      resolve({ id: USER_ID, name: USER_NAME });
     } else {
       context.next(new Error("You are not a valid user!"));
     }

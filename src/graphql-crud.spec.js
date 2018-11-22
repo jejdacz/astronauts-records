@@ -6,7 +6,7 @@ let baseRequest = request.defaults({
     "Content-Type": "application/json",
     Accept: "application/json",
     Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYXN0cm9uYXV0IiwiaWF0IjoxNTQyNzk5MjgxLCJleHAiOjE1NDI4ODU2ODF9.ZifP9cyCUtwHyxnHAIQ58HKSjBdS-YqzAMtD0IgxprU"
+      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQiLCJuYW1lIjoiYXN0cm9uYXV0IiwiaWF0IjoxNTQyODk0NjcwLCJleHAiOjE1NDI5ODEwNzB9.kENhcY0wxCRM8-NwSuGSGjzOEYTzaI4eTmk7k0wGFxc"
   },
   url: "http://localhost:5000/graphql",
   method: "POST"
