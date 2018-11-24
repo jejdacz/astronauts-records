@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { astronautType } from "../../../types.js";
 import formatDate from "../../../utils/formatDate.js";
 import LinkButton from "../../LinkButton/LinkButton.js";
-import ConfirmButton from "../../ConfirmButton/ConfirmButton";
 import styles from "./AstronautTable.module.css";
 
 const AstronautTableRow = ({ astronaut, onDeleteClick }) => (
@@ -18,9 +17,9 @@ const AstronautTableRow = ({ astronaut, onDeleteClick }) => (
       >
         Edit
       </LinkButton>
-      <ConfirmButton className={styles.control} onClick={onDeleteClick}>
+      <LinkButton confirm className={styles.control} onClick={onDeleteClick}>
         Delete
-      </ConfirmButton>
+      </LinkButton>
     </td>
   </tr>
 );

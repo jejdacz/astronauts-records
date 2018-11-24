@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import LinkButton from "../LinkButton/LinkButton";
+import LinkButtonBase from "./LinkButtonBase";
 import { withStateHandlers } from "recompose";
 
 const openHandler = withStateHandlers(
@@ -28,13 +28,13 @@ const ConfirmButton = ({
   ...props
 }) =>
   isOpen ? (
-    <LinkButton {...props} onClick={onClick} to={to} onBlur={close}>
+    <LinkButtonBase {...props} onClick={onClick} to={to} onBlur={close}>
       {text}
-    </LinkButton>
+    </LinkButtonBase>
   ) : (
-    <LinkButton {...props} onClick={open}>
+    <LinkButtonBase {...props} onClick={open}>
       {children}
-    </LinkButton>
+    </LinkButtonBase>
   );
 
 ConfirmButton.propTypes = {

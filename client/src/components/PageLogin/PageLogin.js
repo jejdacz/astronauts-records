@@ -13,7 +13,7 @@ import AstronautForm from "../AstronautForm/AstronautForm";
 import Footer from "../Footer/Footer";
 import Container from "../Container/Container";
 import Button from "../Button/Button";
-import styles from "./PageAstronaut.module.css";
+import styles from "./PageLogin.module.css";
 
 class PageAstronaut extends Component {
   constructor(props) {
@@ -118,9 +118,7 @@ class PageAstronaut extends Component {
     return this.renderPage(
       <Fragment>
         <Link to={`/astronauts/edit/${this.props.match.params.id}`}>EDIT</Link>
-        <Link confirm onClick={this.handleDelete}>
-          DELETE
-        </Link>
+        <Link onClick={this.handleDelete}>DELETE</Link>
       </Fragment>,
       <Container className={styles.container}>
         <h1 className={styles.heading}>{`${astronaut.firstName} ${
@@ -137,7 +135,7 @@ class PageAstronaut extends Component {
           >
             EDIT
           </Button>
-          <Button confirm onClick={this.handleDelete} noBorder>
+          <Button onClick={this.handleDelete} noBorder={true}>
             DELETE
           </Button>
         </div>

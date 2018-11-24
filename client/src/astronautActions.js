@@ -1,8 +1,8 @@
 import realApi from "./utils/astronautsApi.js";
 import fakeApi from "./utils/fakeApi.js";
 
-//const api = process.env.NODE_ENV === "development" ? fakeApi : realApi;
-const api = realApi;
+const api = process.env.NODE_ENV === "development" ? fakeApi : realApi;
+//const api = realApi;
 
 const buildAsyncAction = (requestName, successName, errorName) => ({
   request(args) {
@@ -75,6 +75,32 @@ export const lastUpdatedAction = buildAsyncAction(
   LAST_UPDATED_SUCCESS,
   LAST_UPDATED_ERROR
 );
+
+export const LOGIN_REQUEST = "LOGIN_REQUEST";
+export const LOGIN_ERROR = "LOGIN_ERROR";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+
+export const loginAction = buildAsyncAction(
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGIN_ERROR
+);
+
+export const LOGOUT_REQUEST = "LOGOUT_REQUEST";
+export const LOGOUT_ERROR = "LOGOUT_ERROR";
+export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
+
+export const logoutAction = buildAsyncAction(
+  LOGOUT_REQUEST,
+  LOGOUT_SUCCESS,
+  LOGOUT_ERROR
+);
+
+export const ME_REQUEST = "ME_REQUEST";
+export const ME_ERROR = "ME_ERROR";
+export const ME_SUCCESS = "ME_SUCCESS";
+
+export const meAction = buildAsyncAction(ME_REQUEST, ME_SUCCESS, ME_ERROR);
 
 export const CLEAR_ERROR = "CLEAR_ERROR";
 export const clearErrorAction = () => ({ type: CLEAR_ERROR });
