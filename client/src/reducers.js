@@ -12,7 +12,13 @@ import {
   UPDATE_ASTRONAUT_SUCCESS,
   UPDATE_ASTRONAUT_ERROR,
   CLEAR_ERROR,
-  CLEAR_CHANGED
+  CLEAR_CHANGED,
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGIN_ERROR,
+  LOGOUT_REQUEST,
+  LOGOUT_ERROR,
+  LOGOUT_SUCCESS
 } from "./astronautActions.js";
 
 const initialState = {
@@ -20,7 +26,9 @@ const initialState = {
   error: null,
   changed: false,
   astronauts: { byId: {}, allIds: [] },
-  lastUpdated: 0
+  lastUpdated: 0,
+  loginPending: false,
+  isAuthorized: false
 };
 
 const storeAstronauts = items => ({
@@ -38,6 +46,8 @@ const rootReducer = (state = initialState, action) => {
     case ADD_ASTRONAUT_REQUEST:
     case LOAD_ASTRONAUTS_REQUEST:
     case DELETE_ASTRONAUT_REQUEST:
+    case LOGIN_REQUEST:
+    case LOGOUT_REQUEST:
       return { ...state, pending: true };
     case LOAD_ASTRONAUTS_ERROR:
       return {
@@ -110,6 +120,30 @@ const rootReducer = (state = initialState, action) => {
           },
           allIds: state.astronauts.allIds
         }
+      };
+    case LOGIN_ERROR:
+      return {
+        ...state,
+        pending: false,
+        error: "Login failed!"
+      };
+    case LOGIN_SUCCESS:
+      return {
+        ...state,
+        pending: false,
+        isAuthorized: true
+      };
+    case LOGOUT_ERROR:
+      return {
+        ...state,
+        pending: false,
+        error: "Logout failed!"
+      };
+    case LOGOUT_SUCCESS:
+      return {
+        ...state,
+        pending: false,
+        isAuthorized: false
       };
     default:
       return state;

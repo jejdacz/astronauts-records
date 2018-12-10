@@ -2,7 +2,7 @@ import { expect, should, assert } from "chai";
 import http from "http";
 import request from "request";
 
-describe("server tests", () => {
+describe("Server tests", () => {
   describe("Server connection test", () => {
     it("should return 200", done => {
       http.get("http://localhost:5000/", res => {
@@ -30,34 +30,57 @@ describe("server tests", () => {
     });
   });
 
-  describe("GraphQL CRUD", () => {
-    const headers = {
-      "Content-Type": "application/json",
-      Accept: "application/json"
-    };
+  const headers = {
+    "Content-Type": "application/json",
+    Accept: "application/json"
+  };
 
-    const url = "http://localhost:5000/graphql";
-    const method = "POST";
+  const url = "http://localhost:5000/graphql";
+  const method = "POST";
 
-    const auth = {
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQiLCJuYW1lIjoiYXN0cm9uYXV0IiwiaWF0IjoxNTQ0MjU5NTc2LCJleHAiOjE1NzU4MTcxNzZ9.NAX30V8Ofpp0XDxxV79tY_R97LtxuH2gEmJAroE-EN8"
-    };
+  const defaults = {
+    headers,
+    url,
+    method
+  };
 
-    const defaults = {
-      headers,
-      url,
-      method
-    };
+  const baseRequest = request.defaults(defaults);
 
-    const baseRequest = request.defaults(defaults);
+  describe("when login", () => {
+    it("should return jwt on success", done => {
+      const variables = {
+        name: process.env.USER_NAME,
+        password: process.env.USER_PASSWORD
+      };
 
-    const authRequest = request.defaults({
-      headers: { ...headers, ...auth },
-      url,
-      method
+      const query = `mutation login($name: String!, $password: String!) {login(name: $name, password:$password)}`;
+
+      const options = {
+        body: JSON.stringify({
+          query,
+          variables
+        })
+      };
+
+      baseRequest.post(options, function(error, response, body) {
+        expect(response.statusCode).to.equal(200);
+        expect(JSON.parse(body).data.login).to.exist;
+        done();
+      });
     });
+  });
 
+  const auth = {
+    Authorization: `Bearer ${process.env.JWT}`
+  };
+
+  const authRequest = request.defaults({
+    headers: { ...headers, ...auth },
+    url,
+    method
+  });
+
+  describe("GraphQL CRUD", () => {
     let id;
 
     describe("CREATE operation", () => {

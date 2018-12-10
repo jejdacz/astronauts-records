@@ -130,6 +130,9 @@ export const updateAstronaut = apiCall(
   updateAstronautAction
 );
 
+export const login = apiCall(api.login, loginAction);
+export const logout = apiCall(api.logout, logoutAction);
+
 export const shouldLoadAstronauts = (state, lastUpdated, dispatch) => {
   dispatch(lastUpdatedAction.request());
   if (state.astronauts.allIds.length === 0) {

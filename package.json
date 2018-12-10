@@ -5,13 +5,13 @@
   "main": "./build/index.js",
   "scripts": {
     "dev": "USER_ID=1234 USER_NAME=astronaut USER_PASSWORD=universe JWT_SECRET=astronauts NODE_ENV=development MONGODB_URI=mongodb://localhost:27017/evidence nodemon --exec babel-node src/index.js",
-    "start": "USER_ID=1234 USER_NAME=astronaut USER_PASSWORD=universe node ./build/index.js",
+    "start": "node ./build/index.js",
     "local": "USER_ID=1234 USER_NAME=astronaut USER_PASSWORD=universe JWT_SECRET=astronauts NODE_ENV=development MONGODB_URI=mongodb://localhost:27017/evidence node ./build/index.js",
     "heroku-postbuild": "npm run build && cd client && npm install && npm run build && cd ..",
     "build": "npm run clean && npm run build-babel",
     "build-babel": "babel src --out-dir build --ignore public,spec.js",
     "clean": "rm -rf build && mkdir build",
-    "test": "mocha --require babel-core/register --require babel-polyfill './src/**/*.spec.js'"
+    "test": "USER_NAME=astronaut USER_PASSWORD=universe JWT=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQiLCJuYW1lIjoiYXN0cm9uYXV0IiwiaWF0IjoxNTQ0NDY0NTk2LCJleHAiOjE1NzYwMjIxOTZ9.h87xq84BBUaMylS6Ey08lg0rOP_9rTbnxbC7T_UB2-c mocha --require babel-core/register --require babel-polyfill './src/**/*.spec.js'"
   },
   "repository": {
     "type": "git",

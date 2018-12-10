@@ -218,7 +218,6 @@ app.use(function(req, res, next) {
 });
 
 app.use(function(err, req, res, next) {
-  console.log(err);
   if (err.status === 404) {
     res.sendStatus(404);
   } else if (err.name === "ValidationError") {

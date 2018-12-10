@@ -1,5 +1,5 @@
 import React from "react";
-import join from "../../../utils/join.js";
+import join from "../../utils/join.js";
 
 const renderValidation = ({ valid, invalid }) => BaseComponent => ({
   className,
@@ -7,7 +7,10 @@ const renderValidation = ({ valid, invalid }) => BaseComponent => ({
 }) => (
   <BaseComponent
     {...props}
-    className={join(className, props.touched && (props.error ? invalid : valid))}
+    className={join(
+      className,
+      props.touched && (props.error ? invalid : valid)
+    )}
   />
 );
 

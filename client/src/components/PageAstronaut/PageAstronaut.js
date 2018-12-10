@@ -6,7 +6,8 @@ import {
   addAstronaut,
   deleteAstronaut,
   updateAstronaut,
-  clearChangedAction
+  clearChangedAction,
+  logout
 } from "../../astronautActions.js";
 import { Nav, Logo, Link } from "../Nav/Nav";
 import AstronautForm from "../AstronautForm/AstronautForm";
@@ -28,7 +29,12 @@ class PageAstronaut extends Component {
     changed: PropTypes.bool,
     astronaut: astronautType,
     editing: PropTypes.bool,
-    isNew: PropTypes.bool
+    isNew: PropTypes.bool,
+    clearChanged: PropTypes.func.isRequired,
+    deleteAstronaut: PropTypes.func.isRequired,
+    addAstronaut: PropTypes.func.isRequired,
+    updateAstronaut: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired
   };
 
   handleAdd(values) {
@@ -62,6 +68,7 @@ class PageAstronaut extends Component {
         <Nav fixed={true}>
           <Logo to="/">ar</Logo>
           {links}
+          <Link onClick={this.props.logout}>X</Link>
         </Nav>
       </header>
       <main className={styles.main}>{content}</main>
@@ -151,7 +158,8 @@ const mapDispatchToProps = (dispatch, props) => ({
   deleteAstronaut: () =>
     dispatch(deleteAstronaut({ id: props.match.params.id })),
   addAstronaut: values => dispatch(addAstronaut(values)),
-  updateAstronaut: values => dispatch(updateAstronaut(values))
+  updateAstronaut: values => dispatch(updateAstronaut(values)),
+  logout: () => dispatch(logout())
 });
 
 const mapStateToProps = (state, props) => ({

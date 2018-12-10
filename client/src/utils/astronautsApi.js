@@ -68,8 +68,10 @@ const request = (query, variables, auth) => ({
   })
 });
 
-const createCall = query => variables =>
-  fetch(url, request(query, variables, auth)).then(checkResponse);
+const createCall = query => postprocess => variables =>
+  fetch(url, request(query, variables, auth))
+    .then(checkResponse)
+    .then(postprocess);
 
 const checkResponse = response => {
   if (response.ok) {
@@ -87,21 +89,19 @@ const login = ({ data }) => {
 const logout = () => Promise.resolve(sessionStorage.setItem("jwt", null));
 
 export default {
-  astronauts: createCall(queryAstronauts).then(({ data }) => data.astronauts),
-  astronaut: createCall(queryAstronaut).then(({ data }) => data.astronaut),
-  addAstronaut: createCall(queryAddAstronaut).then(
-    ({ data }) => data.addAstronaut
-  ),
-  updateAstronaut: createCall(queryUpdateAstronaut).then(
+  astronauts: createCall(queryAstronauts)(({ data }) => data.astronauts),
+  astronaut: createCall(queryAstronaut)(({ data }) => data.astronaut),
+  addAstronaut: createCall(queryAddAstronaut)(({ data }) => data.addAstronaut),
+  updateAstronaut: createCall(queryUpdateAstronaut)(
     ({ data }) => data.updateAstronaut
   ),
-  deleteAstronaut: createCall(queryDeleteAstronaut).then(
+  deleteAstronaut: createCall(queryDeleteAstronaut)(
     ({ data }) => data.deleteAstronaut
   ),
-  lastUpdated: createCall(queryLastUpdated).then(({ data }) =>
+  lastUpdated: createCall(queryLastUpdated)(({ data }) =>
     Number(data.lastUpdated)
   ),
-  login: createCall(queryLogin).then(login),
+  login: createCall(queryLogin)(login),
   logout,
-  me: createCall(queryMe).then(({ data }) => data.me)
+  me: createCall(queryMe)(({ data }) => data.me)
 };

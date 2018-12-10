@@ -1,7 +1,11 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { deleteAstronaut, clearChangedAction } from "../../astronautActions.js";
+import {
+  deleteAstronaut,
+  clearChangedAction,
+  logout
+} from "../../astronautActions.js";
 import AstronautList from "./AstronautList/AstronautList.js";
 import AstronautTable from "./AstronautTable/AstronautTable.js";
 import { Nav, Link, Logo } from "../Nav/Nav.js";
@@ -24,7 +28,10 @@ export class PageAstronauts extends Component {
     pending: PropTypes.bool,
     changed: PropTypes.bool,
     lastUpdated: PropTypes.number.isRequired,
-    astronauts: PropTypes.array.isRequired
+    astronauts: PropTypes.array.isRequired,
+    deleteAstronaut: PropTypes.func.isRequired,
+    clearChanged: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired
   };
 
   componentDidUpdate() {
@@ -49,6 +56,7 @@ export class PageAstronauts extends Component {
         <Nav fixed={true}>
           <Logo to="/">ar</Logo>
           <Link to="/astronauts/new/">+add</Link>
+          <Link onClick={this.props.logout}>X</Link>
         </Nav>
         <Hero />
       </header>
@@ -85,7 +93,8 @@ export class PageAstronauts extends Component {
 
 const mapDispatchToProps = dispatch => ({
   clearChanged: () => dispatch(clearChangedAction()),
-  deleteAstronaut: id => dispatch(deleteAstronaut({ id }))
+  deleteAstronaut: id => dispatch(deleteAstronaut({ id })),
+  logout: () => dispatch(logout())
 });
 
 const mapStateToProps = state => ({

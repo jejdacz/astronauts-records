@@ -6,6 +6,7 @@ import { compose, lifecycle } from "recompose";
 import { loadAstronauts, clearErrorAction } from "../../astronautActions.js";
 import PageAstronauts from "../PageAstronauts/PageAstronauts.js";
 import PageAstronaut from "../PageAstronaut/PageAstronaut.js";
+import PageLogin from "../PageLogin/PageLogin.js";
 import { Modal, Button, Controls, Heading, Message } from "../Modal/Modal.js";
 import delayedRender from "../delayedRender/delayedRender.js";
 import Spinner from "../Spinner/Spinner.js";
@@ -28,36 +29,78 @@ const AppError = (
   </h1>
 );
 
-export const App = props => {
+export const App = ({ isAuthorized, pending, clearError, error }) => {
   return (
     <ErrorBoundary render={AppError}>
       <Switch>
-        <Route exact={true} path="/" component={PageAstronauts} />
+        <Route
+          exact={true}
+          path="/login"
+          render={props =>
+            isAuthorized ? <Redirect to="/" /> : <PageLogin {...props} />
+          }
+        />
+
         <Route
           exact={true}
           path="/astronauts/new"
-          render={props => <PageAstronaut {...props} isNew={true} />}
+          render={props =>
+            isAuthorized ? (
+              <PageAstronaut {...props} isNew={true} />
+            ) : (
+              <Redirect to="/login" />
+            )
+          }
         />
+
         <Route
           exact={true}
           path="/astronauts/edit/:id"
-          render={props => <PageAstronaut {...props} editing={true} />}
+          render={props =>
+            isAuthorized ? (
+              <PageAstronaut {...props} editing={true} />
+            ) : (
+              <Redirect to="/login" />
+            )
+          }
         />
-        <Route exact={true} path="/astronauts/:id" component={PageAstronaut} />
-        <Route render={props => <Redirect to="/" />} />
+
+        <Route
+          exact={true}
+          path="/astronauts/:id"
+          render={props =>
+            isAuthorized ? (
+              <PageAstronaut {...props} />
+            ) : (
+              <Redirect to="/login" />
+            )
+          }
+        />
+
+        <Route
+          exact={true}
+          path="/"
+          render={props =>
+            isAuthorized ? (
+              <PageAstronauts {...props} />
+            ) : (
+              <Redirect to="/login" />
+            )
+          }
+        />
       </Switch>
 
-      <Modal isOpen={!!props.error} onRequestClose={props.clearError}>
+      <Modal isOpen={!!error} onRequestClose={clearError}>
         <Heading>Error</Heading>
-        <Message>{props.error}</Message>
+        <Message>{error}</Message>
         <Controls>
-          <Button onClick={props.clearError}>ok</Button>
+          <Button onClick={clearError}>ok</Button>
         </Controls>
       </Modal>
 
       <DelayedModal
-        shouldRender={!!props.pending}
-        isOpen={!!props.pending}
+        shouldRender={!!pending}
+        isOpen={!!pending}
         shouldCloseOnOverlayClick={false}
         boxed={false}
       >
@@ -76,7 +119,8 @@ App.propTypes = {
 
 const mapStateToProps = state => ({
   pending: state.pending,
-  error: state.error
+  error: state.error,
+  isAuthorized: state.isAuthorized
 });
 
 const mapDispatchToProps = dispatch => ({
