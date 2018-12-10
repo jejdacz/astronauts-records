@@ -4,8 +4,9 @@
   "description": "simple app",
   "main": "./build/index.js",
   "scripts": {
-    "dev": "JWT_SECRET=astronauts NODE_ENV=development MONGODB_URI=mongodb://localhost:27017/evidence nodemon --exec babel-node src/index.js",
-    "start": "node ./build/index.js",
+    "dev": "USER_ID=1234 USER_NAME=astronaut USER_PASSWORD=universe JWT_SECRET=astronauts NODE_ENV=development MONGODB_URI=mongodb://localhost:27017/evidence nodemon --exec babel-node src/index.js",
+    "start": "USER_ID=1234 USER_NAME=astronaut USER_PASSWORD=universe node ./build/index.js",
+    "local": "USER_ID=1234 USER_NAME=astronaut USER_PASSWORD=universe JWT_SECRET=astronauts NODE_ENV=development MONGODB_URI=mongodb://localhost:27017/evidence node ./build/index.js",
     "heroku-postbuild": "npm run build && cd client && npm install && npm run build && cd ..",
     "build": "npm run clean && npm run build-babel",
     "build-babel": "babel src --out-dir build --ignore public,spec.js",

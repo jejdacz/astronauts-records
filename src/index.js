@@ -1,4 +1,5 @@
 import express from "express";
+import path from "path";
 import compression from "compression";
 import graphqlHTTP from "express-graphql";
 import { buildSchema } from "graphql";
@@ -130,9 +131,9 @@ const getLastUpdated = (_, context) => {
 };
 
 /* SIMPLIFIED AUTHENTICATION */
-const USER_ID = "1234";
-const USER_NAME = "astronaut";
-const USER_PASSWORD = "universe";
+const USER_ID = process.env.USER_ID;
+const USER_NAME = process.env.USER_NAME;
+const USER_PASSWORD = process.env.USER_PASSWORD;
 
 const login = (args, context) => {
   return new Promise((resolve, reject) => {
@@ -142,7 +143,7 @@ const login = (args, context) => {
           { id: USER_ID, name: USER_NAME },
           process.env.JWT_SECRET,
           {
-            expiresIn: "1d"
+            expiresIn: "1y"
           }
         )
       );
@@ -195,7 +196,7 @@ const jwtAuth = jwt({
 
 app.use(jwtAuth);
 
-app.use(express.static(__dirname + "/../client/build"));
+app.use(express.static(path.resolve("client/build")));
 
 app.use("/graphql", (req, res, next) =>
   graphqlHTTP({
@@ -207,7 +208,7 @@ app.use("/graphql", (req, res, next) =>
 );
 
 app.get("*", (req, res) =>
-  res.sendFile(__dirname + "/../client/build/index.html")
+  res.sendFile(path.resolve("client/build/index.html"))
 );
 
 app.use(function(req, res, next) {
@@ -217,10 +218,13 @@ app.use(function(req, res, next) {
 });
 
 app.use(function(err, req, res, next) {
+  console.log(err);
   if (err.status === 404) {
     res.sendStatus(404);
-  } else if ((err.name = "ValidationError")) {
+  } else if (err.name === "ValidationError") {
     res.status(400).json({ error: err.message });
+  } else if (err.status === 401) {
+    res.sendStatus(401);
   } else {
     res.sendStatus(500);
   }

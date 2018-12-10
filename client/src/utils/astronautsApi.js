@@ -1,106 +1,107 @@
-import graphqlRequest from "./graphqlRequest.js";
+const queryMe = `query me {me{name}}`;
+
+const queryLogin = `mutation login($name: String!) {
+  login(name: $name)
+}`;
+
+const queryLastUpdated = `{ lastUpdated }`;
+
+const queryAstronauts = `{ astronauts {id firstName lastName birth superpower} }`;
+
+const queryAstronaut = `query astronaut($id: String!) {
+  astronaut(id: $id) {
+    id
+    firstName
+    lastName
+    birth
+    superpower
+  }
+}`;
+
+const queryAddAstronaut = `mutation addAstronaut($firstName: String!,
+  $lastName: String!, $birth: String!, $superpower: String!) {
+  addAstronaut(firstName: $firstName, lastName: $lastName, birth: $birth, superpower: $superpower) {
+    id
+    firstName
+    lastName
+    birth
+    superpower
+  }
+}`;
+
+const queryUpdateAstronaut = `mutation updateAstronaut($id: String!, $firstName: String!, $lastName: String!, $birth: String!, $superpower: String!) {
+  updateAstronaut(id: $id, firstName: $firstName, lastName: $lastName, birth: $birth, superpower: $superpower) {
+    id
+    firstName
+    lastName
+    birth
+    superpower
+  }
+}`;
+
+const queryDeleteAstronaut = `mutation deleteAstronaut($id: String!) {
+  deleteAstronaut(id: $id) {
+    id
+    firstName
+    lastName
+    birth
+    superpower
+  }
+}`;
+
+const url = "/graphql";
 
 const auth = sessionStorage.getItem("jwt");
 
-const me = variables => {
-  const query = `query me {me{name}}`;
-  return graphqlRequest(query, variables, auth).then(({ data }) => data.me);
+const request = (query, variables, auth) => ({
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+    ...(auth && {
+      Authorization: `Bearer ${auth}`
+    })
+  },
+  body: JSON.stringify({
+    query,
+    variables
+  })
+});
+
+const createCall = query => variables =>
+  fetch(url, request(query, variables, auth)).then(checkResponse);
+
+const checkResponse = response => {
+  if (response.ok) {
+    return response.json();
+  } else {
+    throw new Error("response error");
+  }
+};
+
+const login = ({ data }) => {
+  sessionStorage.setItem("jwt", data.login);
+  return data.login;
 };
 
 const logout = () => Promise.resolve(sessionStorage.setItem("jwt", null));
 
-const login = variables => {
-  const query = `mutation login($name: String!) {
-    login(name: $name)
-  }`;
-  return graphqlRequest(query, variables).then(({ data }) => {
-    sessionStorage.setItem("jwt", data.login);
-    return data.login;
-  });
-};
-
-const lastUpdated = variables => {
-  const query = `{ lastUpdated }`;
-  return graphqlRequest(query, variables, auth).then(({ data }) =>
-    Number(data.lastUpdated)
-  );
-};
-
-const astronauts = variables => {
-  const query = `{ astronauts {id firstName lastName birth superpower} }`;
-  return graphqlRequest(query, variables, auth).then(
-    ({ data }) => data.astronauts
-  );
-};
-
-const astronaut = variables => {
-  const query = `query astronaut($id: String!) {
-    astronaut(id: $id) {
-      id
-      firstName
-      lastName
-      birth
-      superpower
-    }
-  }`;
-  return graphqlRequest(query, variables, auth).then(
-    ({ data }) => data.astronaut
-  );
-};
-
-const addAstronaut = variables => {
-  const query = `mutation addAstronaut($firstName: String!, $lastName: String!, $birth: String!, $superpower: String!) {
-      addAstronaut(firstName: $firstName, lastName: $lastName, birth: $birth, superpower: $superpower) {
-        id
-        firstName
-        lastName
-        birth
-        superpower
-      }
-    }`;
-  return graphqlRequest(query, variables, auth).then(
-    ({ data }) => data.addAstronaut
-  );
-};
-
-const updateAstronaut = variables => {
-  const query = `mutation updateAstronaut($id: String!, $firstName: String!, $lastName: String!, $birth: String!, $superpower: String!) {
-    updateAstronaut(id: $id, firstName: $firstName, lastName: $lastName, birth: $birth, superpower: $superpower) {
-      id
-      firstName
-      lastName
-      birth
-      superpower
-    }
-  }`;
-  return graphqlRequest(query, variables, auth).then(
-    ({ data }) => data.updateAstronaut
-  );
-};
-
-const deleteAstronaut = variables => {
-  const query = `mutation deleteAstronaut($id: String!) {
-    deleteAstronaut(id: $id) {
-      id
-      firstName
-      lastName
-      birth
-      superpower
-    }
-  }`;
-  return graphqlRequest(query, variables, auth).then(
-    ({ data }) => data.deleteAstronaut
-  );
-};
-
 export default {
-  astronauts,
-  astronaut,
-  addAstronaut,
-  updateAstronaut,
-  deleteAstronaut,
-  lastUpdated,
-  login,
+  astronauts: createCall(queryAstronauts).then(({ data }) => data.astronauts),
+  astronaut: createCall(queryAstronaut).then(({ data }) => data.astronaut),
+  addAstronaut: createCall(queryAddAstronaut).then(
+    ({ data }) => data.addAstronaut
+  ),
+  updateAstronaut: createCall(queryUpdateAstronaut).then(
+    ({ data }) => data.updateAstronaut
+  ),
+  deleteAstronaut: createCall(queryDeleteAstronaut).then(
+    ({ data }) => data.deleteAstronaut
+  ),
+  lastUpdated: createCall(queryLastUpdated).then(({ data }) =>
+    Number(data.lastUpdated)
+  ),
+  login: createCall(queryLogin).then(login),
   logout,
-  me
+  me: createCall(queryMe).then(({ data }) => data.me)
 };
