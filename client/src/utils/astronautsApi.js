@@ -64,15 +64,13 @@ const request = (query, variables, auth) => ({
   })
 });
 
-const createCall = query => postprocess => variables =>
-  fetch(url, request(query, variables, sessionStorage.getItem("jwt")))
+const createCall = auth => query => postprocess => variables =>
+  fetch(url, request(query, variables, auth && sessionStorage.getItem("jwt")))
     .then(checkResponse)
     .then(postprocess);
 
-const loginCall = query => postprocess => variables =>
-  fetch(url, request(query, variables))
-    .then(checkResponse)
-    .then(postprocess);
+const authCall = createCall(true);
+const baseCall = createCall();
 
 const checkResponse = response => {
   if (response.ok) {
@@ -90,21 +88,21 @@ const login = ({ data }) => {
 const logout = () => Promise.resolve(sessionStorage.removeItem("jwt", null));
 
 export default {
-  astronauts: createCall(queryAstronauts)(({ data }) => data.astronauts),
-  astronaut: createCall(queryAstronaut)(({ data }) => data.astronaut),
-  addAstronaut: createCall(queryAddAstronaut)(({ data }) => data.addAstronaut),
-  updateAstronaut: createCall(queryUpdateAstronaut)(
+  astronauts: authCall(queryAstronauts)(({ data }) => data.astronauts),
+  astronaut: authCall(queryAstronaut)(({ data }) => data.astronaut),
+  addAstronaut: authCall(queryAddAstronaut)(({ data }) => data.addAstronaut),
+  updateAstronaut: authCall(queryUpdateAstronaut)(
     ({ data }) => data.updateAstronaut
   ),
-  deleteAstronaut: createCall(queryDeleteAstronaut)(
+  deleteAstronaut: authCall(queryDeleteAstronaut)(
     ({ data }) => data.deleteAstronaut
   ),
-  lastUpdated: createCall(queryLastUpdated)(({ data }) =>
+  lastUpdated: authCall(queryLastUpdated)(({ data }) =>
     Number(data.lastUpdated)
   ),
-  login: createCall(queryLogin)(login),
+  login: baseCall(queryLogin)(login),
   logout,
   me: sessionStorage.getItem("jwt")
-    ? createCall(queryMe)(({ data }) => data.me)
+    ? authCall(queryMe)(({ data }) => data.me)
     : () => Promise.reject()
 };
