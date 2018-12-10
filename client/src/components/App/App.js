@@ -3,7 +3,11 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withRouter, Route, Switch, Redirect } from "react-router-dom";
 import { compose, lifecycle } from "recompose";
-import { loadAstronauts, clearErrorAction } from "../../astronautActions.js";
+import {
+  loadAstronauts,
+  clearErrorAction,
+  me
+} from "../../astronautActions.js";
 import PageAstronauts from "../PageAstronauts/PageAstronauts.js";
 import PageAstronaut from "../PageAstronaut/PageAstronaut.js";
 import PageLogin from "../PageLogin/PageLogin.js";
@@ -29,7 +33,19 @@ const AppError = (
   </h1>
 );
 
-export const App = ({ isAuthorized, pending, clearError, error }) => {
+export const AstronautsLoader = lifecycle({
+  componentDidMount() {
+    this.props.loadAstronauts();
+  }
+})(({ loadAstronauts }) => null);
+
+export const App = ({
+  isAuthorized,
+  pending,
+  clearError,
+  error,
+  loadAstronauts
+}) => {
   return (
     <ErrorBoundary render={AppError}>
       <Switch>
@@ -90,6 +106,8 @@ export const App = ({ isAuthorized, pending, clearError, error }) => {
         />
       </Switch>
 
+      {isAuthorized && <AstronautsLoader loadAstronauts={loadAstronauts} />}
+
       <Modal isOpen={!!error} onRequestClose={clearError}>
         <Heading>Error</Heading>
         <Message>{error}</Message>
@@ -114,7 +132,8 @@ App.propTypes = {
   pending: PropTypes.bool.isRequired,
   error: PropTypes.any,
   clearError: PropTypes.func.isRequired,
-  loadAstronauts: PropTypes.func.isRequired
+  loadAstronauts: PropTypes.func.isRequired,
+  me: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -125,7 +144,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   loadAstronauts: () => dispatch(loadAstronauts()),
-  clearError: () => dispatch(clearErrorAction())
+  clearError: () => dispatch(clearErrorAction()),
+  me: () => dispatch(me())
 });
 
 export default compose(
@@ -136,7 +156,7 @@ export default compose(
   ),
   lifecycle({
     componentDidMount() {
-      this.props.loadAstronauts();
+      this.props.me();
     }
   })
 )(App);

@@ -23,7 +23,7 @@ class PageLogin extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.login({ userName: "astronaut", password: "universe" });
+    this.props.login({ name: "astronaut", password: "universe" });
   }
 
   render() {

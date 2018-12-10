@@ -8,6 +8,7 @@ import { isValidName } from "input-validation";
 import jsonwebtoken from "jsonwebtoken";
 import jwt from "express-jwt";
 import bodyParser from "body-parser";
+import cors from "cors";
 
 const mongoDB = process.env.MONGODB_URI;
 mongoose.connect(
@@ -185,7 +186,10 @@ const root = {
 };
 
 const app = express();
+app.use(cors());
+
 app.use(compression());
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -198,14 +202,14 @@ app.use(jwtAuth);
 
 app.use(express.static(path.resolve("client/build")));
 
-app.use("/graphql", (req, res, next) =>
+app.use("/graphql", (req, res, next) => {
   graphqlHTTP({
     schema: schema,
     rootValue: root,
     graphiql: process.env.NODE_ENV == "development",
     context: { next, user: req.user }
-  })(req, res)
-);
+  })(req, res);
+});
 
 app.get("*", (req, res) =>
   res.sendFile(path.resolve("client/build/index.html"))

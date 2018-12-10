@@ -1,8 +1,8 @@
 import realApi from "./utils/astronautsApi.js";
 import fakeApi from "./utils/fakeApi.js";
 
-const api = process.env.NODE_ENV === "development" ? fakeApi : realApi;
-//const api = realApi;
+//const api = process.env.NODE_ENV === "development" ? fakeApi : realApi;
+const api = realApi;
 
 const buildAsyncAction = (requestName, successName, errorName) => ({
   request(args) {
@@ -132,6 +132,7 @@ export const updateAstronaut = apiCall(
 
 export const login = apiCall(api.login, loginAction);
 export const logout = apiCall(api.logout, logoutAction);
+export const me = apiCall(api.me, meAction);
 
 export const shouldLoadAstronauts = (state, lastUpdated, dispatch) => {
   dispatch(lastUpdatedAction.request());

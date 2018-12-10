@@ -1,8 +1,6 @@
 const queryMe = `query me {me{name}}`;
 
-const queryLogin = `mutation login($name: String!) {
-  login(name: $name)
-}`;
+const queryLogin = `mutation login($name: String!, $password: String!) {login(name: $name, password:$password)}`;
 
 const queryLastUpdated = `{ lastUpdated }`;
 
@@ -49,9 +47,7 @@ const queryDeleteAstronaut = `mutation deleteAstronaut($id: String!) {
   }
 }`;
 
-const url = "/graphql";
-
-const auth = sessionStorage.getItem("jwt");
+const url = "http://localhost:5000/graphql";
 
 const request = (query, variables, auth) => ({
   method: "POST",
@@ -69,7 +65,12 @@ const request = (query, variables, auth) => ({
 });
 
 const createCall = query => postprocess => variables =>
-  fetch(url, request(query, variables, auth))
+  fetch(url, request(query, variables, sessionStorage.getItem("jwt")))
+    .then(checkResponse)
+    .then(postprocess);
+
+const loginCall = query => postprocess => variables =>
+  fetch(url, request(query, variables))
     .then(checkResponse)
     .then(postprocess);
 
@@ -86,7 +87,7 @@ const login = ({ data }) => {
   return data.login;
 };
 
-const logout = () => Promise.resolve(sessionStorage.setItem("jwt", null));
+const logout = () => Promise.resolve(sessionStorage.removeItem("jwt", null));
 
 export default {
   astronauts: createCall(queryAstronauts)(({ data }) => data.astronauts),
@@ -103,5 +104,7 @@ export default {
   ),
   login: createCall(queryLogin)(login),
   logout,
-  me: createCall(queryMe)(({ data }) => data.me)
+  me: sessionStorage.getItem("jwt")
+    ? createCall(queryMe)(({ data }) => data.me)
+    : () => Promise.reject()
 };
