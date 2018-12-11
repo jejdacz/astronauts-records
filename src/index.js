@@ -186,7 +186,6 @@ const root = {
 };
 
 const app = express();
-app.use(cors());
 
 app.use(compression());
 
@@ -202,7 +201,7 @@ app.use(jwtAuth);
 
 app.use(express.static(path.resolve("client/build")));
 
-app.use("/graphql", (req, res, next) => {
+app.use("/graphql", cors(), (req, res, next) => {
   graphqlHTTP({
     schema: schema,
     rootValue: root,
