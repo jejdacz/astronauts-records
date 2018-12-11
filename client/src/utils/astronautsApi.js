@@ -6,7 +6,8 @@ import {
   lensPath,
   lensProp,
   assoc,
-  set
+  set,
+  over
 } from "ramda";
 
 const queryMe = `query me {me{name}}`;
@@ -58,7 +59,7 @@ const queryDeleteAstronaut = `mutation deleteAstronaut($id: String!) {
   }
 }`;
 
-const url = "http://localhost:5000/graphql";
+export const url = "http://localhost:5000/graphql";
 
 const request = (query, variables, auth) => ({
   method: "POST",
@@ -75,7 +76,7 @@ const request = (query, variables, auth) => ({
   })
 });
 
-const requestBase = {
+export const requestBase = {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
@@ -83,15 +84,11 @@ const requestBase = {
   }
 };
 
-const lensAuth = lensPath(["headers", "Authorization"]);
-const lensBody = lensProp("body");
-const lensQuery = lensProp("query");
-const lensVars = lensProp("variables");
-
 const setProp = curry((prop, obj, val) => ({ ...obj, [prop]: val }));
 
-//set(lensAuth,getAuth)
-/*login: compose(fetchBase,set(lensBody,JSON.stringify),mergeRight({query: queryLogin}),(val)=>({variables:val}));*/
+export const requestBody = query => variables => ({
+  body: JSON.stringify({ query, variables })
+});
 
 const getAuth = () => `Bearer ${sessionStorage.getItem("jwt")}`;
 
@@ -103,29 +100,57 @@ const checkResponse = response => {
   }
 };
 
+const then = curry((func, promise) => promise.then(func));
+
 const fetchJSON = curry((url, request) => fetch(url, request));
 
-const fetchBase = compose(
-  f => f.then(checkResponse),
-  fetchJSON(url),
-  mergeDeepRight({ requestBase })
-);
+export const ApiFetch = (fetcher, getAuth) => {
+  const lensPathAuth = lensPath(["headers", "Authorization"]);
 
-const fetchAuth = compose(
-  fetchBase,
-  set(lensAuth, getAuth())
-);
-
-export const buildBody2 = query => variables => ({
-  body: JSON.stringify({ query, variables })
-});
-
-export const buildBody = query =>
-  compose(
-    setProp("body", {}),
-    JSON.stringify,
-    setProp("variables", { query })
+  const call = compose(
+    fetcher(url),
+    mergeDeepRight(requestBase)
   );
+
+  const base = query =>
+    compose(
+      call,
+      requestBody(query)
+    );
+
+  const auth = query =>
+    compose(
+      call,
+      set(lensPathAuth, getAuth()),
+      requestBody(query)
+    );
+
+  return {
+    base,
+    auth
+  };
+};
+
+const reqBasic = query => variables =>
+  mergeDeepRight(requestBase, {
+    body: JSON.stringify({ query, variables })
+  });
+
+const reqAuth = getAuth => query => variables =>
+  mergeDeepRight(
+    { headers: { Authorization: getAuth() } },
+    reqBasic(query, variables)
+  );
+
+const composeFetch = request => query =>
+  compose(
+    then(checkResponse),
+    fetchJSON(url),
+    request(query)
+  );
+
+const fetchAuth = composeFetch(reqAuth(getAuth));
+const fetchBasic = composeFetch(reqBasic);
 
 const createCall = auth => query => postprocess => variables =>
   fetch(url, request(query, variables, auth && sessionStorage.getItem("jwt")))
@@ -155,11 +180,7 @@ export default {
   lastUpdated: authCall(queryLastUpdated)(({ data }) =>
     Number(data.lastUpdated)
   ),
-  //login: baseCall(queryLogin)(login),
-  login: compose(
-    fetchBase,
-    buildBody(queryLogin)
-  ),
+  login: baseCall(queryLogin)(login),
   logout,
   me: sessionStorage.getItem("jwt")
     ? authCall(queryMe)(({ data }) => data.me)
