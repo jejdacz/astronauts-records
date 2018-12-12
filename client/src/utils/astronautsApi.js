@@ -104,6 +104,8 @@ const then = curry((func, promise) => promise.then(func));
 
 const fetchJSON = curry((url, request) => fetch(url, request));
 
+/**************** V1 ****************/
+
 export const ApiFetch = (fetcher, getAuth) => {
   const lensPathAuth = lensPath(["headers", "Authorization"]);
 
@@ -131,14 +133,16 @@ export const ApiFetch = (fetcher, getAuth) => {
   };
 };
 
-const reqBasic = query => variables =>
-  mergeDeepRight(requestBase, {
-    body: JSON.stringify({ query, variables })
-  });
+/************** V2 *****************/
 
-const reqAuth = getAuth => query => variables =>
-  mergeDeepRight(
-    { headers: { Authorization: getAuth() } },
+const reqBasic = query => variables => ({
+  ...requestBase,
+  body: JSON.stringify({ query, variables })
+});
+
+const reqAuth = auth => query => variables =>
+  mergeDeepLeft(
+    { headers: { Authorization: auth() } },
     reqBasic(query, variables)
   );
 
@@ -151,6 +155,30 @@ const composeFetch = request => query =>
 
 const fetchAuth = composeFetch(reqAuth(getAuth));
 const fetchBasic = composeFetch(reqBasic);
+
+/**************** V3 **************/
+
+const buildRequest = query => variables => ({
+  ...requestBase,
+  body: JSON.stringify({ query, variables })
+});
+
+const addAuth = request => {
+  const lensAuth = lensPath(["headers", "Authorization"]);
+  set(lensAuth, getAuth(), request);
+};
+
+const call = (query, modifyRequest = r => r) =>
+  compose(
+    then(checkResponse),
+    fetchJSON(url),
+    modifyRequest,
+    buildRequest(query)
+  );
+
+const authCall = query => call(query, addAuth);
+
+/***************** V0 ****************/
 
 const createCall = auth => query => postprocess => variables =>
   fetch(url, request(query, variables, auth && sessionStorage.getItem("jwt")))
