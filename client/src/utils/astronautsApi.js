@@ -10,15 +10,15 @@ import {
   over
 } from "ramda";
 
-const queryMe = `query me {me{name}}`;
+export const queryMe = `query me {me{name}}`;
 
-const queryLogin = `mutation login($name: String!, $password: String!) {login(name: $name, password:$password)}`;
+export const queryLogin = `mutation login($name: String!, $password: String!) {login(name: $name, password:$password)}`;
 
-const queryLastUpdated = `{ lastUpdated }`;
+export const queryLastUpdated = `{ lastUpdated }`;
 
-const queryAstronauts = `{ astronauts {id firstName lastName birth superpower} }`;
+export const queryAstronauts = `{ astronauts {id firstName lastName birth superpower} }`;
 
-const queryAstronaut = `query astronaut($id: String!) {
+export const queryAstronaut = `query astronaut($id: String!) {
   astronaut(id: $id) {
     id
     firstName
@@ -28,7 +28,7 @@ const queryAstronaut = `query astronaut($id: String!) {
   }
 }`;
 
-const queryAddAstronaut = `mutation addAstronaut($firstName: String!,
+export const queryAddAstronaut = `mutation addAstronaut($firstName: String!,
   $lastName: String!, $birth: String!, $superpower: String!) {
   addAstronaut(firstName: $firstName, lastName: $lastName, birth: $birth, superpower: $superpower) {
     id
@@ -39,7 +39,7 @@ const queryAddAstronaut = `mutation addAstronaut($firstName: String!,
   }
 }`;
 
-const queryUpdateAstronaut = `mutation updateAstronaut($id: String!, $firstName: String!, $lastName: String!, $birth: String!, $superpower: String!) {
+export const queryUpdateAstronaut = `mutation updateAstronaut($id: String!, $firstName: String!, $lastName: String!, $birth: String!, $superpower: String!) {
   updateAstronaut(id: $id, firstName: $firstName, lastName: $lastName, birth: $birth, superpower: $superpower) {
     id
     firstName
@@ -49,7 +49,7 @@ const queryUpdateAstronaut = `mutation updateAstronaut($id: String!, $firstName:
   }
 }`;
 
-const queryDeleteAstronaut = `mutation deleteAstronaut($id: String!) {
+export const queryDeleteAstronaut = `mutation deleteAstronaut($id: String!) {
   deleteAstronaut(id: $id) {
     id
     firstName
@@ -61,21 +61,6 @@ const queryDeleteAstronaut = `mutation deleteAstronaut($id: String!) {
 
 export const url = "http://localhost:5000/graphql";
 
-const request = (query, variables, auth) => ({
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    Accept: "application/json",
-    ...(auth && {
-      Authorization: `Bearer ${auth}`
-    })
-  },
-  body: JSON.stringify({
-    query,
-    variables
-  })
-});
-
 export const requestBase = {
   method: "POST",
   headers: {
@@ -84,15 +69,9 @@ export const requestBase = {
   }
 };
 
-const setProp = curry((prop, obj, val) => ({ ...obj, [prop]: val }));
+export const getAuth = () => `Bearer ${sessionStorage.getItem("jwt")}`;
 
-export const requestBody = query => variables => ({
-  body: JSON.stringify({ query, variables })
-});
-
-const getAuth = () => `Bearer ${sessionStorage.getItem("jwt")}`;
-
-const checkResponse = response => {
+const parseResponse = response => {
   if (response.ok) {
     return response.json();
   } else {
@@ -104,113 +83,64 @@ const then = curry((func, promise) => promise.then(func));
 
 const fetchJSON = curry((url, request) => fetch(url, request));
 
-/**************** V1 ****************/
-
-export const ApiFetch = (fetcher, getAuth) => {
-  const lensPathAuth = lensPath(["headers", "Authorization"]);
-
-  const call = compose(
-    fetcher(url),
-    mergeDeepRight(requestBase)
-  );
-
-  const base = query =>
-    compose(
-      call,
-      requestBody(query)
-    );
-
-  const auth = query =>
-    compose(
-      call,
-      set(lensPathAuth, getAuth()),
-      requestBody(query)
-    );
-
-  return {
-    base,
-    auth
-  };
+export const authorizeRequest = getAuth => request => {
+  const lensAuth = lensPath(["headers", "Authorization"]);
+  return set(lensAuth, getAuth(), request);
 };
 
-/************** V2 *****************/
-
-const reqBasic = query => variables => ({
-  ...requestBase,
+export const requestBody = (query, variables) => ({
   body: JSON.stringify({ query, variables })
 });
 
-const reqAuth = auth => query => variables =>
-  mergeDeepLeft(
-    { headers: { Authorization: auth() } },
-    reqBasic(query, variables)
+export const request = query => variables =>
+  mergeRight(requestBase, requestBody(query, variables));
+
+export const fetchApiData = (post = x => x) =>
+  compose(
+    then(post),
+    then(parseResponse),
+    fetchJSON(url)
   );
 
-const composeFetch = request => query =>
+export const call = (query, post) =>
   compose(
-    then(checkResponse),
-    fetchJSON(url),
+    fetchApiData(post),
     request(query)
   );
 
-const fetchAuth = composeFetch(reqAuth(getAuth));
-const fetchBasic = composeFetch(reqBasic);
-
-/**************** V3 **************/
-
-const buildRequest = query => variables => ({
-  ...requestBase,
-  body: JSON.stringify({ query, variables })
-});
-
-const addAuth = request => {
-  const lensAuth = lensPath(["headers", "Authorization"]);
-  set(lensAuth, getAuth(), request);
-};
-
-const call = (query, modifyRequest = r => r) =>
+export const callAuth = (query, post) =>
   compose(
-    then(checkResponse),
-    fetchJSON(url),
-    modifyRequest,
-    buildRequest(query)
+    fetchApiData(post),
+    authorizeRequest(getAuth),
+    request(query)
   );
 
-const authCall = query => call(query, addAuth);
-
-/***************** V0 ****************/
-
-const createCall = auth => query => postprocess => variables =>
-  fetch(url, request(query, variables, auth && sessionStorage.getItem("jwt")))
-    .then(checkResponse)
-    .then(postprocess);
-
-const authCall = createCall(true);
-const baseCall = createCall();
-
-const login = ({ data }) => {
+export const login = ({ data }) => {
   sessionStorage.setItem("jwt", data.login);
   return data.login;
 };
 
-const logout = () => Promise.resolve(sessionStorage.removeItem("jwt", null));
+export const logout = () =>
+  Promise.resolve(sessionStorage.removeItem("jwt", null));
 
 export default {
-  astronauts: authCall(queryAstronauts)(({ data }) => data.astronauts),
-  astronaut: authCall(queryAstronaut)(({ data }) => data.astronaut),
-  addAstronaut: authCall(queryAddAstronaut)(({ data }) => data.addAstronaut),
-  updateAstronaut: authCall(queryUpdateAstronaut)(
+  astronauts: callAuth(queryAstronauts, ({ data }) => data.astronauts),
+  astronaut: callAuth(queryAstronaut, ({ data }) => data.astronaut),
+  addAstronaut: callAuth(queryAddAstronaut, ({ data }) => data.addAstronaut),
+  updateAstronaut: callAuth(
+    queryUpdateAstronaut,
     ({ data }) => data.updateAstronaut
   ),
-  deleteAstronaut: authCall(queryDeleteAstronaut)(
+  deleteAstronaut: callAuth(
+    queryDeleteAstronaut,
     ({ data }) => data.deleteAstronaut
   ),
-  lastUpdated: authCall(queryLastUpdated)(({ data }) =>
+  lastUpdated: callAuth(queryLastUpdated, ({ data }) =>
     Number(data.lastUpdated)
   ),
-  login: baseCall(queryLogin)(login),
+  login: call(queryLogin, login),
   logout,
   me: sessionStorage.getItem("jwt")
-    ? authCall(queryMe)(({ data }) => data.me)
+    ? callAuth(queryMe, then(({ data }) => data.me))
     : () => Promise.reject()
 };
