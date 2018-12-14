@@ -59,7 +59,10 @@ export const queryDeleteAstronaut = `mutation deleteAstronaut($id: String!) {
   }
 }`;
 
-export const url = "http://localhost:5000/graphql";
+export const authorizeRequest = (getAuthToken, request) => {
+  const lensAuth = lensPath(["headers", "Authorization"]);
+  return set(lensAuth, getAuthToken(), request);
+};
 
 export const requestBase = {
   method: "POST",
@@ -69,7 +72,15 @@ export const requestBase = {
   }
 };
 
-export const getAuth = () => `Bearer ${sessionStorage.getItem("jwt")}`;
+export const request = (query, variables) =>
+  mergeRight(requestBase, {
+    body: JSON.stringify({ query, variables })
+  });
+
+export const authRequest = (query, vars) =>
+  authorizeRequest(getAuth, request(query, vars));
+
+export const url = "http://localhost:5000/graphql";
 
 const parseResponse = response => {
   if (response.ok) {
@@ -79,41 +90,23 @@ const parseResponse = response => {
   }
 };
 
-const then = curry((func, promise) => promise.then(func));
+export const fetchApi = url => request => fetch(url, request);
 
-const fetchJSON = curry((url, request) => fetch(url, request));
+export const composeCall = (request, fetchUrl, parse) => (
+  query,
+  post = x => x
+) => vars =>
+  fetchUrl(request(query, vars))
+    .then(parse)
+    .then(post);
 
-export const authorizeRequest = getAuth => request => {
-  const lensAuth = lensPath(["headers", "Authorization"]);
-  return set(lensAuth, getAuth(), request);
-};
+export const callBase = request =>
+  composeCall(request, fetchApi(url), parseResponse);
 
-export const requestBody = (query, variables) => ({
-  body: JSON.stringify({ query, variables })
-});
+export const call = callBase(request);
+export const callAuth = callBase(authRequest);
 
-export const request = query => variables =>
-  mergeRight(requestBase, requestBody(query, variables));
-
-export const fetchApiData = (post = x => x) =>
-  compose(
-    then(post),
-    then(parseResponse),
-    fetchJSON(url)
-  );
-
-export const call = (query, post) =>
-  compose(
-    fetchApiData(post),
-    request(query)
-  );
-
-export const callAuth = (query, post) =>
-  compose(
-    fetchApiData(post),
-    authorizeRequest(getAuth),
-    request(query)
-  );
+export const getAuth = () => `Bearer ${sessionStorage.getItem("jwt")}`;
 
 export const login = ({ data }) => {
   sessionStorage.setItem("jwt", data.login);
@@ -141,6 +134,6 @@ export default {
   login: call(queryLogin, login),
   logout,
   me: sessionStorage.getItem("jwt")
-    ? callAuth(queryMe, then(({ data }) => data.me))
+    ? callAuth(queryMe, ({ data }) => data.me)
     : () => Promise.reject()
 };

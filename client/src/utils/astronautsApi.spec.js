@@ -1,6 +1,5 @@
 import api, {
   authorizeRequest,
-  requestBody,
   queryLogin,
   queryLastUpdated,
   getAuth,
@@ -10,28 +9,38 @@ import api, {
   logout,
   request
 } from "./astronautsApi.js";
-import { mergeDeepRight, mergeRight, lensPath, set } from "ramda";
+import {
+  mergeDeepRight,
+  mergeRight,
+  lensPath,
+  set,
+  curry,
+  compose
+} from "ramda";
 
 const credentials = { name: "astronaut", password: "universe" };
+
+const funcTest = curry((a, b) => true);
+const funcTestComp = compose(funcTest(1));
+
+describe("curry and compose test", () => {
+  it("should invoke curried function", () => {
+    expect(funcTest(1)(2)).toEqual(true);
+    expect(funcTestComp(2)).toEqual(true);
+  });
+  it("should not invoke curried function", () => {
+    expect(funcTest(1)()).not.toEqual(true);
+    expect(funcTestComp()).not.toEqual(true);
+  });
+});
 
 describe("authorizeRequest", () => {
   const getAuthLocal = () => "welcome";
   const authHeader = { headers: { Authorization: getAuthLocal() } };
   const result = mergeDeepRight(requestBase, authHeader);
   it("should return merged auth and request", () => {
-    expect(authorizeRequest(getAuthLocal)({})).toEqual(authHeader);
-    expect(authorizeRequest(getAuthLocal)(requestBase)).toEqual(result);
-  });
-});
-
-describe("requestBody", () => {
-  it("should return request body", () => {
-    expect(requestBody(queryLogin, credentials)).toEqual({
-      body: JSON.stringify({ query: queryLogin, variables: credentials })
-    });
-    expect(requestBody(queryLogin)).toEqual({
-      body: JSON.stringify({ query: queryLogin })
-    });
+    expect(authorizeRequest(getAuthLocal, {})).toEqual(authHeader);
+    expect(authorizeRequest(getAuthLocal, requestBase)).toEqual(result);
   });
 });
 
@@ -43,8 +52,9 @@ describe("when not authorized", () => {
       expect.assertions(1);
       const response = fetch(
         url,
-        authorizeRequest(getAuth)(
-          mergeRight(requestBase, requestBody(queryLastUpdated))
+        authorizeRequest(
+          getAuth,
+          mergeRight(requestBase, request(queryLastUpdated))
         )
       );
       return response.then(r => expect(r.status).toEqual(401));
@@ -62,7 +72,7 @@ describe("when not authorized", () => {
         expect.assertions(1);
         const response = fetch(
           url,
-          mergeRight(requestBase, requestBody(queryLogin, credentials))
+          mergeRight(requestBase, request(queryLogin, credentials))
         );
         return response.then(r => expect(r.status).toEqual(200));
       });
@@ -82,8 +92,9 @@ describe("when authorized", () => {
     expect.assertions(1);
     const response = fetch(
       url,
-      authorizeRequest(getAuth)(
-        mergeRight(requestBase, requestBody(queryLastUpdated))
+      authorizeRequest(
+        getAuth,
+        mergeRight(requestBase, request(queryLastUpdated))
       )
     );
     return response.then(r => expect(r.status).toEqual(200));
