@@ -21,18 +21,24 @@ class PageLogin extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
-    this.props.login({ name: "astronaut", password: "universe" });
+  handleSubmit(values) {
+    this.props.login(values);
   }
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <input type="text" />
-        <input type="password" />
-        <button type="submit">login</button>
-      </form>
+      <Fragment>
+        <main className={styles.main}>
+          <Container className={styles.container}>
+            <h1 className={styles.heading}>Sign In</h1>
+            <LoginForm
+              onSubmit={this.handleSubmit}
+              submitting={this.props.pending}
+            />
+          </Container>
+        </main>
+        <Footer />
+      </Fragment>
     );
   }
 }

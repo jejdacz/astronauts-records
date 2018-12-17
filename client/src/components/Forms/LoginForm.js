@@ -14,127 +14,29 @@ import dateStringToObject from "../../utils/dateStringToObject.js";
 import objectToDateString from "../../utils/objectToDateString.js";
 import join from "../../utils/join.js";
 import Button from "../Button/Button";
-import styles from "./LoginForm.module.css";
+import {
+  Input,
+  InputField,
+  InputWithValidation,
+  InlineField
+} from "./Elements";
+import styles from "./Elements.module.css";
 
-const Input = ({
-  handleChange,
-  handleBlur,
-  touched,
-  error,
-  className,
-  ...input
-}) => (
-  <input
-    className={join(styles.input, className)}
-    {...input}
-    onChange={handleChange}
-    onBlur={handleBlur}
-  />
-);
-
-const InputWithValidation = renderValidation({
-  valid: "is-valid",
-  invalid: "is-invalid"
-})(Input);
-
-const InputField = ({ label, ...input }) => (
-  <div className={styles.field}>
-    <label className={styles.label}>{label}</label>
-    <InputWithValidation {...input} />
-    {input.touched ? (
-      input.error ? (
-        <small className={join(styles.info, styles.small, styles.error)}>
-          {input.error}
-        </small>
-      ) : (
-        <small className={join(styles.info, styles.small, styles.success)}>
-          OK
-        </small>
-      )
-    ) : (
-      <small className={styles.info} />
-    )}
-  </div>
-);
-
-const InlineField = ({ desc, ...props }) => (
-  <div>
-    <InputWithValidation {...props} />
-    {desc && <small className={styles.small}>{desc}</small>}
-  </div>
-);
-
-export const AstronautForm = ({
-  handleSubmit,
-  errors,
-  touched,
-  submitting
-}) => {
+export const LoginForm = ({ handleSubmit, errors, touched, submitting }) => {
   return (
     <form onSubmit={handleSubmit}>
       <Field
-        name="firstName"
+        name="name"
         type="text"
-        label="First Name:"
-        placeholder="John"
+        label="Name:"
+        placeholder=""
         component={InputField}
       />
       <Field
-        name="lastName"
-        type="text"
-        label="Last Name:"
-        placeholder="Doe"
-        component={InputField}
-      />
-      <div className={styles.field}>
-        <label className={styles.label}>Birth:</label>
-        <div className={styles.inlineFieldsContainer}>
-          <Field
-            name="birthDay"
-            type="number"
-            desc="day"
-            placeholder="D"
-            min="1"
-            max="31"
-            component={InlineField}
-          />
-          <Field
-            name="birthMonth"
-            type="number"
-            desc="month"
-            placeholder="M"
-            min="1"
-            max="12"
-            component={InlineField}
-          />
-          <Field
-            name="birthYear"
-            type="number"
-            desc="year"
-            placeholder="Y"
-            min="0"
-            component={InlineField}
-          />
-        </div>
-        {touched.birthDay || touched.birthMonth || touched.birthYear ? (
-          errors.birth ? (
-            <small className={join(styles.info, styles.small, styles.error)}>
-              {errors.birth}
-            </small>
-          ) : (
-            <small className={join(styles.info, styles.small, styles.success)}>
-              OK
-            </small>
-          )
-        ) : (
-          <small className={styles.info} />
-        )}
-      </div>
-      <Field
-        name="superpower"
-        type="text"
-        label="Superpower:"
-        placeholder="superpower"
+        name="password"
+        type="password"
+        label="Password:"
+        placeholder=""
         component={InputField}
       />
       <div className={styles.controls}>
@@ -144,62 +46,24 @@ export const AstronautForm = ({
           className={styles.button}
           disabled={submitting || hasValues(errors)}
         >
-          Save
+          submit
         </Button>
       </div>
     </form>
   );
 };
 
-AstronautForm.propTypes = {
+LoginForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   errors: PropTypes.object,
   touched: PropTypes.object,
   submitting: PropTypes.bool
 };
 
-const initValues = values => {
-  if (values) {
-    const date = dateStringToObject(values.birth);
-    const birthDate = {
-      birthDay: date.day,
-      birthMonth: date.month,
-      birthYear: date.year
-    };
-    const { birth, ...rest } = values;
-    return { ...rest, ...birthDate };
-  } else {
-    return {
-      firstName: "",
-      lastName: "",
-      birthDay: "",
-      birthMonth: "",
-      birthYear: "",
-      superpower: ""
-    };
-  }
-};
-
-const formatBirth = values => {
-  const { birthDay, birthMonth, birthYear, ...rest } = values;
-  return {
-    ...rest,
-    birth: objectToDateString({
-      day: birthDay,
-      month: birthMonth,
-      year: birthYear
-    })
-  };
-};
-
 export default compose(
-  mapProps(({ values, ...props }) => ({
-    ...props,
-    values: initValues(values)
-  })),
   touchedHandler,
   changeHandler,
-  submitHandler(formatBirth),
+  submitHandler(x => x),
   validationHandler(validate),
   contextProvider
-)(AstronautForm);
+)(LoginForm);
