@@ -1,0 +1,68 @@
+@value text-dark, text-dark-hsl, text-error, text-success from "../../styles/colors.module.css";
+@value md, lg from "../../styles/scale.module.css";
+
+.field {
+}
+
+.field + .field {
+  margin-top: lg;
+}
+
+.label {
+  text-transform: uppercase;
+  display: block;
+  font-size: 0.75rem;
+}
+
+.input {
+  color: text-dark;
+  border: none;
+  border-bottom: 1px solid #57430150;
+  border-bottom: 1px solid hsla(text-dark-hsl, 0.4);
+  display: block;
+  width: 100%;
+}
+
+.inlineFieldsContainer {
+  display: flex;
+}
+
+.inlineFieldsContainer .input {
+  display: inline-block;
+}
+
+.inlineFieldsContainer > div + div {
+  margin-left: md;
+}
+
+.small {
+  padding: 0;
+  letter-spacing: 0.15em;
+  font-weight: 500;
+}
+
+.info {
+  display: block;
+  min-height: calc(md * 0.8);
+}
+
+.error {
+  color: text-error;
+}
+
+.error:before {
+  content: "\2715 ";
+}
+
+.success {
+  color: text-success;
+}
+
+.success:before {
+  content: "\2713 ";
+}
+
+.controls {
+  text-align: right;
+  margin-top: lg;
+}

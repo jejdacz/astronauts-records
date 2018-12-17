@@ -24,7 +24,7 @@ const login = variables =>
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQiLCJuYW1lIjoiYXN0cm9uYXV0IiwiaWF0IjoxNTQ0NDY0NTk2LCJleHAiOjE1NzYwMjIxOTZ9.h87xq84BBUaMylS6Ey08lg0rOP_9rTbnxbC7T_UB2-c"
   );
 const me = variables =>
-  waitErr2s(
+  wait2s(
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQiLCJuYW1lIjoiYXN0cm9uYXV0IiwiaWF0IjoxNTQ0NDY0NTk2LCJleHAiOjE1NzYwMjIxOTZ9.h87xq84BBUaMylS6Ey08lg0rOP_9rTbnxbC7T_UB2-c"
   );
 const logout = () => wait2s();

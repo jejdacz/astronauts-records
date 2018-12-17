@@ -10,10 +10,11 @@ import {
   logout
 } from "../../astronautActions.js";
 import { Nav, Logo, Link } from "../Nav/Nav";
-import AstronautForm from "../AstronautForm/AstronautForm";
+import AstronautForm from "../Forms/AstronautForm";
 import Footer from "../Footer/Footer";
 import Container from "../Container/Container";
 import Button from "../Button/Button";
+import SignOut from "../SignOut/SignOut";
 import styles from "./PageAstronaut.module.css";
 
 class PageAstronaut extends Component {
@@ -68,7 +69,9 @@ class PageAstronaut extends Component {
         <Nav fixed={true}>
           <Logo to="/">ar</Logo>
           {links}
-          <Link onClick={this.props.logout}>X</Link>
+          <Link onClick={this.props.logout}>
+            <SignOut />
+          </Link>
         </Nav>
       </header>
       <main className={styles.main}>{content}</main>

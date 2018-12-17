@@ -9,7 +9,7 @@ import {
   clearChangedAction
 } from "../../astronautActions.js";
 import { Nav, Logo, Link } from "../Nav/Nav";
-import AstronautForm from "../AstronautForm/AstronautForm";
+import LoginForm from "../Forms/LoginForm";
 import Footer from "../Footer/Footer";
 import Container from "../Container/Container";
 import Button from "../Button/Button";
