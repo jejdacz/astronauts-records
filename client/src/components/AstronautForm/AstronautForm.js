@@ -18,8 +18,8 @@ import {
   InputField,
   InputWithValidation,
   InlineField
-} from "./Elements";
-import styles from "./Elements.module.css";
+} from "../FormElements/FormElements";
+import styles from "../FormElements/FormElements.module.css";
 
 export const AstronautForm = ({
   handleSubmit,
@@ -30,6 +30,7 @@ export const AstronautForm = ({
   return (
     <form onSubmit={handleSubmit}>
       <Field
+        autoFocus
         name="firstName"
         type="text"
         label="First Name:"

@@ -9,9 +9,9 @@ import {
   clearChangedAction
 } from "../../astronautActions.js";
 import { Nav, Logo, Link } from "../Nav/Nav";
-import LoginForm from "../Forms/LoginForm";
+import LogInForm from "../LogInForm/LogInForm";
 import Footer from "../Footer/Footer";
-import Container from "../Container/Container";
+import Panel from "../Panel/Panel";
 import Button from "../Button/Button";
 import styles from "./PageLogin.module.css";
 
@@ -19,7 +19,15 @@ class PageLogin extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    const a = { name: "john", pet: "" };
+    const b = Object.keys(a).reduce((ac, v) => ({ ...ac, [v]: !!a[v] }), {});
+    console.log(b);
   }
+
+  static propTypes = {
+    pending: PropTypes.bool,
+    login: PropTypes.func.isRequired
+  };
 
   handleSubmit(values) {
     this.props.login(values);
@@ -29,13 +37,13 @@ class PageLogin extends Component {
     return (
       <Fragment>
         <main className={styles.main}>
-          <Container className={styles.container}>
+          <Panel>
             <h1 className={styles.heading}>Sign In</h1>
-            <LoginForm
+            <LogInForm
               onSubmit={this.handleSubmit}
               submitting={this.props.pending}
             />
-          </Container>
+          </Panel>
         </main>
         <Footer />
       </Fragment>
@@ -48,8 +56,7 @@ const mapDispatchToProps = (dispatch, props) => ({
 });
 
 const mapStateToProps = (state, props) => ({
-  pending: state.pending,
-  changed: state.changed
+  pending: state.pending
 });
 
 export default connect(

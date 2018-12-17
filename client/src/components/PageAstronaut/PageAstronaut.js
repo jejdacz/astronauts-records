@@ -10,11 +10,11 @@ import {
   logout
 } from "../../astronautActions.js";
 import { Nav, Logo, Link } from "../Nav/Nav";
-import AstronautForm from "../Forms/AstronautForm";
+import AstronautForm from "../AstronautForm/AstronautForm";
 import Footer from "../Footer/Footer";
-import Container from "../Container/Container";
+import Panel from "../Panel/Panel";
 import Button from "../Button/Button";
-import SignOut from "../SignOut/SignOut";
+import LogOut from "../LogOut/LogOut";
 import styles from "./PageAstronaut.module.css";
 
 class PageAstronaut extends Component {
@@ -70,7 +70,7 @@ class PageAstronaut extends Component {
           <Logo to="/">ar</Logo>
           {links}
           <Link onClick={this.props.logout}>
-            <SignOut />
+            <LogOut />
           </Link>
         </Nav>
       </header>
@@ -87,9 +87,9 @@ class PageAstronaut extends Component {
         <Fragment>
           <Link to={"/"}>back</Link>
         </Fragment>,
-        <Container className={styles.container}>
+        <Panel>
           <AstronautForm onSubmit={this.handleAdd} submitting={pending} />
-        </Container>
+        </Panel>
       );
     }
 
@@ -101,13 +101,13 @@ class PageAstronaut extends Component {
         <Fragment>
           <Link to={"/"}>back</Link>
         </Fragment>,
-        <Container className={styles.container}>
+        <Panel>
           <AstronautForm
             values={astronaut}
             onSubmit={this.handleUpdate}
             submitting={pending}
           />
-        </Container>
+        </Panel>
       );
     }
 
@@ -119,9 +119,9 @@ class PageAstronaut extends Component {
         <Fragment>
           <Link to={"/"}>back</Link>
         </Fragment>,
-        <Container className={styles.container}>
+        <Panel>
           <h1 className={styles.heading}>No record</h1>
-        </Container>
+        </Panel>
       );
     }
 
@@ -132,7 +132,7 @@ class PageAstronaut extends Component {
           DELETE
         </Link>
       </Fragment>,
-      <Container className={styles.container}>
+      <Panel>
         <h1 className={styles.heading}>{`${astronaut.firstName} ${
           astronaut.lastName
         }`}</h1>
@@ -151,7 +151,7 @@ class PageAstronaut extends Component {
             DELETE
           </Button>
         </div>
-      </Container>
+      </Panel>
     );
   }
 }

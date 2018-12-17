@@ -1,8 +1,8 @@
 import { withStateHandlers } from "recompose";
 
 const touchedHandler = withStateHandlers(
-  () => ({
-    touched: {}
+  ({ touched = {} }) => ({
+    touched
   }),
   {
     handleBlur: ({ touched }) => ({ target: { name } }) => ({

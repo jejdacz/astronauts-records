@@ -1,0 +1,17 @@
+@value lg from "../../styles/scale.module.css";
+@value bg-light from "../../styles/colors.module.css";
+@value dev-md from "../../styles/breakpoints.module.css";
+
+.container {
+  composes: enter-left from "../../styles/animations.module.css";
+  composes: decent-shadow from "../../styles/effects.module.css";
+  padding-top: lg;
+  padding-bottom: lg;
+  background-color: bg-light;
+}
+
+@media (dev-md) {
+  .container {
+    max-width: 30rem;
+  }
+}

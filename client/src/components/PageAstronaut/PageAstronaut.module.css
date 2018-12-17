@@ -7,14 +7,6 @@
   padding: md;
 }
 
-.container {
-  composes: enter-left from "../../styles/animations.module.css";
-  composes: decent-shadow from "../../styles/effects.module.css";
-  padding-top: lg;
-  padding-bottom: lg;
-  background-color: bg-light;
-}
-
 .heading {
   font-weight: 300;
   margin-bottom: md;
@@ -41,10 +33,6 @@
 }
 
 @media (dev-lg) {
-  .container {
-    max-width: 30rem;
-  }
-
   .controls {
     display: block;
     margin-top: 2.5rem;

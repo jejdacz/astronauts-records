@@ -7,7 +7,7 @@ import changeHandler from "../hocForm/changeHandler.js";
 import submitHandler from "../hocForm/submitHandler.js";
 import validationHandler from "../hocForm/validationHandler.js";
 import contextProvider from "../hocForm/contextProvider.js";
-import validate from "./validateLoginForm.js";
+import validate from "./validateLogInForm.js";
 import { compose, mapProps } from "recompose";
 import hasValues from "../../utils/hasValues.js";
 import dateStringToObject from "../../utils/dateStringToObject.js";
@@ -19,13 +19,14 @@ import {
   InputField,
   InputWithValidation,
   InlineField
-} from "./Elements";
-import styles from "./Elements.module.css";
+} from "../FormElements/FormElements";
+import styles from "../FormElements/FormElements.module.css";
 
 export const LoginForm = ({ handleSubmit, errors, touched, submitting }) => {
   return (
     <form onSubmit={handleSubmit}>
       <Field
+        autoFocus
         name="name"
         type="text"
         label="Name:"
@@ -41,7 +42,7 @@ export const LoginForm = ({ handleSubmit, errors, touched, submitting }) => {
       />
       <div className={styles.controls}>
         <Button
-          noBorder={true}
+          noBorder
           type="submit"
           className={styles.button}
           disabled={submitting || hasValues(errors)}
@@ -61,6 +62,14 @@ LoginForm.propTypes = {
 };
 
 export default compose(
+  mapProps(({ values = { name: "", password: "" }, ...props }) => ({
+    ...props,
+    values,
+    touched: Object.keys(values).reduce(
+      (ac, v) => ({ ...ac, [v]: !!values[v] }),
+      {}
+    )
+  })),
   touchedHandler,
   changeHandler,
   submitHandler(x => x),

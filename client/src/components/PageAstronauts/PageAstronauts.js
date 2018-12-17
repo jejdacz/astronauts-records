@@ -15,7 +15,7 @@ import Footer from "../Footer/Footer.js";
 import widthMonitor from "../widthMonitor/widthMonitor.js";
 import breakpoints from "../../styles/breakpoints.module.css";
 import styles from "./PageAstronauts.module.css";
-import SignOut from "../SignOut/SignOut.js";
+import LogOut from "../LogOut/LogOut.js";
 
 export class PageAstronauts extends Component {
   constructor(props) {
@@ -58,7 +58,7 @@ export class PageAstronauts extends Component {
           <Logo to="/">ar</Logo>
           <Link to="/astronauts/new/">+add</Link>
           <Link onClick={this.props.logout}>
-            <SignOut />
+            <LogOut />
           </Link>
         </Nav>
         <Hero />
