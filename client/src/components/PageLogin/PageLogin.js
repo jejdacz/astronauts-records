@@ -22,18 +22,19 @@ class PageLogin extends Component {
   }
 
   render() {
+    if (this.props.pending) {
+      return null;
+    }
     return (
-      <Fragment>
-        <main className={styles.main}>
-          <Panel>
-            <h1 className={styles.heading}>Sign In</h1>
-            <LogInForm
-              onSubmit={this.handleSubmit}
-              submitting={this.props.pending}
-            />
-          </Panel>
-        </main>
-      </Fragment>
+      <main className={styles.main}>
+        <Panel>
+          <h1 className={styles.heading}>Sign In</h1>
+          <LogInForm
+            onSubmit={this.handleSubmit}
+            submitting={this.props.pending}
+          />
+        </Panel>
+      </main>
     );
   }
 }

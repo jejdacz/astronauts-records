@@ -18,21 +18,12 @@ import {
   compose
 } from "ramda";
 
-const credentials = { name: "astronaut", password: "universe" };
+console.log(process.env);
 
-const funcTest = curry((a, b) => true);
-const funcTestComp = compose(funcTest(1));
-
-describe("curry and compose test", () => {
-  it("should invoke curried function", () => {
-    expect(funcTest(1)(2)).toEqual(true);
-    expect(funcTestComp(2)).toEqual(true);
-  });
-  it("should not invoke curried function", () => {
-    expect(funcTest(1)()).not.toEqual(true);
-    expect(funcTestComp()).not.toEqual(true);
-  });
-});
+const credentials = {
+  name: process.env.REACT_APP_USER_NAME,
+  password: process.env.REACT_APP_USER_PASSWORD
+};
 
 describe("authorizeRequest", () => {
   const getAuthLocal = () => "welcome";

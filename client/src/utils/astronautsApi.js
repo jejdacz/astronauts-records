@@ -70,9 +70,9 @@ export const request = (query, variables) =>
 export const authRequest = (query, vars) =>
   authorizeRequest(getAuth, request(query, vars));
 
-export const url = "http://localhost:5000/graphql";
+export const url = process.env.REACT_APP_API_URL || "/graphql";
 
-const parseResponse = response => {
+export const parseResponse = response => {
   if (response.ok) {
     return response.json();
   } else {

@@ -46,6 +46,8 @@ describe("Server tests", () => {
 
   const baseRequest = request.defaults(defaults);
 
+  let jwt;
+
   describe("when login", () => {
     it("should return jwt on success", done => {
       const variables = {
@@ -63,6 +65,7 @@ describe("Server tests", () => {
       };
 
       baseRequest.post(options, function(error, response, body) {
+        jwt = JSON.parse(body).data.login;
         expect(response.statusCode).to.equal(200);
         expect(JSON.parse(body).data.login).to.exist;
         done();
@@ -70,15 +73,16 @@ describe("Server tests", () => {
     });
   });
 
-  const auth = {
-    Authorization: `Bearer ${process.env.JWT}`
-  };
-
-  const authRequest = request.defaults({
-    headers: { ...headers, ...auth },
-    url,
-    method
+  const auth = jwt => ({
+    Authorization: `Bearer ${jwt}`
   });
+
+  const authRequest = jwt =>
+    request.defaults({
+      headers: { ...headers, ...auth(jwt) },
+      url,
+      method
+    });
 
   describe("GraphQL CRUD", () => {
     let id;
@@ -109,7 +113,7 @@ describe("Server tests", () => {
           })
         };
 
-        authRequest.post(options, function(error, response, body) {
+        authRequest(jwt).post(options, function(error, response, body) {
           expect(response.statusCode).to.equal(200);
           expect(JSON.parse(body).data.addAstronaut.firstName).to.equal(
             variables.firstName
@@ -130,7 +134,7 @@ describe("Server tests", () => {
           })
         };
 
-        authRequest.post(options, function(error, response, body) {
+        authRequest(jwt).post(options, function(error, response, body) {
           expect(response.statusCode).to.equal(200);
           expect(JSON.parse(body).data.astronauts).to.not.equal("null");
           done();
@@ -159,7 +163,7 @@ describe("Server tests", () => {
           })
         };
 
-        authRequest.post(options, function(error, response, body) {
+        authRequest(jwt).post(options, function(error, response, body) {
           expect(response.statusCode).to.equal(200);
           expect(JSON.parse(body).data.astronaut.id).to.equal(id);
           done();
@@ -194,7 +198,7 @@ describe("Server tests", () => {
           })
         };
 
-        authRequest.post(options, function(error, response, body) {
+        authRequest(jwt).post(options, function(error, response, body) {
           expect(response.statusCode).to.equal(200);
           expect(JSON.parse(body).data.updateAstronaut).to.deep.equal(
             variables
@@ -225,7 +229,7 @@ describe("Server tests", () => {
           })
         };
 
-        authRequest.post(options, function(error, response, body) {
+        authRequest(jwt).post(options, function(error, response, body) {
           expect(response.statusCode).to.equal(200);
           expect(JSON.parse(body).data.deleteAstronaut.id).to.equal(id);
           done();
@@ -259,7 +263,7 @@ describe("Server tests", () => {
           })
         };
 
-        authRequest.post(options, function(error, response, body) {
+        authRequest(jwt).post(options, function(error, response, body) {
           expect(response.statusCode).to.equal(400);
           done();
         });
