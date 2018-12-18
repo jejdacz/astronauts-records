@@ -1,14 +1,4 @@
-import {
-  mergeRight,
-  mergeDeepRight,
-  curry,
-  compose,
-  lensPath,
-  lensProp,
-  assoc,
-  set,
-  over
-} from "ramda";
+import { mergeRight, lensPath, set } from "ramda";
 
 export const queryMe = `query me {me{name}}`;
 

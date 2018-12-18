@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Field from "../hocForm/Field.js";
-import renderValidation from "../hocForm/renderValidation.js";
 import touchedHandler from "../hocForm/touchedHandler.js";
 import changeHandler from "../hocForm/changeHandler.js";
 import submitHandler from "../hocForm/submitHandler.js";
@@ -10,16 +9,8 @@ import contextProvider from "../hocForm/contextProvider.js";
 import validate from "./validateLogInForm.js";
 import { compose, mapProps } from "recompose";
 import hasValues from "../../utils/hasValues.js";
-import dateStringToObject from "../../utils/dateStringToObject.js";
-import objectToDateString from "../../utils/objectToDateString.js";
-import join from "../../utils/join.js";
 import Button from "../Button/Button";
-import {
-  Input,
-  InputField,
-  InputWithValidation,
-  InlineField
-} from "../FormElements/FormElements";
+import { InputField } from "../FormElements/FormElements";
 import styles from "../FormElements/FormElements.module.css";
 
 export const LoginForm = ({ handleSubmit, errors, touched, submitting }) => {
@@ -64,11 +55,7 @@ LoginForm.propTypes = {
 export default compose(
   mapProps(({ values = { name: "", password: "" }, ...props }) => ({
     ...props,
-    values,
-    touched: Object.keys(values).reduce(
-      (ac, v) => ({ ...ac, [v]: !!values[v] }),
-      {}
-    )
+    values
   })),
   touchedHandler,
   changeHandler,

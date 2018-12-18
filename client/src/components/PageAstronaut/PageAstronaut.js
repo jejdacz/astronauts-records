@@ -6,15 +6,14 @@ import {
   addAstronaut,
   deleteAstronaut,
   updateAstronaut,
-  clearChangedAction,
-  logout
+  clearChangedAction
 } from "../../astronautActions.js";
-import { Nav, Logo, Link } from "../Nav/Nav";
+import { Link } from "../Nav/Nav";
+import Navigation from "../renderNav.js";
 import AstronautForm from "../AstronautForm/AstronautForm";
 import Footer from "../Footer/Footer";
 import Panel from "../Panel/Panel";
 import Button from "../Button/Button";
-import LogOut from "../LogOut/LogOut";
 import styles from "./PageAstronaut.module.css";
 
 class PageAstronaut extends Component {
@@ -34,8 +33,7 @@ class PageAstronaut extends Component {
     clearChanged: PropTypes.func.isRequired,
     deleteAstronaut: PropTypes.func.isRequired,
     addAstronaut: PropTypes.func.isRequired,
-    updateAstronaut: PropTypes.func.isRequired,
-    logout: PropTypes.func.isRequired
+    updateAstronaut: PropTypes.func.isRequired
   };
 
   handleAdd(values) {
@@ -66,13 +64,7 @@ class PageAstronaut extends Component {
   renderPage = (links, content) => (
     <Fragment>
       <header>
-        <Nav fixed={true}>
-          <Logo to="/">ar</Logo>
-          {links}
-          <Link onClick={this.props.logout}>
-            <LogOut />
-          </Link>
-        </Nav>
+        <Navigation links={links} />
       </header>
       <main className={styles.main}>{content}</main>
       <Footer />
@@ -84,9 +76,7 @@ class PageAstronaut extends Component {
 
     if (isNew) {
       return this.renderPage(
-        <Fragment>
-          <Link to={"/"}>back</Link>
-        </Fragment>,
+        <Link to={"/"}>back</Link>,
         <Panel>
           <AstronautForm onSubmit={this.handleAdd} submitting={pending} />
         </Panel>
@@ -98,9 +88,7 @@ class PageAstronaut extends Component {
         return this.renderPage(null, null);
       }
       return this.renderPage(
-        <Fragment>
-          <Link to={"/"}>back</Link>
-        </Fragment>,
+        <Link to={"/"}>back</Link>,
         <Panel>
           <AstronautForm
             values={astronaut}
@@ -116,9 +104,7 @@ class PageAstronaut extends Component {
         return this.renderPage(null, null);
       }
       return this.renderPage(
-        <Fragment>
-          <Link to={"/"}>back</Link>
-        </Fragment>,
+        <Link to={"/"}>back</Link>,
         <Panel>
           <h1 className={styles.heading}>No record</h1>
         </Panel>
@@ -161,8 +147,7 @@ const mapDispatchToProps = (dispatch, props) => ({
   deleteAstronaut: () =>
     dispatch(deleteAstronaut({ id: props.match.params.id })),
   addAstronaut: values => dispatch(addAstronaut(values)),
-  updateAstronaut: values => dispatch(updateAstronaut(values)),
-  logout: () => dispatch(logout())
+  updateAstronaut: values => dispatch(updateAstronaut(values))
 });
 
 const mapStateToProps = (state, props) => ({

@@ -1,27 +1,15 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
-import { astronautType } from "../../types.js";
 import { connect } from "react-redux";
-import {
-  login,
-  deleteAstronaut,
-  updateAstronaut,
-  clearChangedAction
-} from "../../astronautActions.js";
-import { Nav, Logo, Link } from "../Nav/Nav";
+import { login } from "../../astronautActions.js";
 import LogInForm from "../LogInForm/LogInForm";
-import Footer from "../Footer/Footer";
 import Panel from "../Panel/Panel";
-import Button from "../Button/Button";
 import styles from "./PageLogin.module.css";
 
 class PageLogin extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
-    const a = { name: "john", pet: "" };
-    const b = Object.keys(a).reduce((ac, v) => ({ ...ac, [v]: !!a[v] }), {});
-    console.log(b);
   }
 
   static propTypes = {
@@ -45,7 +33,6 @@ class PageLogin extends Component {
             />
           </Panel>
         </main>
-        <Footer />
       </Fragment>
     );
   }

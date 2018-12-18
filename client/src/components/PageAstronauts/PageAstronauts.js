@@ -1,21 +1,17 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import {
-  deleteAstronaut,
-  clearChangedAction,
-  logout
-} from "../../astronautActions.js";
+import { deleteAstronaut, clearChangedAction } from "../../astronautActions.js";
 import AstronautList from "./AstronautList/AstronautList.js";
 import AstronautTable from "./AstronautTable/AstronautTable.js";
-import { Nav, Link, Logo } from "../Nav/Nav.js";
+import { Link } from "../Nav/Nav.js";
+import Navigation from "../renderNav.js";
 import Hero from "./Hero/Hero.js";
 import SectionDatabase from "./SectionDatabase/SectionDatabase.js";
 import Footer from "../Footer/Footer.js";
 import widthMonitor from "../widthMonitor/widthMonitor.js";
 import breakpoints from "../../styles/breakpoints.module.css";
 import styles from "./PageAstronauts.module.css";
-import LogOut from "../LogOut/LogOut.js";
 
 export class PageAstronauts extends Component {
   constructor(props) {
@@ -31,8 +27,7 @@ export class PageAstronauts extends Component {
     lastUpdated: PropTypes.number.isRequired,
     astronauts: PropTypes.array.isRequired,
     deleteAstronaut: PropTypes.func.isRequired,
-    clearChanged: PropTypes.func.isRequired,
-    logout: PropTypes.func.isRequired
+    clearChanged: PropTypes.func.isRequired
   };
 
   componentDidUpdate() {
@@ -54,13 +49,7 @@ export class PageAstronauts extends Component {
   renderContent = content => (
     <Fragment>
       <header className={styles.header}>
-        <Nav fixed={true}>
-          <Logo to="/">ar</Logo>
-          <Link to="/astronauts/new/">+add</Link>
-          <Link onClick={this.props.logout}>
-            <LogOut />
-          </Link>
-        </Nav>
+        <Navigation links={<Link to="/astronauts/new/">+add</Link>} />
         <Hero />
       </header>
       <main>
@@ -96,8 +85,7 @@ export class PageAstronauts extends Component {
 
 const mapDispatchToProps = dispatch => ({
   clearChanged: () => dispatch(clearChangedAction()),
-  deleteAstronaut: id => dispatch(deleteAstronaut({ id })),
-  logout: () => dispatch(logout())
+  deleteAstronaut: id => dispatch(deleteAstronaut({ id }))
 });
 
 const mapStateToProps = state => ({
