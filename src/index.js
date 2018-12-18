@@ -149,7 +149,9 @@ const login = (args, context) => {
         )
       );
     } else {
-      context.next(new Error("Incorrect password"));
+      const error = new Error("Incorrect password!");
+      error.status = 401;
+      context.next(error);
     }
   });
 };
@@ -159,7 +161,9 @@ const me = (args, context) => {
     if (context.user.id === USER_ID) {
       resolve({ id: USER_ID, name: USER_NAME });
     } else {
-      context.next(new Error("You are not a valid user!"));
+      const error = new Error("You are not a valid user!");
+      error.status = 401;
+      context.next(error);
     }
   });
 };
@@ -167,7 +171,9 @@ const me = (args, context) => {
 const auth = func => (args, context) => {
   return new Promise((resolve, reject) => {
     if (!context.user) {
-      context.next(new Error("You are not authenticated!"));
+      const error = new Error("You are not authenticated!");
+      error.status = 401;
+      context.next(error);
     } else {
       resolve(func(args, context));
     }
