@@ -1,6 +1,9 @@
 import { expect, should, assert } from "chai";
 import http from "http";
 import request from "request";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 describe("Server tests", () => {
   describe("Server connection test", () => {

@@ -3,16 +3,15 @@
   "version": "1.0.0",
   "description": "simple app",
   "main": "./build/index.js",
-  "credentials": "USER_NAME=astronaut USER_PASSWORD=universe",
   "scripts": {
-    "dev": "USER_ID=1234 USER_NAME=astronaut USER_PASSWORD=universe JWT_SECRET=astronauts NODE_ENV=development MONGODB_URI=mongodb://localhost:27017/evidence nodemon --exec babel-node src/index.js",
+    "dev": "NODE_ENV=development nodemon --exec babel-node src/index.js",
     "start": "node ./build/index.js",
-    "local": "USER_ID=1234 USER_NAME=astronaut USER_PASSWORD=universe JWT_SECRET=astronauts NODE_ENV=development MONGODB_URI=mongodb://localhost:27017/evidence node ./build/index.js",
+    "local": "NODE_ENV=development node ./build/index.js",
     "heroku-postbuild": "npm run build && cd client && npm install && npm run build && cd ..",
     "build": "npm run clean && npm run build-babel",
     "build-babel": "babel src --out-dir build --ignore public,spec.js",
     "clean": "rm -rf build && mkdir build",
-    "test": "USER_NAME=astronaut USER_PASSWORD=universe mocha --require babel-core/register --require babel-polyfill './src/**/*.spec.js'"
+    "test": "mocha --require babel-core/register --require babel-polyfill './src/**/*.spec.js'"
   },
   "repository": {
     "type": "git",
@@ -31,6 +30,7 @@
     "body-parser": "^1.18.3",
     "compression": "^1.7.3",
     "cors": "^2.8.5",
+    "dotenv": "^6.2.0",
     "express": "^4.16.3",
     "express-graphql": "^0.6.12",
     "express-jwt": "^5.3.1",

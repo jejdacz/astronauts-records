@@ -9,6 +9,9 @@ import jsonwebtoken from "jsonwebtoken";
 import jwt from "express-jwt";
 import bodyParser from "body-parser";
 import cors from "cors";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const mongoDB = process.env.MONGODB_URI;
 mongoose.connect(
@@ -211,7 +214,7 @@ app.use("/graphql", cors(), (req, res, next) => {
   graphqlHTTP({
     schema: schema,
     rootValue: root,
-    graphiql: process.env.NODE_ENV == "development",
+    graphiql: process.env.NODE_ENV === "development",
     context: { next, user: req.user }
   })(req, res);
 });
