@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import renderValidation from "../hocForm/renderValidation.js";
 import join from "../../utils/join.js";
@@ -29,19 +29,22 @@ Input.propTypes = {
   input: PropTypes.object
 };
 
-export const InputWithValidation = renderValidation({
-  valid: "is-valid",
-  invalid: "is-invalid"
-})(Input);
-
-export const InputField = ({ label, ...input }) => (
+export const Labeled = FieldComponent => ({ label, ...props }) => (
   <div className={styles.field}>
     <label className={styles.label}>{label}</label>
-    <InputWithValidation {...input} />
-    {input.touched ? (
-      input.error ? (
+    <FieldComponent {...props} />
+  </div>
+);
+
+export const InputWithValidation = renderValidation(Input);
+
+export const InputFieldWithValidation = Labeled(props => (
+  <Fragment>
+    <InputWithValidation {...props} />
+    {props.touched ? (
+      props.error ? (
         <small className={join(styles.info, styles.small, styles.error)}>
-          {input.error}
+          {props.error}
         </small>
       ) : (
         <small className={join(styles.info, styles.small, styles.success)}>
@@ -51,35 +54,17 @@ export const InputField = ({ label, ...input }) => (
     ) : (
       <small className={styles.info} />
     )}
-  </div>
-);
+  </Fragment>
+));
 
-InputField.propTypes = {
-  label: PropTypes.node,
-  input: PropTypes.object
-};
-
-export const InlineField = ({ desc, ...props }) => (
+export const InlineFieldWithValidation = ({ desc, ...props }) => (
   <div>
     <InputWithValidation {...props} />
     {desc && <small className={styles.small}>{desc}</small>}
   </div>
 );
 
-InlineField.propTypes = {
+InlineFieldWithValidation.propTypes = {
   desc: PropTypes.node,
   props: PropTypes.object
-};
-
-export const Labeled = FieldComponent => ({ label, ...props }) => (
-  <div className={styles.field}>
-    <label className={styles.label}>{label}</label>
-    <FieldComponent {...props} />
-  </div>
-);
-
-Labeled.propTypes = {
-  label: PropTypes.node,
-  props: PropTypes.object,
-  FieldComponent: PropTypes.element
 };

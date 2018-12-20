@@ -13,7 +13,10 @@ import dateStringToObject from "../../utils/dateStringToObject.js";
 import objectToDateString from "../../utils/objectToDateString.js";
 import join from "../../utils/join.js";
 import Button from "../Button/Button";
-import { InputField, InlineField } from "../hocForm/FormElements";
+import {
+  InputFieldWithValidation,
+  InlineFieldWithValidation
+} from "../hocForm/FormElements";
 import styles from "../hocForm/FormElements.module.css";
 
 export const AstronautForm = ({
@@ -30,14 +33,14 @@ export const AstronautForm = ({
         type="text"
         label="First Name:"
         placeholder="John"
-        component={InputField}
+        component={InputFieldWithValidation}
       />
       <Field
         name="lastName"
         type="text"
         label="Last Name:"
         placeholder="Doe"
-        component={InputField}
+        component={InputFieldWithValidation}
       />
       <div className={styles.field}>
         <label className={styles.label}>Birth:</label>
@@ -49,7 +52,7 @@ export const AstronautForm = ({
             placeholder="D"
             min="1"
             max="31"
-            component={InlineField}
+            component={InlineFieldWithValidation}
           />
           <Field
             name="birthMonth"
@@ -58,7 +61,7 @@ export const AstronautForm = ({
             placeholder="M"
             min="1"
             max="12"
-            component={InlineField}
+            component={InlineFieldWithValidation}
           />
           <Field
             name="birthYear"
@@ -66,7 +69,7 @@ export const AstronautForm = ({
             desc="year"
             placeholder="Y"
             min="0"
-            component={InlineField}
+            component={InlineFieldWithValidation}
           />
         </div>
         {touched.birthDay || touched.birthMonth || touched.birthYear ? (
@@ -88,7 +91,7 @@ export const AstronautForm = ({
         type="text"
         label="Superpower:"
         placeholder="superpower"
-        component={InputField}
+        component={InputFieldWithValidation}
       />
       <div className={styles.controls}>
         <Button

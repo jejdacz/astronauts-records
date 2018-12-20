@@ -18,8 +18,6 @@ import {
   compose
 } from "ramda";
 
-console.log(process.env);
-
 const credentials = {
   name: process.env.REACT_APP_USER_NAME,
   password: process.env.REACT_APP_USER_PASSWORD

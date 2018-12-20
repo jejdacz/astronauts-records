@@ -3,10 +3,7 @@ import { mount } from "enzyme";
 import renderValidation from "./renderValidation.js";
 
 const Sample = props => <div />;
-const WithShowValid = renderValidation({
-  valid: "is-valid",
-  invalid: "is-invalid"
-})(Sample);
+const WithShowValid = renderValidation(Sample);
 
 describe("component decorated with showValid", () => {
   describe("when prop touched is not defined", () => {

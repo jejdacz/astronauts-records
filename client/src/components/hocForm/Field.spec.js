@@ -29,16 +29,19 @@ const renderInput = ({
   />
 );
 
-const inputWithValidation = renderValidation({
-  valid: "valid",
-  invalid: "invalid"
-})(renderInput);
+const inputWithValidation = renderValidation(renderInput);
 
 describe("Field component", () => {
   let wrapper;
   beforeEach(() => {
     wrapper = mount(
-      <Field name="firstName" type="text" component={inputWithValidation} />,
+      <Field
+        name="firstName"
+        type="text"
+        valid="valid"
+        invalid="invalid"
+        component={inputWithValidation}
+      />,
       {
         context: {
           formContext: {

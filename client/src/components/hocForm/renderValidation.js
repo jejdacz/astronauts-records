@@ -1,7 +1,9 @@
 import React from "react";
 import join from "../../utils/join.js";
 
-const renderValidation = ({ valid, invalid }) => BaseComponent => ({
+const renderValidation = BaseComponent => ({
+  valid = "is-valid",
+  invalid = "is-invalid",
   className,
   ...props
 }) => (
