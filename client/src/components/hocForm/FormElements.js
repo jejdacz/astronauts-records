@@ -70,3 +70,16 @@ InlineField.propTypes = {
   desc: PropTypes.node,
   props: PropTypes.object
 };
+
+export const Labeled = FieldComponent => ({ label, ...props }) => (
+  <div className={styles.field}>
+    <label className={styles.label}>{label}</label>
+    <FieldComponent {...props} />
+  </div>
+);
+
+Labeled.propTypes = {
+  label: PropTypes.node,
+  props: PropTypes.object,
+  FieldComponent: PropTypes.element
+};

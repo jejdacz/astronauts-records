@@ -10,8 +10,10 @@ import validate from "./validateLogInForm.js";
 import { compose, mapProps } from "recompose";
 import hasValues from "../../utils/hasValues.js";
 import Button from "../Button/Button";
-import { InputField } from "../FormElements/FormElements";
-import styles from "../FormElements/FormElements.module.css";
+import { Input, Labeled } from "../hocForm/FormElements";
+import styles from "../hocForm/FormElements.module.css";
+
+const InputField = Labeled(Input);
 
 export const LoginForm = ({ handleSubmit, errors, touched, submitting }) => {
   return (
