@@ -1,11 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { logout } from "../astronautActions.js";
-import LogOut from "./LogOut/LogOut";
-import { Nav, Logo, Link } from "./Nav/Nav";
+import { logout } from "../../astronautActions.js";
+import LogOut from "../LogOut/LogOut";
+import { Nav, Logo, Link } from "../Nav/Nav";
 
-export const renderNav = ({ isAuthorized, links, logout }) => (
+export const NavigationBar = ({ isAuthorized, links, logout }) => (
   <Nav fixed={true}>
     <Logo to="/">ar</Logo>
     {links}
@@ -17,7 +17,7 @@ export const renderNav = ({ isAuthorized, links, logout }) => (
   </Nav>
 );
 
-renderNav.propTypes = {
+NavigationBar.propTypes = {
   isAuthorized: PropTypes.bool.isRequired,
   links: PropTypes.node,
   logout: PropTypes.func.isRequired
@@ -34,4 +34,4 @@ const mapStateToProps = (state, props) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(renderNav);
+)(NavigationBar);

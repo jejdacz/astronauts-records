@@ -9,7 +9,7 @@ import {
   clearChangedAction
 } from "../../astronautActions.js";
 import { Link } from "../Nav/Nav";
-import Navigation from "../renderNav.js";
+import NavigationBar from "../NavigationBar/NavigationBar.js";
 import AstronautForm from "../AstronautForm/AstronautForm";
 import Footer from "../Footer/Footer";
 import Panel from "../Panel/Panel";
@@ -64,7 +64,7 @@ class PageAstronaut extends Component {
   renderPage = (links, content) => (
     <Fragment>
       <header>
-        <Navigation links={links} />
+        <NavigationBar links={links} />
       </header>
       <main className={styles.main}>{content}</main>
       <Footer />

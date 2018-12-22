@@ -5,7 +5,7 @@ import { deleteAstronaut, clearChangedAction } from "../../astronautActions.js";
 import AstronautList from "./AstronautList/AstronautList.js";
 import AstronautTable from "./AstronautTable/AstronautTable.js";
 import { Link } from "../Nav/Nav.js";
-import Navigation from "../renderNav.js";
+import NavigationBar from "../NavigationBar/NavigationBar.js";
 import Hero from "./Hero/Hero.js";
 import SectionDatabase from "./SectionDatabase/SectionDatabase.js";
 import Footer from "../Footer/Footer.js";
@@ -49,7 +49,7 @@ export class PageAstronauts extends Component {
   renderContent = content => (
     <Fragment>
       <header className={styles.header}>
-        <Navigation links={<Link to="/astronauts/new/">+add</Link>} />
+        <NavigationBar links={<Link to="/astronauts/new/">+add</Link>} />
         <Hero />
       </header>
       <main>
