@@ -50,7 +50,6 @@ export const App = ({
     <ErrorBoundary render={AppError}>
       <Switch>
         <Route
-          exact={true}
           path="/login"
           render={props =>
             isAuthorized ? <Redirect to="/" /> : <PageLogin {...props} />
