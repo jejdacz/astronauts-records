@@ -5,3 +5,4 @@ package-lock.json
 addAstronaut.js
 .env
 .env.local
+api.http
