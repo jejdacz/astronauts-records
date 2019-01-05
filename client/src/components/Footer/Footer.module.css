@@ -1,4 +1,5 @@
 @value bg-dark, text-light from "../../styles/colors.module.css";
+@value md from "../../styles/scale.module.css";
 
 .footer {
   color: text-light;
@@ -8,4 +9,9 @@
 .container {
   text-align: center;
   padding: 3rem 1.5rem;
+}
+
+.link {
+  color: white;
+  padding: md;
 }

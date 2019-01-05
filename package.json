@@ -15,14 +15,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jejdacz/evidence.git"
+    "url": "git+https://github.com/jejdacz/astronauts-records.git"
   },
   "author": "Marek Mego",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jejdacz/evidence/issues"
+    "url": "https://github.com/jejdacz/astronauts-records/issues"
   },
-  "homepage": "https://github.com/jejdacz/evidence#readme",
+  "homepage": "https://github.com/jejdacz/astronauts-records#readme",
   "dependencies": {
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
@@ -48,6 +48,7 @@
   "nodemonConfig": {
     "ignore": [
       "*.test.js",
+      "*.spec.js",
       "client/*",
       "build/*",
       "node_modules/*"

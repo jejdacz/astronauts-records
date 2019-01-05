@@ -1,18 +1,18 @@
 import { Component } from "react";
 import { withRouter } from "react-router-dom";
 
-class ScrollToTop extends Component {
+class ScrollToHash extends Component {
   componentDidUpdate(prevProps) {
-    /*
-    if (this.props.location.pathname !== prevProps.location.pathname) {
-      document.querySelector("body").scrollTop = 0;
-    }*/
     if (this.props.location.key !== prevProps.location.key) {
       if (this.props.location.hash) {
         document.querySelector(this.props.location.hash) &&
-          document.querySelector(this.props.location.hash).scrollIntoView();
+          document
+            .querySelector(this.props.location.hash)
+            .scrollIntoView({ behavior: "smooth", block: "start" });
       } else {
-        document.querySelector("body").scrollTop = 0;
+        document
+          .querySelector("body")
+          .scrollTo({ top: 0, left: 0, behavior: "smooth" });
       }
     }
   }
@@ -22,4 +22,4 @@ class ScrollToTop extends Component {
   }
 }
 
-export default withRouter(ScrollToTop);
+export default withRouter(ScrollToHash);
