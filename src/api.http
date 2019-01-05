@@ -24,7 +24,7 @@ Content-type: application/json
 
 ---
 
-POST http://localhost:5000/graphql
+POST https://astronauts-records.herokuapp.com/graphql
 Content-type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQiLCJuYW1lIjoiYXN0cm9uYXV0IiwiaWF0IjoxNTQ0MjU5NTc2LCJleHAiOjE1NzU4MTcxNzZ9.NAX30V8Ofpp0XDxxV79tY_R97LtxuH2gEmJAroE-EN8
 

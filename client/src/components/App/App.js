@@ -94,7 +94,6 @@ export const App = ({
         />
 
         <Route
-          exact={true}
           path="/"
           render={props =>
             isAuthorized ? (

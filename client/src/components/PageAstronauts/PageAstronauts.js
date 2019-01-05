@@ -30,7 +30,7 @@ export class PageAstronauts extends Component {
     clearChanged: PropTypes.func.isRequired
   };
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     if (this.props.changed) {
       this.props.clearChanged();
     }
@@ -49,7 +49,16 @@ export class PageAstronauts extends Component {
   renderContent = content => (
     <Fragment>
       <header className={styles.header}>
-        <NavigationBar links={<Link to="/astronauts/new/">+add</Link>} />
+        <NavigationBar
+          links={
+            <Fragment>
+              {this.isLargeScreenDevice() && (
+                <Link to="/#database">database</Link>
+              )}
+              <Link to="/astronauts/new/">+add</Link>
+            </Fragment>
+          }
+        />
         <Hero />
       </header>
       <main>

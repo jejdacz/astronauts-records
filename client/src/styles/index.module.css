@@ -19,7 +19,7 @@ body {
   word-spacing: 0.2rem;
   margin: 0;
   height: 100%;
-  overflow-y: auto;
+  overflow-y: auto; /*essential for scrolling*/
   background-color: bg-light-secondary;
   transition: all 0.3s ease-out;
 }
