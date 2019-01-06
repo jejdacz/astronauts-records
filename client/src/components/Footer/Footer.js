@@ -6,6 +6,7 @@ import LinkButton from "../LinkButton/LinkButton.js";
 const Footer = () => (
   <Container fluid={true} as="footer" className={styles.footer}>
     <Container className={styles.container}>
+      <div className={styles.copy}>&copy;2018 Marek Mego</div>
       <div>
         <LinkButton
           className={styles.link}
@@ -13,12 +14,11 @@ const Footer = () => (
         >
           source on Github
         </LinkButton>
-        |
+
         <LinkButton className={styles.link} href="/demo/index.html">
-          app specs demo
+          app specs
         </LinkButton>
       </div>
-      <div>&copy;2018 Marek Mego</div>
     </Container>
   </Container>
 );

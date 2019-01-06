@@ -128,7 +128,7 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         pending: false,
-        error: "Login failed!"
+        error: "Sign in failed!"
       };
     case LOGIN_SUCCESS:
     case ME_SUCCESS:
@@ -141,7 +141,7 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         pending: false,
-        error: "Logout failed!"
+        error: "Sign out failed!"
       };
     case LOGOUT_SUCCESS:
     case ME_ERROR:

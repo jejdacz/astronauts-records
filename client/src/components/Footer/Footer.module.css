@@ -1,17 +1,33 @@
 @value bg-dark, text-light from "../../styles/colors.module.css";
-@value md from "../../styles/scale.module.css";
+@value xs, sm, md, lg, xl from "../../styles/scale.module.css";
 
 .footer {
+  font-size: sm;
   color: text-light;
   background-color: bg-dark;
 }
 
 .container {
-  text-align: center;
-  padding: 3rem 1.5rem;
+  padding: xl md;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap-reverse;
 }
 
 .link {
-  color: white;
-  padding: md;
+  font-size: sm;
+  color: text-light;
+  padding: xs 0.5em;
+  white-space: nowrap;
+}
+
+.link::before {
+  content: "\25A0 ";
+}
+
+.copy {
+  white-space: nowrap;
+  padding: xs 0.5em;
 }
