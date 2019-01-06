@@ -128,7 +128,10 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         pending: false,
-        error: "Sign in failed!"
+        error:
+          action.error.status === 401
+            ? "Invalid name or password. Please try again."
+            : action.error.message
       };
     case LOGIN_SUCCESS:
     case ME_SUCCESS:

@@ -233,7 +233,7 @@ app.use(function(err, req, res, next) {
   if (err.status === 404) {
     res.sendStatus(404);
   } else if (err.name === "ValidationError") {
-    res.status(400).json({ error: err.message });
+    res.sendStatus(400);
   } else if (err.status === 401) {
     res.sendStatus(401);
   } else {

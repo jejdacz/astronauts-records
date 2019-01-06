@@ -76,7 +76,9 @@ export const parseResponse = response => {
   if (response.ok) {
     return response.json();
   } else {
-    throw new Error("response error");
+    const err = new Error(response.statusText);
+    err.status = response.status;
+    throw err;
   }
 };
 
