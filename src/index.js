@@ -7,7 +7,6 @@ import mongoose from "mongoose";
 import { isValidName } from "input-validation";
 import jsonwebtoken from "jsonwebtoken";
 import jwt from "express-jwt";
-import bodyParser from "body-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 
@@ -197,9 +196,6 @@ const root = {
 const app = express();
 
 app.use(compression());
-
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 
 const jwtAuth = jwt({
   secret: process.env.JWT_SECRET,

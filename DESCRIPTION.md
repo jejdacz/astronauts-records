@@ -14,6 +14,8 @@ Front End aplikace je postaven na frameworku React. Základ aplikace byl vytvoř
 
 Správa stavu aplikace je řešena technologií Redux a pro řešení asynchronních akcí byl použit middleware Redux Thunk.
 
+Po autentizaci uživatele jsou záznamy z databáze načteny a uloženy do Redux store. Úprava záznamů je provedena jak na backendu tak na frontendu, záznamy se tudíž nemusí po každé úpravě znovu načítat ze serveru. Aplikace má částečně implementován i mechanizmus pro hlídání změny záznamů na straně backendu.
+
 ###### React Router
 
 Směrování do jednotlivých částí aplikace je zajištěno modulem React-Router. Pro cesty vyžadující autentizaci je provedeno ověření uživatele. Pro opakovatelné využití komponent byla snaha tvořit komponenty vyššího řádu, zapouzdřující kýženou funkcionalitu.

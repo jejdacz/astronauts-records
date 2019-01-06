@@ -1,7 +1,7 @@
 {
   "name": "astronauts-records",
   "version": "1.0.0",
-  "description": "simple app",
+  "description": "A simple React Redux full stack application for astronauts records management.",
   "main": "./build/index.js",
   "scripts": {
     "dev": "NODE_ENV=development nodemon --exec babel-node src/index.js",
