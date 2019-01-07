@@ -8,10 +8,6 @@
 @value unit: 1.5;
 @value urem: 1.5rem;
 
-html {
-  overflow-y: hidden;
-}
-
 html,
 body {
   font-family: "Exo", sans-serif;
@@ -22,17 +18,13 @@ body {
   letter-spacing: 0.1rem;
   word-spacing: 0.2rem;
   margin: 0;
-  height: 100%;
   background-color: bg-light-secondary;
   transition: all 0.3s ease-out;
 }
 
-body {
-  overflow-y: auto; /*essential for scrolling*/
-}
-
 :global(#root) {
-  min-height: 100%;
+  min-height: 100vh;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
