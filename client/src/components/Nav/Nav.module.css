@@ -1,5 +1,5 @@
 @value normal from "../../styles/animations.module.css";
-@value dev-md from "../../styles/breakpoints.module.css";
+@value dev-md, dev-lg from "../../styles/breakpoints.module.css";
 @value sm, md, lg from "../../styles/scale.module.css";
 @value text-link, text-theme-light, text-theme from "../../styles/colors.module.css";
 
@@ -13,6 +13,17 @@
   }
 }
 
+@keyframes fade-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+}
+
 .nav {
   padding: 0;
   position: absolute;
@@ -21,7 +32,6 @@
   z-index: 1000;
   animation: nav-top;
   animation-duration: normal;
-  animation-delay: 0.2s;
   animation-fill-mode: backwards;
 }
 
@@ -29,30 +39,46 @@
   position: fixed;
 }
 
+.navHiden {
+  animation: fade-out;
+  animation-duration: normal;
+  animation-fill-mode: both;
+}
+
 .link {
   letter-spacing: 0.15rem;
   text-transform: uppercase;
   /*font-weight: 500;*/
-  padding: sm;
+  padding: sm md;
   font-size: 1.2rem;
+  border-color: none;
+}
+
+.link:focus {
+  border-color: text-light;
+  border-bottom: 1px solid;
+  outline: none;
 }
 
 .link:hover:not(:disabled),
 .link:active {
   color: text-theme-light;
+  border-color: text-theme-light;
 }
 
 .nav .link:last-child {
-  padding-right: 0;
+  /*padding-right: 0;*/
   margin-right: 0;
 }
-
+/*
 .nav .link:first-child {
   padding-left: 0;
-}
+}*/
 
 .container {
   display: flex;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .placeholder {
@@ -62,7 +88,6 @@
 .logo {
   composes: link;
   margin-right: auto;
-  color: text-theme;
 }
 
 @media (dev-md) {
@@ -77,5 +102,11 @@
 
   .placeholder {
     height: calc(3 * md);
+  }
+}
+
+@media (dev-lg) {
+  .navHiden {
+    animation: nav-top;
   }
 }
