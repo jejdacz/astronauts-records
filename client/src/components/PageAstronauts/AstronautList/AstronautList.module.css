@@ -14,7 +14,7 @@
 
 .small {
   display: block;
-  padding: md;
+  margin-top: 0.5rem !important;
 }
 
 .list {

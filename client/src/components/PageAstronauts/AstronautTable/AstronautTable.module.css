@@ -3,6 +3,7 @@
 .table {
   max-width: 100%;
   width: 100%;
+  text-align: left;
 }
 
 .row {
@@ -32,6 +33,8 @@
   border: none;
   line-height: 1.5rem;
   padding: 0;
+  height: 2rem;
+  vertical-align: top;
 }
 
 .control {
