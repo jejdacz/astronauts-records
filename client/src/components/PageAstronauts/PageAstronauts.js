@@ -17,7 +17,7 @@ export class PageAstronauts extends Component {
   constructor(props) {
     super(props);
 
-    this.breakpointLarge = breakpoints["bp-lg"].replace("px", "");
+    this.breakpointLarge = breakpoints["bp-md"].replace("px", "");
     this.handleDelete = this.handleDelete.bind(this);
   }
 

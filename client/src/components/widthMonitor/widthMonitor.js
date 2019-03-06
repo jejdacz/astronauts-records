@@ -15,11 +15,13 @@ const widthMonitor = (propName = "width") => BaseComponent =>
     }
 
     componentDidMount() {
+      window.addEventListener("load", this.updateDimensions);
       window.addEventListener("resize", this.updateDimensions);
     }
 
     componentWillUnmount() {
       window.removeEventListener("resize", this.updateDimensions);
+      window.removeEventListener("load", this.updateDimensions);
     }
 
     render() {
